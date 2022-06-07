@@ -221,25 +221,17 @@ public class Driver {
         this.sbaDate = sbaDate;
     }
 
+    //Generates code for thymeleaf
     public static void main(String[] args) {
-        StringBuilder sb = new StringBuilder();
         String[] fields = {"firstName","lastName", "email","sbaLicence","PhoneNo","addressLineOne","addressLineTwo","addressCity","addressState","addressPostCode"};
+        //Names that will appear in the web based interface
         String[] fieldsNames = {"First Name","Last Name", "Email","S.B.A Licence","PhoneNo","Address Line One","Address Line Two","City","State","PostCode"};
         for(int i = 0; i < fields.length; i++) {
-            /*
-            sb.append("<div class=\"mb-3\">");
-            sb.append("\n<label for=\"" +fields[i] + "\" class=\"form-label\">Enter your "+ fieldsNames[i] + "</label>");
-            sb.append("\n<form:input path=\""+ fields[i] +"\" id=\""+ fields[i] +"\" class=\"form-control\" /><form:errors path=\""
-                    + fields[i] +"\" cssClass=\"error\">");
-            sb.append("\n</div>");
-
-             */
-            sb.append("<div class=\"mb-3\">\n");
-            sb.append("<label class=\"form-label\">Enter your "+ fieldsNames[i] +" *</label>\n");
-            sb.append("<input type=\"text\" th:field=\"*{"+fields[i]+"}\" class=\"form-control\" >\n");
-            sb.append("<p th:if=\"${#fields.hasErrors('"+fields[i]+"\')}\" th:errorclass=\"error\" th:errors=\"*{"+fields[i]+"}\" />\n");
-            sb.append("</div>\n");
+            System.out.println("<div class=\"mb-3\">\n");
+            System.out.println("<label class=\"form-label\">Enter your " + fieldsNames[i] + " *</label>\n");
+            System.out.println("<input type=\"text\" th:field=\"*{" + fields[i] + "}\" class=\"form-control\" >\n");
+            System.out.println("<p th:if=\"${#fields.hasErrors('" + fields[i] + "')}\" th:errorclass=\"error\" th:errors=\"*{" + fields[i] + "}\" />\n");
+            System.out.println("</div>\n");
         }
-        System.out.println(sb.toString());
     }
 }
