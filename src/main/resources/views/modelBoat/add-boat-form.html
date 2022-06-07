@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html xmlns:th="=http://www.thymeleaf.org">
+
+<div th:include="fragments/head :: head"></div>
+<body>
+<div th:include="fragments/menu :: nav"></div>
+<div class="container">
+    <h2 th:text="${boatView.boatId != -1} ? 'Updating boat' : 'Adding a new boat'">Adding customer</h2>
+    <!---- knows if it needs to update-->
+    <form action="#"  th:action="@{/boat/processForm}" th:object="${boatView}" method="post" class="form">
+        <input type="hidden" th:field="*{boatId}">
+        <div class="mb-3">
+            <label class="form-label">Enter your Name *</label>
+            <input type="text" th:field="*{name}" class="form-control" >
+            <p th:if="${#fields.hasErrors('name')}" th:errorclass="error" th:errors="*{name}" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Enter your race No *</label>
+            <input type="text" th:field="*{raceNo}" class="form-control" >
+            <p th:if="${#fields.hasErrors('raceNo')}" th:errorclass="error" th:errors="*{raceNo}" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Enter your Class Name *</label>
+            <input type="text" th:field="*{className}" class="form-control" >
+            <p th:if="${#fields.hasErrors('className')}" th:errorclass="error" th:errors="*{className}" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Enter your Capacity Of Motor *</label>
+            <input type="text" th:field="*{capacityOfMotor}" class="form-control" >
+            <p th:if="${#fields.hasErrors('capacityOfMotor')}" th:errorclass="error" th:errors="*{capacityOfMotor}" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Enter your Length *</label>
+            <input type="text" th:field="*{length}" class="form-control" >
+            <p th:if="${#fields.hasErrors('length')}" th:errorclass="error" th:errors="*{length}" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Enter your Beam *</label>
+            <input type="text" th:field="*{beam}" class="form-control" >
+            <p th:if="${#fields.hasErrors('beam')}" th:errorclass="error" th:errors="*{beam}" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Select your Owner Name *</label>
+            <select th:field="*{ownerId}" th:selected="false">
+                <option th:value="0">Select a owner</option>
+                <option th:each="d : ${drivers}" th:text="${d.fullName}" th:value="${d.driverId}"></option>
+            </select>
+            <p th:if="${#fields.hasErrors('ownerId')}" th:errorclass="error" th:errors="*{ownerId}" />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+</div>
+<div th:include="fragments/footer :: footer"></div>
+</body>
+
+</html>

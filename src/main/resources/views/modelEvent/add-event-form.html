@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html xmlns:th="=http://www.thymeleaf.org">
+
+<div th:include="fragments/head :: head"></div>
+<body>
+<div th:include="fragments/menu :: nav"></div>
+<div class="container">
+    <h2 th:text="${event.eventId != -1} ? 'Updating event' : 'Adding a new event'">Adding customer</h2>
+    <!---- knows if it needs to update-->
+    <form action="#"  th:action="@{/event/processForm}" th:object="${event}" method="post" class="form">
+        <!---- knows if it needs to update-->
+        <input type="hidden" th:field="*{eventId}">
+        <div class="mb-3">
+            <label class="form-label">Event's Name *
+            </label>
+            <input type="text" th:field="*{name}" class="form-control" >
+            <p th:if="${#fields.hasErrors('name')}" th:errorclass="error" th:errors="*{name}" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Event's Venue *</label>
+            <input type="text" th:field="*{venue}" class="form-control" >
+            <p th:if="${#fields.hasErrors('venue')}" th:errorclass="error" th:errors="*{venue}" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Event's Date *</label>
+            <input type="text" th:field="*{date}" class="form-control" >
+            <p th:if="${#fields.hasErrors('date')}" th:errorclass="error" th:errors="*{date}" />
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+
+    </form>
+</div>
+</div>
+<div th:include="fragments/footer :: footer"></div>
+</body>
+
+</html>
