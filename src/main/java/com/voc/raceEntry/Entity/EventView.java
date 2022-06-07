@@ -70,18 +70,18 @@ public class EventView {
         this.visible = visible;
     }
 
+    //Generates code for thymeleaf
     public static void main(String[] args) {
-        StringBuilder sb = new StringBuilder();
         String[] fields = {"name","venue","date"};
+        //Names that will appear in the web based interface
         String[] fieldsNames = {"Name","Venue","Date"};
         for(int i = 0; i < fields.length; i++) {
-            sb.append("<div class=\"mb-3\">\n");
-            sb.append("<label class=\"form-label\">Event's " + fieldsNames[i] + "</label>\n");
-            sb.append("<input type=\"text\" th:field=\"*{" + fields[i] + "}\" class=\"form-control\" >\n");
-            sb.append("<p th:if=\"${#fields.hasErrors('" + fields[i] + "')}\" th:errorclass=\"error\" th:errors=\"*{" + fields[i] + "}\" />\n");
-            sb.append("</div>\n");
+            System.out.println("<div class=\"mb-3\">\n");
+            System.out.println("<label class=\"form-label\">Event's " + fieldsNames[i] + "</label>\n");
+            System.out.println("<input type=\"text\" th:field=\"*{" + fields[i] + "}\" class=\"form-control\" >\n");
+            System.out.println("<p th:if=\"${#fields.hasErrors('" + fields[i] + "')}\" th:errorclass=\"error\" th:errors=\"*{" + fields[i] + "}\" />\n");
+            System.out.println("</div>\n");
         }
-        System.out.println(sb);
     }
 
     public Integer getEntriesCount() {
