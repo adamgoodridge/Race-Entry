@@ -5,7 +5,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 @Entity
 public class EventView {
@@ -22,16 +21,6 @@ public class EventView {
     private Integer open;
     private Integer visible;
     private Integer entriesCount;
-
-    private List<Entry> entries;
-
-    public List<Entry> getEntries() {
-        return entries;
-    }
-
-    public void setEntries(List<Entry> entries) {
-        this.entries = entries;
-    }
 
     public Long getEventId() {
         return eventId;
