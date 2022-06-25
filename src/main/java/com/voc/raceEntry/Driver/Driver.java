@@ -1,4 +1,4 @@
-package com.voc.raceEntry.Entity;
+package com.voc.raceEntry.Driver;
 
 
 import javax.persistence.*;

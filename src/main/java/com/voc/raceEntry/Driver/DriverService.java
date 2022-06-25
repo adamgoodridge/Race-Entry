@@ -1,15 +1,15 @@
-package com.voc.raceEntry.Service;
+package com.voc.raceEntry.Driver;
 
-
-import com.voc.raceEntry.Entity.Driver;
 
 import java.util.List;
 
 
 public interface DriverService {
-    public Driver getDriver(long id);
-    public void updateDriver(Driver driver);
-    public List<Driver> getDrivers();
+    Driver getDriver(long id);
+
+    void updateDriver(Driver driver);
+
+    List<Driver> getDrivers();
 
     void deleteDriver(long id);
     /*public Customer getCustomer(int id);

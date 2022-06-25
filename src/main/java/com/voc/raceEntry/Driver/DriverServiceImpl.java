@@ -1,7 +1,5 @@
-package com.voc.raceEntry.Service;
+package com.voc.raceEntry.Driver;
 
-import com.voc.raceEntry.Entity.Driver;
-import com.voc.raceEntry.dao.DriverRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -43,7 +43,8 @@
             <label class="form-label">Select your Owner Name *</label>
             <select th:field="*{ownerId}" th:selected="false">
                 <option th:value="0">Select a owner</option>
-                <option th:each="d : ${drivers}" th:text="${d.fullName}" th:value="${d.driverId}"></option>
+                <option th:each="d : ${drivers}" th:text="${d.fullName}" th:value="${d.driverId}"
+                        th:selected="${d.driverId == ownerId} ? true : false"></option>
             </select>
             <p th:if="${#fields.hasErrors('ownerId')}" th:errorclass="error" th:errors="*{ownerId}" />
         </div>
