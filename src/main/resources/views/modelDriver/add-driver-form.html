@@ -5,7 +5,7 @@
 <body>
 <div th:include="fragments/menu :: nav"></div>
 <div class="container">
-    <h2 th:text="${driver.driverId != -1} ? 'Updating driver' : 'Adding a new driver'">Adding customer</h2>
+    <h2 th:text="${driver.driverId != -1} ? 'Updating driver' : 'Adding a new driver'"></h2>
     <!---- knows if it needs to update-->
     <form action="#"  th:action="@{/driver/processForm}" th:object="${driver}" method="post" class="form">
         <input type="hidden" th:field="*{driverId}"><div class="mb-3">
@@ -15,31 +15,41 @@
     </div>
         <div class="mb-3">
             <label class="form-label">Enter your Last Name *</label>
-            <input type="text" th:field="*{lastName}" class="form-control" >
-            <p th:if="${#fields.hasErrors('lastName')}" th:errorclass="error" th:errors="*{lastName}" />
+            <input type="text" th:field="*{lastName}" class="form-control">
+            <p th:if="${#fields.hasErrors('lastName')}" th:errorclass="error" th:errors="*{lastName}"/>
         </div>
         <div class="mb-3">
             <label class="form-label">Enter your Email *</label>
-            <input type="text" th:field="*{email}" class="form-control" >
-            <p th:if="${#fields.hasErrors('email')}" th:errorclass="error" th:errors="*{email}" />
+            <input type="text" th:field="*{email}" class="form-control">
+            <p th:if="${#fields.hasErrors('email')}" th:errorclass="error" th:errors="*{email}"/>
         </div>
         <div class="mb-3">
-            <label class="form-label">Enter your S.B.A Licence *</label>
-            <input type="text" th:field="*{sbaLicence}" class="form-control" >
-            <p th:if="${#fields.hasErrors('sbaLicence')}" th:errorclass="error" th:errors="*{sbaLicence}" />
+            <label class="form-label">Enter your A.P.B.A Licence *</label>
+            <input type="text" th:field="*{apbaLicence}" class="form-control" th:type=number>
+            <p th:if="${#fields.hasErrors('apbaLicence')}" th:errorclass="error" th:errors="*{apbaLicence}"/>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Enter your S.B.A Licence</label>
+            <input type="text" th:field="*{sbaLicence}" class="form-control">
+            <p th:if="${#fields.hasErrors('sbaLicence')}" th:errorclass="error" th:errors="*{sbaLicence}"/>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Enter your S.B.A Licence Expiry*</label>
+            <input type="text" th:field="*{sbaLicenceExpiry}" class="form-control">
+            <p th:if="${#fields.hasErrors('sbaLicenceExpiry')}" th:errorclass="error" th:errors="*{sbaLicenceExpiry}"/>
         </div>
         <div class="mb-3">
             <label class="form-label">Enter your PhoneNo *</label>
-            <input type="text" th:field="*{PhoneNo}" class="form-control" >
-            <p th:if="${#fields.hasErrors('PhoneNo')}" th:errorclass="error" th:errors="*{PhoneNo}" />
+            <input type="text" th:field="*{phoneNo}" class="form-control">
+            <p th:if="${#fields.hasErrors('phoneNo')}" th:errorclass="error" th:errors="*{PhoneNo}"/>
         </div>
         <div class="mb-3">
             <label class="form-label">Enter your Address Line One *</label>
-            <input type="text" th:field="*{addressLineOne}" class="form-control" >
-            <p th:if="${#fields.hasErrors('addressLineOne')}" th:errorclass="error" th:errors="*{addressLineOne}" />
+            <input type="text" th:field="*{addressLineOne}" class="form-control">
+            <p th:if="${#fields.hasErrors('addressLineOne')}" th:errorclass="error" th:errors="*{addressLineOne}"/>
         </div>
         <div class="mb-3">
-            <label class="form-label">Enter your Address Line Two *</label>
+            <label class="form-label">Enter your Address Line Two </label>
             <input type="text" th:field="*{addressLineTwo}" class="form-control" >
             <p th:if="${#fields.hasErrors('addressLineTwo')}" th:errorclass="error" th:errors="*{addressLineTwo}" />
         </div>
