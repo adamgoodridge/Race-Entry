@@ -1,5 +1,5 @@
 # raceEntry
-A Spring Boot & Thymeleaf application that is a prototype which help competitors & race officials with store information.
+A Spring Boot & Thymeleaf application that is a prototype which help competitors & race officials to store information.
 
 Upload excludes application.properties
 
