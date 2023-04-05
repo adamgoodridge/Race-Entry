@@ -67,23 +67,12 @@ public class EventView {
         return open;
     }
 
-    public void setOpen(Integer open) {
-        this.open = open;
-    }
-
-    public Integer getVisible() {
-        return visible;
-    }
-
-    public void setVisible(Integer visible) {
-        this.visible = visible;
-    }
-
     //Generates code for thymeleaf
     public static void main(String[] args) {
         String[] fields = {"name", "venue", "date"};
         //Names that will appear in the web based interface
         String[] fieldsNames = {"Name", "Venue", "Date"};
+
         for (int i = 0; i < fields.length; i++) {
             System.out.println("<div class=\"mb-3\">\n");
             System.out.println("<label class=\"form-label\">Event's " + fieldsNames[i] + "</label>\n");
