@@ -1,0 +1,117 @@
+ .wrapper {
+    display: flex;
+	width:100px;
+    align-items: stretch;
+}
+
+.selector {
+	width: 100%;
+}
+/* filters */
+#sidebar {
+    min-width: 250px;
+    max-width: 250px;
+}
+#sidebar.active {
+	display: none;
+}
+#content {
+	width:100%;
+}
+
+/* end of filters */
+	#rb {
+		padding: .6em;
+	}
+.cust-grid {
+		text-align: center;
+		display: grid;
+		background-color: #fff;
+		color: #444;
+		grid-template-columns: auto auto auto auto;
+		grid-column-gap: .5em;
+		grid-row-gap: 1em;
+		align-items: self-end;
+}
+.nav-link.custom {
+	font-size:25px;
+    display: inline-flex;
+}
+.nav.justify-content-end.custom {
+    display: inline-flex;
+}
+
+.nav-link.custom {
+	color: Black;
+}
+.nav-link.custom:hover {
+	/*https://stackoverflow.com/questions/22674633/text-that-shows-an-underline-on-hover*/
+  /*border-bottom: 3px solid Blue;*/
+  border-bottom: 3px solid Black;
+}
+a {
+    color: #0d6efd;
+    text-decoration: none;
+}
+#racedays {
+	text-align: center;
+	display: grid;
+	background-color: #fff;
+	color: #444;
+	grid-template-columns: auto auto auto;
+}
+.cust-cell img {
+	object-fit: cover;
+	max-width:100%;
+    max-height: 200px;
+}
+
+	#racedays .cust-cell {
+		cursor: pointer;
+	}
+	#racedays .cust-cell:hover {
+		color:blue;
+		background-color:#D3D3D3;
+	}
+  #count{
+	  float:right;
+  }
+@media screen and (max-width: 900px) {
+  .cust-grid {
+	grid-template-columns: auto auto auto;
+  }
+  .wrapper {
+    display: block;
+    align-items: stretch;
+}
+}
+@media screen and (max-width: 900px) {
+	.cust-grid {
+		grid-template-columns: auto auto;
+	}
+
+	#count {
+		float: none;
+	}
+
+	#racedays {
+		grid-template-columns: auto auto;
+	}
+
+	@media screen and (max-width: 500px) {
+		.cust-grid {
+			grid-template-columns: auto;
+		}
+
+		#racedays {
+			grid-template-columns: auto;
+		}
+	}
+	form span {
+		display: inline-block;
+	}
+
+	form span label {
+		display: block;
+	}
+}

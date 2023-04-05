@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html xmlns:th="=http://www.thymeleaf.org">
+
+<div th:include="fragments/head :: head"></div>
+<body>
+<div th:include="fragments/menu :: nav"></div>
+<div class="container">
+    <h2 th:text="${entryFormData.entryId != -1} ? 'Updating a entry' : 'Adding a entry'">Adding customer</h2>
+    <!---- knows if it needs to update-->
+    <form action="#"  th:action="@{/entry/processForm}" th:object="${entryFormData}" method="post" class="form">
+        <!---- knows if it needs to update-->
+        <input type="hidden" th:field="*{entryId}">
+        <input type="hidden" th:field="*{eventId}">
+        <div class="mb-3">
+            <label class="form-label">Select Boat *</label>
+            <select th:field="*{boatId}">
+                <option th:value="0">Select a boat</option>
+                <option th:each="b : ${boats}" th:text="${b.name}" th:value="${b.boatId}"></option>
+            </select>
+            <p th:if="${#fields.hasErrors('boatId')}" th:errorclass="error" th:errors="*{boatId}" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Select First Driver *</label>
+            <select th:field="*{firstDriverId}">
+                <option th:value="0">Select a driver</option>
+                <option th:each="d : ${drivers}" th:text="${d.fullName}" th:value="${d.driverId}"></option>
+            </select>
+            <p th:if="${#fields.hasErrors('firstDriverId')}" th:errorclass="error" th:errors="*{firstDriverId}" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Select Second Driver *</label>
+            <select th:field="*{secondDriverId}" th:selected="false">
+                <option th:value="0">Select a driver</option>
+                <option th:each="d : ${drivers}" th:text="${d.fullName}" th:value="${d.driverId}"></option>
+            </select>
+            <p th:if="${#fields.hasErrors('secondDriverId')}" th:errorclass="error" th:errors="*{secondDriverId}" />
+        </div>
+
+        <button type="submit" ass="btn btn-primary">Submit</button>
+    </form>
+
+
+</div>
+</div>
+<div th:include="fragments/footer :: footer"></div>
+</body>
+
+</html>

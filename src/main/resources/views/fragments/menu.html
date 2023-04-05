@@ -1,0 +1,49 @@
+
+<!DOCTYPE HTML>
+<html xmlns:th="=http://www.thymeleaf.org">
+<body>
+<nav class="nnavbar navbar-expand-lg navbar-light bg-light" style="margin-bottom: 10px;" th:fragment="nav">
+
+        <a class="navbar-brand" href="#">
+            <!-------<img src="images/voc.jpg" alt="" width="60" height="48"> -->
+            <!----https://stackoverflow.com/questions/36663038/spring-thymeleaf-header-and-footer-dynamic-includes -->
+            Race Entry
+        </a>
+        <!-------<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="na vbar-toggler-icon"></span>-->
+        </button>
+
+        <ul class="nav" style="float:right">
+            <li class="nav-item">
+                <a class="nav-link custom" href="index.php">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link custom" th:href="@{/driver/list}">Drivers</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link custom" th:href="@{/boat/list}">Boats</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link custom" th:href="@{/event/list}">Events</a>
+            </li>
+        </ul>
+        <div class="container" style="padding-bottom: 2px;">
+        </div>
+    </nav>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

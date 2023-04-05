@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html xmlns:th="=http://www.thymeleaf.org">
+
+<div th:include="fragments/head :: head"></div>
+<body>
+<div th:include="fragments/menu :: nav"></div>
+<div class="container">
+
+    <a th:href="@{/event/add}" >
+        <button type="button" class="btn btn-primary ml-1">Add Event</button>
+    </a>
+    <br>
+    <!---- END OF search Drivers-->
+    <!---- search Drivers-->
+
+    <p th:if="${error != null}" th:text="${error}" class="error">Adding customer</p>
+    <table class="table table-striped">
+            <tr>
+                <th>Name</th>
+                <th>Venue</th>
+                <th>Date</th>
+                <th>Count of Entries</th>
+                <th>Action</th>
+            </tr>
+            <tr th:each="e : ${eventsView}">
+                <td th:text="${e.name}" />
+                <td th:text="${e.venue}" />
+                <td th:text="${e.date}" />
+                <td th:text="${e.entriesCount}" />
+                <td>
+                    <a th:href="@{/event/update/{id}(id=${e.eventId})}" >
+                        <button type="button" class="btn btn-primary">Update</button>
+                    </a>
+                    <a th:href="@{/entry/entriesByEvent/{id}(id=${e.eventId})}" >
+                        <button type="button" class="btn btn-primary">View Entries</button>
+                    </a>
+                </td>
+            </tr>
+            </trforEach>
+    </table>
+</div>
+<div th:include="fragments/footer :: footer"></div>
+</body>
+
+</html>
+</body>
+
+</html>
