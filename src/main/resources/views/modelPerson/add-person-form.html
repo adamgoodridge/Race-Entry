@@ -1,0 +1,92 @@
+<!DOCTYPE HTML>
+<html xmlns:th="=http://www.thymeleaf.org" lang="en" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="=http://www.thymeleaf.org ">
+
+<div th:include="fragments/head :: head"></div>
+<body>
+<div th:include="fragments/menu :: nav"></div>
+<div class="container">
+    <h2 th:text="${person.personId != -1} ? 'Updating person' : 'Adding a new person'"></h2>
+    <!---- knows if it needs to update-->
+    <form action="#" th:action="@{/person/processForm}" th:object="${person}" method="post" class="form">
+        <input type="hidden" th:field="*{personId}">
+        <input type="hidden" th:field="*{userId}">
+        <input type="hidden" th:field="*{deleted}">
+        <input type="hidden" th:field="*{previousUrl}">
+
+        <div class="mb-3">
+            <label class="form-label">Enter person's First Name *</label>
+            <input type="text" th:field="*{firstName}" class="form-control">
+            <p th:if="${#fields.hasErrors('firstName')}" th:errorclass="error" th:errors="*{firstName}"></p>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Enter person's Last Name *</label>
+            <input type="text" th:field="*{lastName}" class="form-control">
+            <p th:if="${#fields.hasErrors('lastName')}" th:errorclass="error" th:errors="*{lastName}"/>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="email">Enter person's Email *</label>
+            <input type="text" id="email" th:field="*{email}" class="form-control">
+            <p th:if="${#fields.hasErrors('email')}" th:errorclass="error" th:errors="*{email}"/>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="apbaLicence">Enter person's A.P.B.A Licence *</label>
+            <input type="text" id="apbaLicence" th:field="*{apbaLicence}" class="form-control" th:type=number>
+            <p th:if="${#fields.hasErrors('apbaLicence')}" th:errorclass="error" th:errors="*{apbaLicence}"/>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="sbaLicence">Enter person's S.B.A Licence Number *</label>
+            <input type="text" th:field="*{sbaLicence}" id="sbaLicence" class="form-control">
+            <p th:if="${#fields.hasErrors('sbaLicence')}" th:errorclass="error" th:errors="*{sbaLicence}"/>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="sbaLicenceExpiryDate">Enter person's S.B.A Licence Expiry Date (dd/mm/yyyy
+                format)*</label>
+            <!--sbaLicenceExpiryS converts String to the right formatter via setters & getter, sbaLicenceExpiryS is not an attribute --->
+            <input type="date" id="sbaLicenceExpiryDate" th:field="*{sbaLicenceExpiryDate}" class="form-control">
+            <p th:if="${#fields.hasErrors('sbaLicenceExpiryDate)}" th:errorclass="error"
+               th:errors="*{sbaLicenceExpiry}"></p>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Enter person's Club name *</label>
+            <input type="text" id="clubName" th:field="*{clubName}" class="form-control">
+            <p th:if="${#fields.hasErrors('clubName')}" th:errorclass="error" th:errors="*{clubName}"></p>
+        </div>
+        <div class="mb-3">
+            <label class="form-lab0el" for="phoneNo">Enter person's PhoneNo *</label>
+            <input type="text" id="phoneNo" th:field="*{phoneNo}" class="form-control">
+            <p th:if="${#fields.hasErrors('phoneNo')}" th:errorclass="error" th:errors="*{phoneNo}"></p>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="addressLineTwo">Enter person's Address Line One *</label>
+            <input type="text" id="addressLineOne" th:field="*{addressLineOne}" class="form-control">
+            <p th:if="${#fields.hasErrors('addressLineOne')}" th:errorclass="error" th:errors="*{addressLineOne}"></p>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" id="addressLineTwo">Enter person's Address Line Two </label>
+            <input type="text" th:field="*{addressLineTwo}" class="form-control">
+            <p th:if="${#fields.hasErrors('addressLineTwo')}" th:errorclass="error" th:errors="*{addressLineTwo}"></p>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="addressCity">Enter person's City *</label>
+            <input type="text" id="addressCity" th:field="*{addressCity}" class="form-control">
+            <p th:if="${#fields.hasErrors('addressCity')}" th:errorclass="error" th:errors="*{addressCity}"></p>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="addressState">Enter person's State *</label>
+            <input type="text" id="addressState" th:field="*{addressState}" class="form-control">
+            <p th:if="${#fields.hasErrors('addressState')}" th:errorclass="error" th:errors="*{addressState}"></p>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="addressPostCode">Enter person's PostCode *</label>
+            <input type="text" id="addressPostCode" th:field="*{addressPostCode}" class="form-control" th:type=number>
+            <p th:if="${#fields.hasErrors('addressPostCode')}" th:errorclass="error" th:errors="*{addressPostCode}"></p>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+</div>
+<div th:include="fragments/footer :: footer"></div>
+</body>
+
+</html>

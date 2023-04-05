@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html xmlns:th="=http://www.thymeleaf.org">
+
+<div th:include="fragments/head :: head"></div>
+<body>
+<div th:include="fragments/menu :: nav"></div>
+<div class="container">
+    <h2 th:text="${event.eventId != -1} ? 'Updating event' : 'Adding a new event'"></h2>
+    <!---- knows if it needs to update-->
+    <form action="#" th:action="@{/event/processForm}" th:object="${event}" method="post" class="form">
+        <!---- knows if it needs to update-->
+        <input type="hidden" th:field="*{eventId}">
+        <input type="hidden" th:field="*{previousUrl}">
+        <div class="mb-3">
+            <label class="form-label">Event's Name *
+            </label>
+            <input type="text" th:field="*{name}" class="form-control">
+            <p th:if="${#fields.hasErrors('name')}" th:errorclass="error" th:errors="*{name}"/>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Event's Venue *</label>
+            <input type="text" th:field="*{venue}" class="form-control">
+            <p th:if="${#fields.hasErrors('venue')}" th:errorclass="error" th:errors="*{venue}"/>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="startDate">Event's Date *</label>
+            <input type="date" id="startDate" th:field="*{startDate}" class="form-control">
+            <p th:if="${#fields.hasErrors('startDate')}" th:errorclass="error" th:errors="*{startDate}"/>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="duration">How many days does the event go for? *</label>
+            <input type="number" id="duration" th:field="*{duration}" class="form-control">
+            <p th:if="${#fields.hasErrors('duration')}" th:errorclass="error" th:errors="*{duration}"/>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Event's Description </label>
+            <textarea th:field="*{description}" class="form-control" spellcheck="true"/>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Event's Declaration Description </label>
+            <textarea th:field="*{declaration}" class="form-control" spellcheck="true"/>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Entries open</label>
+            <input type="checkbox" name="openCheckbox" th:field="*{open}">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+
+    </form>
+</div>
+<div th:include="fragments/footer :: footer"></div>
+</body>
+
+</html>

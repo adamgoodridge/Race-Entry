@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="=http://www.thymeleaf.org">
+
+<div th:include="fragments/head :: head"></div>
+<body>
+<div class="container">
+    <form action="#" th:action="@{/user/passwordRequestProcess}" th:object="${crmPasswordUser}" method="post"
+          class="form">
+        <h1>Reset Password Feature</h1>
+        <p class="error" th:if="${#fields.hasGlobalErrors()}"
+           th:each="error : ${#fields.errors('global')}" th:text="${error}">Validation
+            error</p>
+        <input type="hidden" th:field="*{userId}">
+        <input type="hidden" th:field="*{code}">
+        <div class="mb-3">
+            <label class="form-label">Password (minimum 7 characters long) *</label>
+            <input type="password" th:field="*{password}" class="form-control">
+            <p th:if="${#fields.hasErrors('password')}" th:errorclass="error" th:errors="*{password}"/>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Confirm password (minimum 7 characters long) *</label>
+            <input type="password" th:field="*{matchingPassword}" class="form-control">
+            <p th:if="${#fields.hasErrors('matchingPassword')}" th:errorclass="error" th:errors="*{matchingPassword}"/>
+        </div>
+        <div>
+            <a th:href="@{/}">
+                <button class="btn btn-primary" th:type="button">Go Back</button>
+            </a>
+            <button type="submit" class="btn btn-primary right-button">Change Password</button>
+        </div>
+
+    </form>
+
+</div>
+</body>

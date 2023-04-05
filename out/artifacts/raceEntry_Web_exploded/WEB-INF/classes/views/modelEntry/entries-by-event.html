@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="=http://www.thymeleaf.org">
+
+<div th:include="fragments/head :: head"></div>
+<body>
+<div th:include="fragments/menu :: nav"></div>
+<div class="container">
+
+    <!-----<button type="button" class="btn btn-primary">Add Entry</button>-->
+    <br>
+    <!---- END OF search persons-->
+    <!---- search persons-->
+    <a th:href="@{/entry/add/{id}(id=${eventId})}">
+        <button type="button" class="btn btn-primary ml-1">Add Entry</button>
+    </a>
+    <table class="table table-striped">
+        <tr>
+            <th>Name</th>
+            <th>Driver(s)</th>
+            <th>Owner</th>
+            <th></th>
+        </tr>
+        <tr th:each="e : ${entries}">
+            <td th:text="${e.boat.name}"/>
+            <td th:text="${e.personsNames}"/>
+            <td th:text="${e.boat.owner.FullName}"/>
+            <td class="right-buttons">
+                <a th:href="@{/entry/update/{id}(id=${e.entryId})}">
+                    <button type="button" class="btn btn-primary">Update Entry</button>
+                </a>
+                <a th:href="@{/entry/printForm/{id}(id=${e.entryId})}">
+                    <button type="button" class="btn btn-primary">Print Form</button>
+                </a>
+            </td>
+        </tr>
+        </trforEach>
+        </tr>
+    </table>
+    <h2>Entries summary</h2>
+    <tr th:each="instance : ${entryBoatClassGrouped}">
+        <p th:text="${instance.key} + ' (' + ${#lists.size(instance.value)} + ' ' + (${#lists.size(instance.value)} == 1? 'boat' : 'boats') +')'"
+           class="boat-class-header">keyvalue</p>
+        <p th:each="e: ${instance.value}" th:text="${e.summaryLine}">num</p>
+
+</div>
+<div th:include="fragments/footer :: footer"></div>
+</body>
+
+</html>
+</body>
+
+</html>

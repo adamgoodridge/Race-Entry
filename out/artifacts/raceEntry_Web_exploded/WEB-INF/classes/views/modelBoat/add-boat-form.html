@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="=http://www.thymeleaf.org">
+
+<div th:include="fragments/head :: head"></div>
+<body>
+<div th:include="fragments/menu :: nav"></div>
+<div class="container">
+    <h2 th:text="${boatView.boatId != -1} ? 'Updating boat' : 'Adding a new boat'"></h2>
+    <!---- knows if it needs to update-->
+    <form action="#" th:action="@{/boat/processForm}" th:object="${boatView}" method="post" class="form">
+        <input type="hidden" th:field="*{boatId}">
+        <input type="hidden" th:field="*{userId}">
+        <input type="hidden" th:field="*{deleted}">
+        <input type="hidden" th:field="*{previousUrl}">
+        <div class="mb-3">
+            <label class="form-label" for="name">Enter the boat Name *</label>
+            <input type="text" th:field="*{name}" id="name" class="form-control">
+            <p th:if="${#fields.hasErrors('name')}" th:errorclass="error" th:errors="*{name}"></p>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="raceNo">Enter your race No *</label>
+            <input type="text" id="raceNo" th:field="*{raceNo}" class="form-control">
+            <p th:if="${#fields.hasErrors('raceNo')}" th:errorclass="error" th:errors="*{raceNo}"></p>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="className">Enter Boat Class Name *</label>
+            <input type="text" id="className" th:field="*{className}" class="form-control">
+            <p th:if="${#fields.hasErrors('className')}" th:errorclass="error" th:errors="*{className}"></p>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="capacityOfMotor">Enter Boat's Capacity of Motor *</label>
+            <input type="text" id="capacityOfMotor" th:field="*{capacityOfMotor}" class="form-control">
+            <p th:if="${#fields.hasErrors('capacityOfMotor')}" th:errorclass="error" th:errors="*{capacityOfMotor}"></p>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Enter boat length in meters*</label>
+            <input type="text" th:field="*{length}" class="form-control">
+            <p th:if="${#fields.hasErrors('length')}" th:errorclass="error" th:errors="*{length}"></p>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="sbaRegistrationNo">Enter State Boating Authority REGISTRATION NO *</label>
+            <input type="text" id="sbaRegistrationNo" th:field="*{sbaRegistrationNo}" class="form-control">
+            <p th:if="${#fields.hasErrors('sbaRegistrationNo')}" th:errorclass="error"
+               th:errors="*{sbaRegistrationNo}"></p>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Enter S.B.A Registration expiry date</label>
+            <input type="text" th:field="*{sbaLicenceExpiryDate}" class="form-control">
+            <p th:if="${#fields.hasErrors('sbaLicenceExpiryDate')}" th:errorclass="error"
+               th:errors="*{sbaRegistrationDate}"></p>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="beam">Enter boat's beam *</label>
+            <input type="text" id="beam" th:field="*{beam}" class="form-control">
+            <p th:if="${#fields.hasErrors('beam')}" th:errorclass="error" th:errors="*{beam}"/>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" for="ownerId">Select your Owner Name *</label>
+            <select th:field="*{ownerId}" id="ownerId" th:selected="false">
+                <option th:value="0">Select a owner</option>
+                <option th:each="d : ${persons}" th:text="${d.fullName}" th:value="${d.personId}"
+                        th:selected="${d.personId == ownerId} ? true : false"></option>
+            </select>
+            <p th:if="${#fields.hasErrors('ownerId')}" th:errorclass="error" th:errors="*{ownerId}"></p>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+<div th:include="fragments/footer :: footer"></div>
+</body>
+
+</html>

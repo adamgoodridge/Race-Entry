@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>QR code</title>
+
+    <link type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css"
+          rel="stylesheet"/>
+
+</head>
+<body>
+</body>
+</html><!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="=http://www.thymeleaf.org">
+
+<div th:include="fragments/head :: head"></div>
+<body>
+<div th:include="fragments/menu :: nav"></div>
+<div class="container">
+    <div id="qr">
+        <p>Scan this Barcode using Google Authenticator app on your phone to use it later in login
+            <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2">Android</a>
+            and
+            <a href="https://itunes.apple.com/us/app/google-authenticator/id388497605">iPhone</a>
+        </p>
+        <br/>
+        <img th:src="${qr}" alt="Q R Code for 2 factor authentication"></p>
+    </div>
+
+    <a th:href="@{/user/2fa/confirm}">
+        <button class="btn btn-primary">I have saved the IQ code, want to enable 2FA.</button>
+    </a>
+    <a th:href="@{/user/2fa/cancel}">
+        <button class="btn btn-danger">Cancel</button>
+    </a>
+</div>
+<div th:include="fragments/footer :: footer"></div>
+</body>
+
+</html>
+</body>
+
+</html>

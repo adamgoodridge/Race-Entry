@@ -1,0 +1,75 @@
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Please sign in</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous">
+    <link th:href="@{/content/public/custom.css}" rel="stylesheet" type="text/css" media="screen">
+</head>
+<body data-new-gr-c-s-check-loaded="14.1068.0" data-gr-ext-installed="">
+<div class="container">
+    <form class="form-signin" th:action="@{/login}" method="post">
+        <h1>Boat Entry Database</h1>
+        <h1>Please Log In</h1>
+        <div th:if="${param.error}" class="login-failure">
+            Invalid details.
+        </div>
+        <div th:if="${param.invalidRecovery}" class="login-failure">
+            Invalid password recovery link.
+        </div>
+        <div th:if="${param.expiredRecovery}" class="login-failure">
+            The recovery link has expired, please request a new one.
+        </div>
+        <div th:if="${param.logout}" class="login-success">
+            You have been logged out.
+        </div>
+        <div th:if="${param.resetPasswordRequest}" class="login-success">If the email exists in the system, an email has
+            been sent and please click the link in the email.
+        </div>
+        <div th:if="${param.updatedPassword}" class="login-success">Your password has been updated, now you can sign in
+            with your new password.
+        </div>
+        <div th:if="${param.registered}" class="login-success">
+            You have successfully registered, you can now sign in.
+        </div>
+        <p>
+            <label for="username" class="sr-only">Username</label>
+            <input type="text" name="username" id="username" placeholder="Username" class="form-control" required
+                   autofocus/>
+        </p>
+        <p>
+            <label for="password" class="sr-only">Password</label>
+            <input type="password" id="password" name="password" placeholder="Password" class="form-control"/>
+        </p>
+        <label for="2FACheckbox">Two Factor Authentication:</label>
+        <input type="checkbox" id="2FACheckbox">
+        <p id="checkBoxParagraph" style="display: none;">
+            <label for="password" class="sr-only">mfa</label>
+            <input type="text" name="code" class="form-control" placeholder="2FA Code NOT REQUIRED" autocomplete="off"
+                   data-lpignore="true"/>
+        </p>
+        <script>
+                    let checkBox = document.getElementById("2FACheckbox");
+                    checkBox.addEventListener('click', checkboxChanged);
+                    function checkboxChanged() {
+                        let text = document.getElementById("checkBoxParagraph");
+                        if (checkBox.checked == true){
+                            text.style.display = "block";
+                        } else {
+                            text.style.display = "none";
+                        }
+                    }
+
+        </script>
+        <button class="btn btn-lg btn-primary btn-block" type="submit" value="Log in"/>
+        Sign in</button>
+        <a th:href="@{/user/showRegistrationForm}">Register</a> |
+        <a th:href="@{/user/resetPassword}">Reset Password</a>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="=http://www.thymeleaf.org">
+
+<div th:include="fragments/head :: head"></div>
+<body>
+<div th:include="fragments/menu :: nav"></div>
+<div class="container">
+    <h1>Welcome <span th:text="${user.firstName}"></span></h1>
+    <span th:if="${user.isUsing2Fa}">
+        <p>2FA is enabled</p>
+        <a th:href="@{/user/2fa/cancel}"><button class="btn btn-danger">Disable 2 Factor Authentication</button></a>
+        <a th:href="@{/user/2fa/}"><button class="btn btn-primary">re-generate QR Code</button></a>
+    </span>
+    <span th:if="${!user.isUsing2Fa}">
+        <p>2FA is disabled</p>
+        <a th:href="@{/user/2fa}"><button class="btn btn-primary">Enable 2 Factor Authentication</button></a>
+    </span>
+</div>
+<div th:include="fragments/footer :: footer"></div>
+</body>
+
+</html>
+</body>
+
+</html>

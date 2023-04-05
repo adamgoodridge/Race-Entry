@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html xmlns:th="=http://www.thymeleaf.org">
+
+<div th:include="fragments/head :: head"></div>
+<body>
+
+<div th:if="${!boats.empty}" th:fragment="list">
+    <h2>Boats</h2>
+    <a th:href="@{/boat/add}">
+        <button type="button" class="btn btn-primary ml-1">Add Boat</button>
+    </a>
+
+    <table class="table table-striped">
+        <tr>
+            <th class="home-column" style="width:20%">Boat Name</th>
+            <th class="home-column" style="width:20%">Owner</th>
+            <th class="home-column" style="width:20%">Capacity Of Motor</th>
+            <th class="home-column" style="width:10%">Class</th>
+            <th></th>
+        </tr>
+
+        <tr th:each="b : ${boats}">
+            <td th:text="${b.name}"></td>
+            <td th:text="${b.owner.FullName}"></td>
+            <td th:text="${b.capacityOfMotor}"></td>
+            <td th:text="${b.className}"></td>
+            <td class="right-buttons">
+                <!--<input type="btn btn-primary" th:href="@{/person/delete/{id}(id=${d.personId})}">Delete</input>; return false"-->
+                <a th:href="@{/boat/update/{id}(id=${b.boatId})}">
+                    <button type="button" class="btn btn-primary">Update</button>
+                </a>
+                <a th:href="@{/boat/delete/{id}(id=${b.boatId})}"
+                   th:data-confirm-delete="|Are you sure want to delete this boat ${b.name})|"
+                   onclick="if(!confirm(this.getAttribute('data-confirm-delete'))) return false">
+                    <button type="button" class="btn btn-danger">Delete</button>
+                </a>
+            </td>
+
+        </tr>
+        </trforEach>
+    </table>
+</div>
+</body>
+</html>

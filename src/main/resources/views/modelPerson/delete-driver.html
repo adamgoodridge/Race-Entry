@@ -1,0 +1,20 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="=http://www.thymeleaf.org">
+
+<div th:include="fragments/head :: head"></div>
+<body>
+<div th:include="fragments/menu :: nav"></div>
+<div class="container">
+    <div th:if="${error != null}" class="login-failure" th:text="${error}"></div>
+    <div th:if="${error == null}" class="login-success">
+        person deleted
+    </div>
+    <a th:href="@{/}">
+        <button type="submit" class="btn btn-primary">Go to the home page</button>
+    </a>
+</div>
+</div>
+<div th:include="fragments/footer :: footer"></div>
+</body>
+
+</html>

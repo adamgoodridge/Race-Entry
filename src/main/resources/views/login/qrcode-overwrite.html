@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="=http://www.thymeleaf.org">
+
+<div th:include="fragments/head :: head"></div>
+<body>
+<div th:include="fragments/menu :: nav"></div>
+<div class="container">
+    <h1>a QR Code already exists</h1>
+    <a th:href="@{/user/settings}">
+        <button type="button" class="btn btn-primary">I don't want to overwrite my existing IQ code</button>
+    </a>
+    <a th:href="@{/user/qr/generate}">
+        <button type="button" class="btn btn-danger">I want to overwrite my existing IQ code</button>
+    </a>
+</div>
+<div th:include="fragments/footer :: footer"></div>
+</body>
+
+</html>
+</body>
+
+</html>

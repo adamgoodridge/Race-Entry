@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="=http://www.thymeleaf.org">
+<link rel="stylesheet" href="../../static/public/custom.css">
+<body>
+<nav>
+    <div style="display: flow-root">
+        <div class="navbar navbar-expand-lg navbar-light bg-light" id="custom-header" th:fragment="nav">
+            <a class="navbar-brand" href="#">Race Entry</a>
+
+            <ul class="nav" id="custom-nav">
+                <li class="nav-item">
+                    <a class="nav-link custom" th:href="@{/}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link custom" th:href="@{/person/list}">Persons</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link custom" th:href="@{/boat/list}">Boats</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link custom" th:href="@{/entry/start}">Events</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link custom" th:href="@{/logout}">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Created-By: IntelliJ IDEA
+Built-By: Adam
+Build-Jdk: Amazon Corretto version 17.0.3
+Implementation-Title: raceEntry
+Implementation-Version: 0.0.1-SNAPSHOT
+Implementation-Vendor-Id: com.voc
+Main-Class: au.com.voc.raceEntry.RaceEntryApplication
+

@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="=http://www.thymeleaf.org" lang="en">
+
+<div th:include="fragments/head :: head"></div>
+<body>
+<div th:include="fragments/menu :: nav"></div>
+<div class="container">
+    <h1>Welcome, Race Admin</h1>
+    <a th:href="@{/event/add}">
+        <button type="button" class="btn btn-primary ml-1">Add Event</button>
+    </a>
+    <br>
+    <!---- END OF search persons-->
+    <!---- search persons-->
+
+    <p th:if="${error != null}" th:text="${error}" class="error">Adding customer</p>
+    <table class="table table-striped">
+        <tr>
+            <th>Name</th>
+            <th>Venue</th>
+            <th>Date</th>
+            <th>Count of Entries</th>
+            <th></th>
+        </tr>
+        <tr th:each="e : ${eventsView}">
+            <td th:text="${e.name}"></td>
+            <td th:text="${e.venue}"></td>
+            <td th:text="${e.date}"></td>
+            <td th:text="${e.entriesCount}"></td>
+            <td class="right-buttons">
+                <a th:href="@{/event/update/{id}(id=${e.eventId})}">
+                    <button type="button" class="btn btn-primary">Update</button>
+                </a>
+
+                <a th:href="@{/entry/entriesByEvent/{id}(id=${e.eventId})}">
+                    <button type="button" class="btn btn-primary">View Entries</button>
+                </a>
+                <a th:href="@{/entry/add/{id}(id=${e.eventId})}">
+                    <button type="button" class="btn btn-primary ml-1">Add Entry</button>
+                </a>
+            </td>
+        </tr>
+    </table>
+
+    <a th:href="@{/user/settings}">Settings</a>
+</div>
+<div th:include="fragments/footer :: footer"></div>
+</body>
+
+</html>
