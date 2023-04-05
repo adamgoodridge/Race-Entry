@@ -73,7 +73,6 @@ public class Person implements LicenceExpiry {
             read = "AES_DECRYPT(address_line_one, '[ENCRYPTION_KEY_GOES_HERE_REMOVED_FOR_GITHUB]')",
             write = "AES_ENCRYPT(?, '[ENCRYPTION_KEY_GOES_HERE_REMOVED_FOR_GITHUB]')")
     @NotNull(message = "Address is required")
-    ///@Column(name = "address_line_one")
     private String addressLineOne;
     @Basic
     @Column(columnDefinition = "VARCHAR", name = "address_line_two")
