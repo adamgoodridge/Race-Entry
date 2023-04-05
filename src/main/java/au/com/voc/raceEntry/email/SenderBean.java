@@ -1,3 +1,4 @@
+//demo only
 package au.com.voc.raceEntry.email;
 
 import org.springframework.context.annotation.Bean;

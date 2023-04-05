@@ -1,3 +1,4 @@
+//demo only
 package au.com.voc.raceEntry.event;
 
 import au.com.voc.raceEntry.entry.Entry;

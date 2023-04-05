@@ -1,3 +1,4 @@
+//demo only
 package au.com.voc.raceEntry;
 
 import org.springframework.boot.SpringApplication;

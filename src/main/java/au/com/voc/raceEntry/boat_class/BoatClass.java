@@ -1,3 +1,4 @@
+//demo only
 package au.com.voc.raceEntry.boat_class;
 
 import javax.persistence.Column;

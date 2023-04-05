@@ -1,3 +1,4 @@
+//demo only
 package au.com.voc.raceEntry.person;
 
 import au.com.voc.raceEntry.user.User;

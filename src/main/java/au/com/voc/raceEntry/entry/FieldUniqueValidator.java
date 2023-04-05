@@ -1,3 +1,4 @@
+//demo only
 package au.com.voc.raceEntry.entry;
 
 import org.springframework.beans.BeanWrapperImpl;

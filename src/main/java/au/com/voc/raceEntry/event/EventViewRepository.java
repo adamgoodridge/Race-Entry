@@ -1,3 +1,4 @@
+//demo only
 package au.com.voc.raceEntry.event;
 
 import org.springframework.data.jpa.repository.JpaRepository;

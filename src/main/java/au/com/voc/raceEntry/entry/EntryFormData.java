@@ -1,3 +1,4 @@
+//demo only
 package au.com.voc.raceEntry.entry;
 
 //https://www.wimdeblauwe.com/blog/2021/04/16/using-html-select-options-with-thymeleaf/

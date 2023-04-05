@@ -1,3 +1,4 @@
+//demo only
 package au.com.voc.raceEntry.config;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;

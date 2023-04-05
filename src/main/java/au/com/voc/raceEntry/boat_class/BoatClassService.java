@@ -1,3 +1,4 @@
+//demo only
 package au.com.voc.raceEntry.boat_class;
 
 import org.springframework.beans.factory.annotation.Autowired;
