@@ -15,8 +15,8 @@ public class SenderBean {
         mailSender.setHost("smtp-mail.outlook.com");
         mailSender.setPort(587);
 
-        mailSender.setUsername("adam_goodridge1996@hotmail.com");
-        mailSender.setPassword("DZ0CkRmE7WuPC0b7XuFYtERJnIxrzobJAbbLt2Xxz96ri2VHsCTumUCgKqNnSpYN");
+        mailSender.setUsername("remove ");
+        mailSender.setPassword("remove ");
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");
