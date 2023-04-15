@@ -17,9 +17,7 @@
             <h2>Update <span th:text="${p.firstName}"></span> <span th:text="${p.LastName}"></span>'s State Boating
                 Licence Now</h2>
             <p><span th:text="${p.firstName}"></span> <span th:text="${p.LastName}"></span>'s State Boating Authority
-                Licence expired on <span th:text="${p.SbaLicenceExpiryS}"></span></p>
-            <p><span th:text="${p.firstName}"></span> <span th:text="${p.LastName}"></span>'s State Boating Authority
-                Licence expired on <span th:text="${p.SbaLicenceExpiryS}"></span></p>
+                Licence expired on <span th:text="${p.SbaLicenceExpiryDate}"></span></p>
 
             <a th:href="@{/person/update/{id}(id=${p.personId})}">
                 <button type="button" class="btn btn-primary">Update</button>
