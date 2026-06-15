@@ -38,5 +38,14 @@
 - `EntryController.form()`: removed `User user = userService.getCurrentUser()` + `entryFormData.setUser(user)` (no longer needed)
 - `EntryController.processForm()`: passes `userService.getCurrentUser()` directly to `formEventEntry()` — user is resolved from Spring Security context at call time, never carried through the form
 
+#### Task #7 — Convert BoatView → BoatFormData: remove @Entity, make plain POJO (2026-06-15)
+- Created `BoatFormData.java`: removed `@Entity`, `@Table`, all JPA field annotations (`@GeneratedValue`, `@Id`, `@Column`, `@Basic`, `@Transient`, `@ManyToOne`, `@JoinColumn`) and `import javax.persistence.*`
+- Removed `User user` JPA relationship field and its getter/setter; simplified `BoatFormData(User user)` constructor to set `userId = user.getId()` directly
+- Renamed `userIId` field to `userId` (fixing the double-I typo)
+- Deleted `BoatView.java`
+- Updated `BoatController`: all `BoatView` → `BoatFormData`, model attribute `"boatView"` → `"boatFormData"`
+- Updated `add-boat-form.html`: `boatView` → `boatFormData`
+
 ### Pending Tasks
-#7–#23 (see refactor-plan-PRD.md — Phase 2 begins: DTO cleanup)
+#8 Convert EventView → EventFormData: remove @Entity, make plain POJO with validation only
+#9–#23 (see refactor-plan-PRD.md)

@@ -67,21 +67,21 @@ public class BoatController {
     @RequestMapping("/add")
     private String form(Model model) {
         User user = userService.getCurrentUser();
-        BoatView boatView = new BoatView(user);
+        BoatFormData boatView = new BoatFormData(user);
         boatView.setUserId(user.getId());
-        model.addAttribute("boatView", boatView);
+        model.addAttribute("boatFormData", boatView);
         List<Person> drivers = personService.getPersonsByUser(user);
         model.addAttribute("persons", drivers);
         return "modelBoat/add-boat-form";
     }
 
     @RequestMapping("/processForm")
-    public String processForm(@Valid @ModelAttribute("boatView") BoatView boatView, BindingResult bindingResult, Model model) {
+    public String processForm(@Valid @ModelAttribute("boatFormData") BoatFormData boatView, BindingResult bindingResult, Model model) {
         log.debug("{}", boatView.getOwnerId());
         User user = userService.getCurrentUser();
         if (boatView.getUserId().equals(user.getId()) || user.isAdmin()) {
             if (bindingResult.hasErrors()) {
-                model.addAttribute("boatView", boatView);
+                model.addAttribute("boatFormData", boatView);
                 List<Person> drivers = personService.getAllPersons();
                 model.addAttribute("persons", drivers);
                 return "modelBoat/add-boat-form";
@@ -101,8 +101,8 @@ public class BoatController {
         Boat boat = boatService.getBoat(id);
         User user = userService.getCurrentUser();
         if (boat.getUser().getId().equals(user.getId()) || user.isAdmin()) {
-            BoatView boatView = new BoatView(boat);
-            model.addAttribute("boatView", boatView);
+            BoatFormData boatView = new BoatFormData(boat);
+            model.addAttribute("boatFormData", boatView);
             List<Person> people = personService.getPersonsByUser(user);
             model.addAttribute("persons", people);
             return "modelBoat/add-boat-form";
