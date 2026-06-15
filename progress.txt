@@ -54,5 +54,10 @@
 - Updated `GeneralController`, `EventController`, `EntryController`: import + variable type `EventView` → `EventFormData` in all three
 - Deleted `EventView.java` via `git rm`
 
+#### Task #9 — Add surrogate Long PK to BoatClass; make className unique (2026-06-15)
+- Added `@Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long boatClassId` with getter/setter
+- Changed `className` from `@Id @Column(name = "class_name")` → `@Column(name = "class_name", unique = true)`
+- Updated `BoatClassRepository`: type parameter `String` → `Long` (`JpaRepository<BoatClass, Long>`)
+
 ### Pending Tasks
-#9–#23 (see refactor-plan-PRD.md)
+#10–#23 (see refactor-plan-PRD.md)
