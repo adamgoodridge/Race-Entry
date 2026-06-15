@@ -59,8 +59,7 @@ public class PersonController {
         Person person = new Person();
         person.setPersonId(Long.parseLong("-1"));
         person.setDeleted(false);
-        String referer = request.getHeader("Referer");
-        person.setPreviousUrl(referer);
+        request.getSession().setAttribute("personFormReturnUrl", request.getHeader("Referer"));
         User user = userService.getCurrentUser();
         person.setUserId(user.getId());
         model.addAttribute("person", person);
@@ -68,16 +67,15 @@ public class PersonController {
     }
 
     @RequestMapping("/processForm")
-    public String processForm(@Valid @ModelAttribute("person") Person person, BindingResult bindingResult) {
+    public String processForm(@Valid @ModelAttribute("person") Person person, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             log.warn("Validation errors: {}", bindingResult.getAllErrors());
             return "modelPerson/add-person-form";
         } else {
-            User user = userService.getCurrentUser();
             personService.updatePerson(person);
-            return "redirect:" + person.getPreviousUrl();
+            String returnUrl = (String) request.getSession().getAttribute("personFormReturnUrl");
+            return "redirect:" + (returnUrl != null ? returnUrl : "/");
         }
-
     }
 
     @RequestMapping("/list")
@@ -96,11 +94,9 @@ public class PersonController {
     @RequestMapping("/update/{id}")
     public String showFormUpdate(@PathVariable(value = "id") long id, Model model, HttpServletRequest request) {
         Person driver = personService.getPerson(id);
-        //check username has pre
         User user = userService.getCurrentUser();
         if (user.isAdmin() || driver.getUser().getId().equals(user.getId())) {
-            String referer = request.getHeader("Referer");
-            driver.setPreviousUrl(referer);
+            request.getSession().setAttribute("personFormReturnUrl", request.getHeader("Referer"));
             model.addAttribute("person", driver);
             return "modelPerson/add-person-form";
         } else {

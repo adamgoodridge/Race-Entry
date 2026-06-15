@@ -59,7 +59,6 @@ public class BoatView {
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "user_id")
     private User user;
-    private String previousUrl;
     private Boolean deleted;
 
     public BoatView() {
@@ -182,14 +181,6 @@ public class BoatView {
 
     public Long getOwnerId() {
         return ownerId;
-    }
-
-    public String getPreviousUrl() {
-        return previousUrl;
-    }
-
-    public void setPreviousUrl(String previousUrl) {
-        this.previousUrl = previousUrl;
     }
 
     public Long getUserId() {

@@ -70,10 +70,6 @@ public class Entry {
             write = "AES_ENCRYPT(?, '[ENCRYPTION_KEY_GOES_HERE_REMOVED_FOR_GITHUB]')")
     @Column(name = "declaration_driver_two_date")
     private String declarationDriverTwoDate;
-    //not a column
-    @Transient
-    private String previousUrl;
-
     public long getEntryId() {
         return entryId;
     }
@@ -140,14 +136,6 @@ public class Entry {
 
     public String getBoatClass() {
         return boatClass;
-    }
-
-    public String getPreviousUrl() {
-        return previousUrl;
-    }
-
-    public void setPreviousUrl(String previousUrl) {
-        this.previousUrl = previousUrl;
     }
 
     public void setBoatClass(String boatClass) {

@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -66,11 +65,9 @@ public class BoatController {
     }
 
     @RequestMapping("/add")
-    private String form(Model model, HttpServletRequest request) {
+    private String form(Model model) {
         User user = userService.getCurrentUser();
         BoatView boatView = new BoatView(user);
-        String referer = request.getHeader("Referer");
-        boatView.setPreviousUrl(referer);
         boatView.setUserId(user.getId());
         model.addAttribute("boatView", boatView);
         List<Person> drivers = personService.getPersonsByUser(user);
@@ -100,13 +97,11 @@ public class BoatController {
     }
 
     @RequestMapping("/update/{id}")
-    public String showFormUpdate(@PathVariable(value = "id") long id, Model model, HttpServletRequest request) {
+    public String showFormUpdate(@PathVariable(value = "id") long id, Model model) {
         Boat boat = boatService.getBoat(id);
         User user = userService.getCurrentUser();
         if (boat.getUser().getId().equals(user.getId()) || user.isAdmin()) {
             BoatView boatView = new BoatView(boat);
-            String referer = request.getHeader("Referer");
-            boatView.setPreviousUrl(referer);
             model.addAttribute("boatView", boatView);
             List<Person> people = personService.getPersonsByUser(user);
             model.addAttribute("persons", people);

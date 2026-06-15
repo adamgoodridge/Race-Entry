@@ -53,8 +53,6 @@ public class Event {
     @JoinColumn(name = "event_id")
     private List<Entry> entries;
 
-    private String previousUrl;
-
     public List<Entry> getEntries() {
         return entries;
     }
@@ -152,14 +150,6 @@ public class Event {
 
     public void setDeclaration(String declaration) {
         this.declaration = declaration;
-    }
-
-    public String getPreviousUrl() {
-        return previousUrl;
-    }
-
-    public void setPreviousUrl(String previousUrl) {
-        this.previousUrl = previousUrl;
     }
 
 }

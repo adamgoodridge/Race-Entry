@@ -24,8 +24,14 @@
 - Injected `UserAuthentication` via constructor into `GeneralController` and `PersonController`
 - Removed `new UserAuthentication()` local instantiations from both controllers
 
+#### Task #5 — Remove previousUrl @Transient field from all domain entities (2026-06-15)
+- Removed `previousUrl` field + getter/setter from `Person`, `Event`, `Entry`, `BoatView`
+- `PersonController`: switched to `HttpSession` attribute `personFormReturnUrl` (stored on GET, read on POST redirect) — the only place where previousUrl was actively round-tripped
+- `BoatController.form()` / `showFormUpdate()`: dropped `setPreviousUrl` calls and now-unused `HttpServletRequest` params (processForm already redirected to `/`)
+- `EventController.showFormUpdate()` / `add()`: same cleanup (processForm already redirected to `/event/list/opened`)
+- Removed `<input type="hidden" th:field="*{previousUrl}">` from `add-person-form.html`
+- `EntryFormData.previousUrl` intentionally kept — it is a DTO, not a domain entity, and is actively used in the entry form round-trip
+
 ### Pending Tasks
-#5 Remove previousUrl @Transient field from all domain entities (Boat, Person, Entry, Event)
-#5 Remove previousUrl @Transient field from all domain entities (Boat, Person, Entry, Event)
 #6 Remove User from EntryFormData; resolve current user from SecurityContextHolder in controllers
 #7–#23 (see refactor-plan-PRD.md)

@@ -118,11 +118,6 @@ public class Person implements LicenceExpiry {
     @Column(name = "deleted", nullable = false, columnDefinition = "BIT", length = 1)
     private Boolean deleted;
 
-    //not a actual column
-
-    @Transient
-    private String previousUrl;
-
     public Long getPersonId() {
         return driverId;
     }
@@ -173,14 +168,6 @@ public class Person implements LicenceExpiry {
 
     public void setUserIId(Long userIId) {
         this.userIId = userIId;
-    }
-
-    public String getPreviousUrl() {
-        return previousUrl;
-    }
-
-    public void setPreviousUrl(String previousUrl) {
-        this.previousUrl = previousUrl;
     }
 
     public Long getDriverId() {

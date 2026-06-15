@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -68,22 +67,16 @@ public class EventController {
     }
 
     @RequestMapping("/update/{id}")
-    public String showFormUpdate(@PathVariable(value = "id") long id, Model model, HttpServletRequest request) {
+    public String showFormUpdate(@PathVariable(value = "id") long id, Model model) {
         Event event = eventService.getEvent(id);
-        String referer = request.getHeader("Referer");
-        event.setPreviousUrl(referer);
-
         model.addAttribute("event", event);
         return "modelEvent/add-event-form";
     }
 
     @RequestMapping("/add")
-    public String add(Model model, HttpServletRequest request) {
+    public String add(Model model) {
         Event event = new Event();
-        long id = -1;
-        event.setEventId(id);
-        String referer = request.getHeader("Referer");
-        event.setPreviousUrl(referer);
+        event.setEventId(-1L);
         model.addAttribute("event", event);
         model.addAttribute("boatClasses", boatClassService.getBoatClasses());
         return "modelEvent/add-event-form";
