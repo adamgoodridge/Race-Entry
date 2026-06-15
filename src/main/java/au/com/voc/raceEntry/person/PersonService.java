@@ -7,12 +7,17 @@ import au.com.voc.raceEntry.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.time.LocalDate;
 import java.util.List;
 
 
 @Service
 public class PersonService {
+
+    private static final Logger log = LoggerFactory.getLogger(PersonService.class);
 
 
     @Autowired
@@ -32,9 +37,9 @@ public class PersonService {
         } else {
 
             //drivers = personRepository.driversByUserName(Long.parseLong("4"));
-            System.out.println(userService.getCurrentUser().getUsername());
-            System.out.println("================================");
-            System.out.println(user.getUsername());
+            log.debug("{}", userService.getCurrentUser().getUsername());
+            log.debug("================================");
+            log.debug("{}", user.getUsername());
             drivers = personRepository.driversByUserName(user);
         }
         return drivers;

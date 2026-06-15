@@ -1,12 +1,17 @@
 //demo only
 package au.com.voc.raceEntry.entry;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanWrapperImpl;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
 public class FieldUniqueValidator implements ConstraintValidator<FieldUnique, Object> {
+
+    private static final Logger log = LoggerFactory.getLogger(FieldUniqueValidator.class);
+
     private String firstFieldName;
     private String secondFieldName;
 
@@ -22,7 +27,7 @@ public class FieldUniqueValidator implements ConstraintValidator<FieldUnique, Ob
         try {
             final Object firstField = new BeanWrapperImpl(value).getPropertyValue(firstFieldName);
             final Object secondField = new BeanWrapperImpl(value).getPropertyValue(secondFieldName);
-            System.out.println("=========" + firstField + "-------");
+            log.debug("========={} -------", firstField);
             isFieldUnique = (Integer.parseInt((String) firstField) == 0) || !firstField.equals(secondField);
         } catch (final Exception ignore) {
         }

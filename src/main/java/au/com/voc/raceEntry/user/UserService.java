@@ -19,6 +19,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.net.URLEncoder;
@@ -28,6 +30,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserService implements UserDetailsService {
+
+    private static final Logger log = LoggerFactory.getLogger(UserService.class);
 
     private final UserRepository userRepository;
 
@@ -103,7 +107,7 @@ public class UserService implements UserDetailsService {
     }
 
     public void updatePassword(User user) {
-        System.out.println(user.getPassword());
+        log.debug("{}", user.getPassword());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setResetCode(null);
         user.setResetDate(null);

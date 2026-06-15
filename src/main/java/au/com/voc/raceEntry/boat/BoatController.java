@@ -19,6 +19,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
@@ -26,6 +29,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/boat")
 public class BoatController {
+
+    private static final Logger log = LoggerFactory.getLogger(BoatController.class);
 
     private final BoatService boatService;
     private final PersonService personService;
@@ -75,7 +80,7 @@ public class BoatController {
 
     @RequestMapping("/processForm")
     public String processForm(@Valid @ModelAttribute("boatView") BoatView boatView, BindingResult bindingResult, Model model) {
-        System.out.println(boatView.getOwnerId());
+        log.debug("{}", boatView.getOwnerId());
         User user = userService.getCurrentUser();
         if (boatView.getUserId().equals(user.getId()) || user.isAdmin()) {
             if (bindingResult.hasErrors()) {

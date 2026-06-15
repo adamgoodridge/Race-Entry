@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
@@ -17,6 +20,9 @@ import java.util.List;
 @Controller
 @RequestMapping("/event")
 public class EventController {
+
+    private static final Logger log = LoggerFactory.getLogger(EventController.class);
+
     @Autowired
     private EventService eventService;
     @Autowired
@@ -38,9 +44,9 @@ public class EventController {
 
     @RequestMapping("/processForm")
     public String processForm(@Valid @ModelAttribute("event") Event event, BindingResult bindingResult, Model model) {
-        System.out.println("==============" + event.getOpen());
+        log.debug("=============={}", event.getOpen());
         if (bindingResult.hasErrors()) {
-            System.out.println(bindingResult.getAllErrors());
+            log.warn("Validation errors: {}", bindingResult.getAllErrors());
             model.addAttribute("event", event);
             return "modelEvent/add-event-form";
         } else {

@@ -13,8 +13,13 @@
 - Fixed `@Controller("/")` → `@Controller` (path argument is invalid on stereotype annotation; path `/` is handled by `@GetMapping("/")`)
 - Removed `//demo only` comment
 
+#### Task #3 — Replace all System.out.println with SLF4J logging (2026-06-15)
+- Added `Logger log = LoggerFactory.getLogger(...)` to: `PersonService`, `PersonController`, `BoatController`, `FieldUniqueValidator`, `Convertor`, `EventController`, `UserController`, `UserService`, `UserAuthentication`
+- Converted all active `System.out.println` calls to `log.debug()` (validation errors use `log.warn()`)
+- Collapsed three duplicate `println(user.getUsername())` calls in `UserController` to one `log.debug()`
+- One `System.out.println` in `CustomAuthenticationSuccessHandler` is inside a block comment — left untouched
+
 ### Pending Tasks
-#3 Replace all System.out.println with SLF4J logging
 #4 Make UserAuthentication a @Component; inject instead of new UserAuthentication()
 #5 Remove previousUrl @Transient field from all domain entities (Boat, Person, Entry, Event)
 #6 Remove User from EntryFormData; resolve current user from SecurityContextHolder in controllers

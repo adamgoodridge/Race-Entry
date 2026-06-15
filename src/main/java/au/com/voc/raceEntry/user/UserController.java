@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
@@ -23,6 +26,9 @@ import java.util.Date;
 @Controller
 @RequestMapping("/user")
 public class UserController {
+
+    private static final Logger log = LoggerFactory.getLogger(UserController.class);
+
     @Autowired
     private UserService userService;
 
@@ -87,7 +93,7 @@ public class UserController {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
         Date now = new Date();
-        System.out.println("======" + now);
+        log.debug("======{}", now);
         if (now.compareTo(user.getResetDate()) < 1) {
             CrmPasswordUser crmPasswordUser = new CrmPasswordUser();
             crmPasswordUser.setUserId(user.getId());
@@ -109,9 +115,7 @@ public class UserController {
             return "login/registration-form";
         }
         User user = userService.findByUserId(crmPasswordUser.getUserId());
-        System.out.println(user.getUsername());
-        System.out.println(user.getUsername());
-        System.out.println(user.getUsername());
+        log.debug("{}", user.getUsername());
         if (user == null || !user.getResetCode().equals(crmPasswordUser.getCode())) {
             return "redirect:/login?invalidRecovery";
         } else {
