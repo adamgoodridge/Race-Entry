@@ -1,5 +1,4 @@
-//demo only
-package au.com.voc.raceEntry.Controller;
+package au.com.voc.raceEntry.controller;
 
 
 import au.com.voc.raceEntry.boat.Boat;
@@ -22,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.time.LocalDate;
 import java.util.List;
 
-@Controller("/")
+@Controller
 public class GeneralController {
 
     private final EventService eventService;

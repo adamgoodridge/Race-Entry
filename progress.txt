@@ -8,8 +8,12 @@
 - Removed `main()` code-generator method from `Event.java`
 - Removed `main()` code-generator method from `EventView.java`
 
+#### Task #2 — Fix @Controller("/") annotation bug; rename package Controller → controller (2026-06-15)
+- Moved `GeneralController.java` from package `Controller` (uppercase) to `controller` (lowercase)
+- Fixed `@Controller("/")` → `@Controller` (path argument is invalid on stereotype annotation; path `/` is handled by `@GetMapping("/")`)
+- Removed `//demo only` comment
+
 ### Pending Tasks
-#2 Fix @Controller("/") annotation bug in GeneralController; rename package Controller → controller
 #3 Replace all System.out.println with SLF4J logging
 #4 Make UserAuthentication a @Component; inject instead of new UserAuthentication()
 #5 Remove previousUrl @Transient field from all domain entities (Boat, Person, Entry, Event)
