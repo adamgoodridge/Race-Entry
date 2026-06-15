@@ -29,21 +29,22 @@ public class GeneralController {
     private final BoatService boatService;
     private final EntryService entryService;
     private final UserService userService;
+    private final UserAuthentication userAuthentication;
 
     @Autowired
-    public GeneralController(EventService eventService, PersonService personService, BoatService boatService, EntryService entryService, UserService userService) {
+    public GeneralController(EventService eventService, PersonService personService, BoatService boatService, EntryService entryService, UserService userService, UserAuthentication userAuthentication) {
         this.eventService = eventService;
         this.personService = personService;
         this.boatService = boatService;
         this.entryService = entryService;
         this.userService = userService;
+        this.userAuthentication = userAuthentication;
     }
 
     @GetMapping("/")
     public String home(Model model) {
-        UserAuthentication authentication = new UserAuthentication();
         List<Person> drivers;
-        if (authentication.isAdmin()) {
+        if (userAuthentication.isAdmin()) {
             List<EventView> events = eventService.getEventsView(1);
             model.addAttribute("eventsView", events);
             return "admin-home";

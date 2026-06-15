@@ -1,11 +1,14 @@
-//demo only
 package au.com.voc.raceEntry.user;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.RequestScope;
 
+@Component
+@RequestScope
 public class UserAuthentication {
 
     private static final Logger log = LoggerFactory.getLogger(UserAuthentication.class);

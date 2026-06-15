@@ -19,8 +19,13 @@
 - Collapsed three duplicate `println(user.getUsername())` calls in `UserController` to one `log.debug()`
 - One `System.out.println` in `CustomAuthenticationSuccessHandler` is inside a block comment — left untouched
 
+#### Task #4 — Make UserAuthentication a @Component; inject instead of new UserAuthentication() (2026-06-15)
+- Added `@Component` + `@RequestScope` to `UserAuthentication` (request scope required: reads SecurityContextHolder in constructor, must be fresh per request; Spring's scoped proxy handles singleton-to-request injection)
+- Injected `UserAuthentication` via constructor into `GeneralController` and `PersonController`
+- Removed `new UserAuthentication()` local instantiations from both controllers
+
 ### Pending Tasks
-#4 Make UserAuthentication a @Component; inject instead of new UserAuthentication()
+#5 Remove previousUrl @Transient field from all domain entities (Boat, Person, Entry, Event)
 #5 Remove previousUrl @Transient field from all domain entities (Boat, Person, Entry, Event)
 #6 Remove User from EntryFormData; resolve current user from SecurityContextHolder in controllers
 #7–#23 (see refactor-plan-PRD.md)

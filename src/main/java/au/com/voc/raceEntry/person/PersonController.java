@@ -36,13 +36,15 @@ public class PersonController {
     private final BoatService boatService;
     private final EntryService entryService;
     private final UserService userService;
+    private final UserAuthentication userAuthentication;
 
     @Autowired
-    public PersonController(PersonService personService, BoatService boatService, EntryService entryService, UserService userService) {
+    public PersonController(PersonService personService, BoatService boatService, EntryService entryService, UserService userService, UserAuthentication userAuthentication) {
         this.personService = personService;
         this.boatService = boatService;
         this.entryService = entryService;
         this.userService = userService;
+        this.userAuthentication = userAuthentication;
     }
 
 
@@ -110,7 +112,6 @@ public class PersonController {
     public String deletePerson(@PathVariable("id") long id, Model model) {
         Person driver = personService.getPerson(id);
         List<Boat> boatsByOwner = boatService.getBoatsByOwner(id);
-        UserAuthentication userAuthentication = new UserAuthentication();
         if (userAuthentication.isAdmin() || userAuthentication.getUser().equals(driver.getUsername())) {
             if (!boatsByOwner.isEmpty()) {
                 model.addAttribute("error", "Cannot delete driver as there's boat which owned by that person");
