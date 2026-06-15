@@ -29,14 +29,14 @@ public class EventController {
 
     @RequestMapping("/list/opened")
     public String listOpenEvents(Model model) {
-        List<EventView> events = eventService.getEventsView(1);
+        List<EventFormData> events = eventService.getEventsView(1);
         model.addAttribute("eventsView", events);
         return "modelEvent/list-events";
     }
 
     @RequestMapping("/list/closed")
     public String listClosedEvents(Model model) {
-        List<EventView> events = eventService.getEventsView(0);
+        List<EventFormData> events = eventService.getEventsView(0);
         model.addAttribute("eventsView", events);
         return "modelEvent/list-closed-events";
     }
@@ -61,7 +61,7 @@ public class EventController {
         } catch (RuntimeException exception) {
             model.addAttribute("error", exception.getMessage());
         }
-        List<EventView> events = eventService.getEventsView(0);
+        List<EventFormData> events = eventService.getEventsView(0);
         model.addAttribute("eventsView", events);
         return "modelEvent/list-events";
     }

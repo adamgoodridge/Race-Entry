@@ -46,6 +46,13 @@
 - Updated `BoatController`: all `BoatView` → `BoatFormData`, model attribute `"boatView"` → `"boatFormData"`
 - Updated `add-boat-form.html`: `boatView` → `boatFormData`
 
+#### Task #8 — Convert EventView → EventFormData: remove @Entity, make plain POJO (2026-06-15)
+- Created `EventFormData.java`: plain POJO, no JPA annotations; kept `@NotNull` on `name`/`venue`; `open` changed to `Boolean` (matches `Event.open`), `entriesCount` promoted to `Long` (COUNT aggregate)
+- Added 8-arg constructor for JPQL constructor expression: `(Long eventId, String name, String venue, LocalDate startDate, int duration, Boolean open, Integer visible, Long entriesCount)`
+- Rewrote `EventViewRepository`: now extends `JpaRepository<Event, Long>` (queries the real entity); `events()` uses JPQL constructor expression with a correlated COUNT subquery for `entriesCount`; parameter changed from `int` to `Boolean`
+- `EventService.getEventsView(int open)`: now returns `List<EventFormData>`; converts int → Boolean (`open == 1`) for the repository call
+- Updated `GeneralController`, `EventController`, `EntryController`: import + variable type `EventView` → `EventFormData` in all three
+- Deleted `EventView.java` via `git rm`
+
 ### Pending Tasks
-#8 Convert EventView → EventFormData: remove @Entity, make plain POJO with validation only
 #9–#23 (see refactor-plan-PRD.md)

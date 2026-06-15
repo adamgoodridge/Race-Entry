@@ -6,7 +6,7 @@ import au.com.voc.raceEntry.boat.BoatService;
 import au.com.voc.raceEntry.entry.Entry;
 import au.com.voc.raceEntry.entry.EntryService;
 import au.com.voc.raceEntry.event.EventService;
-import au.com.voc.raceEntry.event.EventView;
+import au.com.voc.raceEntry.event.EventFormData;
 import au.com.voc.raceEntry.person.Person;
 import au.com.voc.raceEntry.person.PersonService;
 import au.com.voc.raceEntry.user.User;
@@ -45,7 +45,7 @@ public class GeneralController {
     public String home(Model model) {
         List<Person> drivers;
         if (userAuthentication.isAdmin()) {
-            List<EventView> events = eventService.getEventsView(1);
+            List<EventFormData> events = eventService.getEventsView(1);
             model.addAttribute("eventsView", events);
             return "admin-home";
         } else {
@@ -58,7 +58,7 @@ public class GeneralController {
                 if (!boats.isEmpty()) {
                     model.addAttribute("boatsLicenseExpired", boatService.byLicenseExpired(user.getId(), LocalDate.now()));
                     model.addAttribute("personsLicenseExpired", personService.getPersonsByLicenseExpired(user.getId()));
-                    List<EventView> events = eventService.getEventsView(1);
+                    List<EventFormData> events = eventService.getEventsView(1);
                     model.addAttribute("eventsView", events);
                     List<Entry> entries = entryService.getEntriesByUser(user);
                     model.addAttribute("entries", entries);

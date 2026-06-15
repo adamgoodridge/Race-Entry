@@ -23,8 +23,8 @@ public class EventService {
         this.entryRepository = entryRepository;
     }
 
-    public List<EventView> getEventsView(int open) {
-        return eventViewRepository.events(open);
+    public List<EventFormData> getEventsView(int open) {
+        return eventViewRepository.events(open == 1);
     }
 
 

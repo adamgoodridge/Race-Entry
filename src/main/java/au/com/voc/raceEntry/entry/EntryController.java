@@ -7,7 +7,7 @@ import au.com.voc.raceEntry.boat_class.BoatClass;
 import au.com.voc.raceEntry.boat_class.BoatClassService;
 import au.com.voc.raceEntry.event.Event;
 import au.com.voc.raceEntry.event.EventService;
-import au.com.voc.raceEntry.event.EventView;
+import au.com.voc.raceEntry.event.EventFormData;
 import au.com.voc.raceEntry.person.Person;
 import au.com.voc.raceEntry.person.PersonService;
 import au.com.voc.raceEntry.user.User;
@@ -155,7 +155,7 @@ public class EntryController {
 
     @RequestMapping("/start")
     public String start(Model model) {
-        List<EventView> events = eventService.getEventsView(1);
+        List<EventFormData> events = eventService.getEventsView(1);
         model.addAttribute("eventsView", events);
         User user = userService.getCurrentUser();
         if (user.isAdmin()) {
