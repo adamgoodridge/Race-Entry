@@ -14,7 +14,7 @@ public class EventFormData {
     private String venue;
     private LocalDate startDate;
     private int duration;
-    private Boolean open;
+    private EntryStatus status;
     private Integer visible;
     private Long entriesCount;
 
@@ -22,13 +22,13 @@ public class EventFormData {
     }
 
     public EventFormData(Long eventId, String name, String venue, LocalDate startDate,
-                         int duration, Boolean open, Integer visible, Long entriesCount) {
+                         int duration, EntryStatus status, Integer visible, Long entriesCount) {
         this.eventId = eventId;
         this.name = name;
         this.venue = venue;
         this.startDate = startDate;
         this.duration = duration;
-        this.open = open;
+        this.status = status;
         this.visible = visible;
         this.entriesCount = entriesCount;
     }
@@ -73,12 +73,12 @@ public class EventFormData {
         this.duration = duration;
     }
 
-    public Boolean getOpen() {
-        return open;
+    public EntryStatus getStatus() {
+        return status;
     }
 
-    public void setOpen(Boolean open) {
-        this.open = open;
+    public void setStatus(EntryStatus status) {
+        this.status = status;
     }
 
     public Integer getVisible() {

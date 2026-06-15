@@ -23,8 +23,8 @@ public class EventService {
         this.entryRepository = entryRepository;
     }
 
-    public List<EventFormData> getEventsView(int open) {
-        return eventViewRepository.events(open == 1);
+    public List<EventFormData> getEventsView(EntryStatus status) {
+        return eventViewRepository.events(status);
     }
 
 
@@ -51,7 +51,7 @@ public class EventService {
         //format into unicode to avoid the error with some character inserting the dn
         proxy.setDescription(StringEscapeUtils.escapeJava(event.getDescription()));
         proxy.setDeclaration(StringEscapeUtils.escapeJava(event.getDeclaration()));
-        proxy.setOpen(event.getOpen());
+        proxy.setStatus(event.getStatus());
         eventRepository.save(proxy);
     }
 

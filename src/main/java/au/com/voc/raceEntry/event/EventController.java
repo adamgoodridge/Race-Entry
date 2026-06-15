@@ -29,21 +29,21 @@ public class EventController {
 
     @RequestMapping("/list/opened")
     public String listOpenEvents(Model model) {
-        List<EventFormData> events = eventService.getEventsView(1);
+        List<EventFormData> events = eventService.getEventsView(EntryStatus.OPEN);
         model.addAttribute("eventsView", events);
         return "modelEvent/list-events";
     }
 
     @RequestMapping("/list/closed")
     public String listClosedEvents(Model model) {
-        List<EventFormData> events = eventService.getEventsView(0);
+        List<EventFormData> events = eventService.getEventsView(EntryStatus.CLOSED);
         model.addAttribute("eventsView", events);
         return "modelEvent/list-closed-events";
     }
 
     @RequestMapping("/processForm")
     public String processForm(@Valid @ModelAttribute("event") Event event, BindingResult bindingResult, Model model) {
-        log.debug("=============={}", event.getOpen());
+        log.debug("=============={}", event.getStatus());
         if (bindingResult.hasErrors()) {
             log.warn("Validation errors: {}", bindingResult.getAllErrors());
             model.addAttribute("event", event);
@@ -61,7 +61,7 @@ public class EventController {
         } catch (RuntimeException exception) {
             model.addAttribute("error", exception.getMessage());
         }
-        List<EventFormData> events = eventService.getEventsView(0);
+        List<EventFormData> events = eventService.getEventsView(EntryStatus.CLOSED);
         model.addAttribute("eventsView", events);
         return "modelEvent/list-events";
     }

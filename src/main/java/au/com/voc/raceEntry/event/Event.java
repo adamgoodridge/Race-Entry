@@ -36,8 +36,9 @@ public class Event {
     private LocalDate endDate;
     @Column(name = "duration")
     private int duration;
-    @Column(name = "open", nullable = false, columnDefinition = "BIT", length = 1)
-    private Boolean open;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private EntryStatus status;
     @Basic
     @Column(name = "visible")
     private Integer visible;
@@ -120,12 +121,12 @@ public class Event {
         this.duration = duration;
     }
 
-    public Boolean getOpen() {
-        return open;
+    public EntryStatus getStatus() {
+        return status;
     }
 
-    public void setOpen(Boolean open) {
-        this.open = open;
+    public void setStatus(EntryStatus status) {
+        this.status = status;
     }
 
     public Integer getVisible() {

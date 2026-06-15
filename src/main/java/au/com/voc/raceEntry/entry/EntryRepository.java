@@ -15,13 +15,13 @@ public interface EntryRepository extends JpaRepository<Entry, Long> {
     @Query("SELECT e FROM Entry e WHERE e.event.eventId = :eventId")
     List<Entry> entriesByEvent(@Param("eventId") Long eventId);
 
-    @Query("SELECT e FROM Entry e WHERE e.user = :user and e.event.open = true ")
+    @Query("SELECT e FROM Entry e WHERE e.user = :user and e.event.status = au.com.voc.raceEntry.event.EntryStatus.OPEN ")
     List<Entry> entriesOpenByUser(@Param("user") User user);
 
-    @Query("SELECT e FROM Entry e WHERE e.boat.boatId = :boatId and e.event.open = true")
+    @Query("SELECT e FROM Entry e WHERE e.boat.boatId = :boatId and e.event.status = au.com.voc.raceEntry.event.EntryStatus.OPEN")
     List<Entry> entriesByBoatOpened(@Param("boatId") Long boatId);
 
-    @Query("SELECT e FROM Entry e WHERE e.event.open = true AND (e.driverOne.driverId = :driverId OR e.driverTwo.driverId = :driverId)")
+    @Query("SELECT e FROM Entry e WHERE e.event.status = au.com.voc.raceEntry.event.EntryStatus.OPEN AND (e.driverOne.driverId = :driverId OR e.driverTwo.driverId = :driverId)")
     List<Entry> existsOpenEntriesByPerson(@Param("driverId") Long driverId);
 
 
