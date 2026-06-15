@@ -38,7 +38,7 @@ public class EntryService {
     }
 
 
-    public Entry formEventEntry(EntryFormData entryFormData) {
+    public Entry formEventEntry(User user, EntryFormData entryFormData) {
         //isn't getting event
         //conversion done as access to all different repositories
         Entry entry = new Entry();
@@ -56,7 +56,7 @@ public class EntryService {
             Person driver = personRepository.getReferenceById(entryFormData.getFirstDriverId());
             entry.setPersonOne(driver);
         }
-        entry.setUser(entryFormData.getUser());
+        entry.setUser(user);
         entry.setBoatClass(entryFormData.getBoatClass());
 
         entry.setDeclarationOwnerSignature(entryFormData.getDeclarationOwnerSignature());

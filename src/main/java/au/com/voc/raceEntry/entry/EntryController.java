@@ -65,12 +65,9 @@ public class EntryController {
 
     @RequestMapping("/add/{eventId}")
     private String form(@PathVariable("eventId") long eventId, Model model, HttpServletRequest request) {
-        User user = userService.getCurrentUser();
-
         EntryFormData entryFormData = new EntryFormData();
         entryFormData.setEntryId(-1);
         entryFormData.setEventId(eventId);
-        entryFormData.setUser(user);
 
         String referer = request.getHeader("Referer");
         entryFormData.setPreviousUrl(referer);
@@ -87,7 +84,7 @@ public class EntryController {
 
     @RequestMapping("/processForm")
     public String processForm(@Valid @ModelAttribute("entryFormData") EntryFormData entryFormData, BindingResult bindingResult, Model model) {
-        Entry entry = entryService.formEventEntry(entryFormData);
+        Entry entry = entryService.formEventEntry(userService.getCurrentUser(), entryFormData);
         CheckExpiryValidator checkExpiryValidator = new CheckExpiryValidator(entry);
 
         if (bindingResult.hasErrors() || checkExpiryValidator.isValid()) {

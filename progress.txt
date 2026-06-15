@@ -32,6 +32,11 @@
 - Removed `<input type="hidden" th:field="*{previousUrl}">` from `add-person-form.html`
 - `EntryFormData.previousUrl` intentionally kept — it is a DTO, not a domain entity, and is actively used in the entry form round-trip
 
+#### Task #6 — Remove User from EntryFormData; resolve current user in controller (2026-06-15)
+- Removed `User user` field, getter, setter, and constructor copy from `EntryFormData`; removed `import au.com.voc.raceEntry.user.User`
+- Added `User user` as explicit first parameter to `EntryService.formEventEntry()` replacing `entryFormData.getUser()`
+- `EntryController.form()`: removed `User user = userService.getCurrentUser()` + `entryFormData.setUser(user)` (no longer needed)
+- `EntryController.processForm()`: passes `userService.getCurrentUser()` directly to `formEventEntry()` — user is resolved from Spring Security context at call time, never carried through the form
+
 ### Pending Tasks
-#6 Remove User from EntryFormData; resolve current user from SecurityContextHolder in controllers
-#7–#23 (see refactor-plan-PRD.md)
+#7–#23 (see refactor-plan-PRD.md — Phase 2 begins: DTO cleanup)

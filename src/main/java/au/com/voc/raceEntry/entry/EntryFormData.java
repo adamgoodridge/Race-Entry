@@ -4,8 +4,6 @@ package au.com.voc.raceEntry.entry;
 //https://www.wimdeblauwe.com/blog/2021/04/16/using-html-select-options-with-thymeleaf/
 
 
-import au.com.voc.raceEntry.user.User;
-
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
@@ -23,7 +21,6 @@ public class EntryFormData {
     private long secondDriverId;
     @NotNull(message = "You must select a class")
     private String boatClass;
-    private User user;
 
     private String previousUrl;
 
@@ -57,7 +54,6 @@ public class EntryFormData {
         if (entry.getPersonTwo() != null) {
             secondDriverId = entry.getPersonTwo().getPersonId();
         }
-        user = entry.getUser();
         boatClass = entry.getBoatClass();
         declarationOwnerSignature = entry.getDeclarationOwnerSignature();
         declarationOwnerDate = entry.getDeclarationOwnerDate();
@@ -101,14 +97,6 @@ public class EntryFormData {
 
     public void setEventId(long eventId) {
         this.eventId = eventId;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public String getBoatClass() {
