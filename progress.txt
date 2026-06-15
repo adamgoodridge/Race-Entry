@@ -67,5 +67,16 @@
 - `fragment-list.html` + `list-boats.html`: `${b.className}` → `${b.boatType}`
 - `BoatClass.className` left untouched — different entity, appropriate name
 
+#### Task #11 — Introduce EntryStatus enum; replace Event.open Boolean (2026-06-15)
+- Created `EntryStatus.java` enum (`DRAFT`, `OPEN`, `CLOSED`) in `event` package
+- `Event.java`: replaced `@Column(name="open") Boolean open` with `@Enumerated(EnumType.STRING) @Column(name="status") EntryStatus status`; renamed getter/setter to `getStatus()`/`setStatus()`
+- `EventFormData.java`: replaced `Boolean open` with `EntryStatus status`; updated 8-arg constructor accordingly
+- `EventViewRepository`: query updated `e.open → e.status`; method param changed from `Boolean` to `EntryStatus`
+- `EventRepository.openEvents()`: `WHERE e.open = true` → `WHERE e.status = au.com.voc.raceEntry.event.EntryStatus.OPEN` (JPQL enum literal)
+- `EventService.getEventsView(int open)`: signature changed to `getEventsView(EntryStatus status)`; removed `open == 1` int-to-boolean conversion; `setOpen()` → `setStatus()`
+- `EventController`: all `getEventsView(1)` → `getEventsView(EntryStatus.OPEN)`, `getEventsView(0)` → `getEventsView(EntryStatus.CLOSED)`; `event.getOpen()` → `event.getStatus()`
+- `GeneralController`, `EntryController`: `getEventsView(1)` → `getEventsView(EntryStatus.OPEN)`; added `EntryStatus` import
+- `EntryRepository`: all 3 JPQL queries `e.event.open = true` → `e.event.status = au.com.voc.raceEntry.event.EntryStatus.OPEN`
+
 ### Pending Tasks
-#11–#23 (see refactor-plan-PRD.md)
+#12–#23 (see refactor-plan-PRD.md)
