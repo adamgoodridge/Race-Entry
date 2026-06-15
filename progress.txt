@@ -1,0 +1,17 @@
+## Refactor Progress
+
+### Completed Tasks
+
+#### Task #1 — Delete Random.java and main() code-generator methods (2026-06-15)
+- Deleted `src/main/java/au/com/voc/raceEntry/Random.java`
+- Removed `main()` code-generator method from `Person.java`
+- Removed `main()` code-generator method from `Event.java`
+- Removed `main()` code-generator method from `EventView.java`
+
+### Pending Tasks
+#2 Fix @Controller("/") annotation bug in GeneralController; rename package Controller → controller
+#3 Replace all System.out.println with SLF4J logging
+#4 Make UserAuthentication a @Component; inject instead of new UserAuthentication()
+#5 Remove previousUrl @Transient field from all domain entities (Boat, Person, Entry, Event)
+#6 Remove User from EntryFormData; resolve current user from SecurityContextHolder in controllers
+#7–#23 (see refactor-plan-PRD.md)

@@ -340,17 +340,4 @@ public class Person implements LicenceExpiry {
         this.user = user;
     }
 
-    //Generates code for thymeleaf
-    public static void main(String[] args) {
-        String[] fields = {"firstName", "lastName", "email", "sbaLicence", "PhoneNo", "addressLineOne", "addressLineTwo", "addressCity", "addressState", "addressPostCode"};
-        //Names that will appear in the web based interface
-        String[] fieldsNames = {"First Name", "Last Name", "Email", "S.B.A Licence", "PhoneNo", "Address Line One", "Address Line Two", "City", "State", "PostCode"};
-        for (int i = 0; i < fields.length; i++) {
-            System.out.println("<div class=\"mb-3\">\n");
-            System.out.println("<label class=\"form-label\">Enter your " + fieldsNames[i] + " *</label>\n");
-            System.out.println("<input type=\"text\" th:field=\"*{" + fields[i] + "}\" class=\"form-control\" >\n");
-            System.out.println("<p th:if=\"${#fields.hasErrors('" + fields[i] + "')}\" th:errorclass=\"error\" th:errors=\"*{" + fields[i] + "}\" />\n");
-            System.out.println("</div>\n");
-        }
-    }
 }

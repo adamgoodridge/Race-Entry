@@ -162,25 +162,4 @@ public class Event {
         this.previousUrl = previousUrl;
     }
 
-    public static void main(String[] args) {
-        StringBuilder sb = new StringBuilder();
-        String[] fields = {"name", "venue", "date"};
-        String[] fieldsNames = {"Name", "Venue", "Date"};
-        for (int i = 0; i < fields.length; i++) {
-            /*
-            sb.append("<div class=\"mb-3\">");
-            sb.append("\n<label for=\"" +fields[i] + "\" class=\"form-label\">Enter your "+ fieldsNames[i] + "</label>");
-            sb.append("\n<form:input path=\""+ fields[i] +"\" id=\""+ fields[i] +"\" class=\"form-control\" /><form:errors path=\""
-                    + fields[i] +"\" cssClass=\"error\">");
-            sb.append("\n</div>");
-
-             */
-            sb.append("<div class=\"mb-3\">\n");
-            sb.append("<label class=\"form-label\">Event's " + fieldsNames[i] + "</label>\n");
-            sb.append("<input type=\"text\" th:field=\"*{" + fields[i] + "}\" class=\"form-control\" >\n");
-            sb.append("<p th:if=\"${#fields.hasErrors('" + fields[i] + "')}\" th:errorclass=\"error\" th:errors=\"*{" + fields[i] + "}\" />\n");
-            sb.append("</div>\n");
-        }
-        System.out.println(sb);
-    }
 }
