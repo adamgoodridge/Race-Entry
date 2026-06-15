@@ -59,5 +59,13 @@
 - Changed `className` from `@Id @Column(name = "class_name")` → `@Column(name = "class_name", unique = true)`
 - Updated `BoatClassRepository`: type parameter `String` → `Long` (`JpaRepository<BoatClass, Long>`)
 
+#### Task #10 — Rename Boat.className → boatType (field + column); update all references (2026-06-15)
+- `Boat.java`: field `className` → `boatType`, `@Column(name = "class_name")` → `@Column(name = "boat_type")`, getter/setter renamed accordingly
+- `BoatFormData.java`: field, getter, setter, constructor copy (`boat.getBoatType()`), and `toBoat()` call all renamed
+- `EntryService.java`: `entry.getBoat().getClassName()` → `entry.getBoat().getBoatType()` (PDF form fill)
+- `add-boat-form.html`: `th:field="*{className}"` and `th:errors="*{className}"` → `boatType`
+- `fragment-list.html` + `list-boats.html`: `${b.className}` → `${b.boatType}`
+- `BoatClass.className` left untouched — different entity, appropriate name
+
 ### Pending Tasks
-#10–#23 (see refactor-plan-PRD.md)
+#11–#23 (see refactor-plan-PRD.md)

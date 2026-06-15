@@ -17,7 +17,7 @@ public class BoatFormData {
     private String raceNo;
     private Long userId;
     @NotNull(message = "You must enter in a class nane.")
-    private String className;
+    private String boatType;
     @NotNull(message = "You must enter the capacity of the motor.")
     private String capacityOfMotor;
     @NotNull(message = "Value must between 0 & 25")
@@ -49,7 +49,7 @@ public class BoatFormData {
         boatId = boat.getBoatId();
         name = boat.getName();
         raceNo = boat.getRaceNo();
-        className = boat.getClassName();
+        boatType = boat.getBoatType();
         capacityOfMotor = boat.getCapacityOfMotor();
         length = boat.getLength();
         beam = boat.getBeam();
@@ -92,12 +92,12 @@ public class BoatFormData {
         this.deleted = deleted;
     }
 
-    public String getClassName() {
-        return className;
+    public String getBoatType() {
+        return boatType;
     }
 
-    public void setClassName(String className) {
-        this.className = className;
+    public void setBoatType(String boatType) {
+        this.boatType = boatType;
     }
 
     public String getCapacityOfMotor() {
@@ -162,7 +162,7 @@ public class BoatFormData {
             boat.setBoatId(boatId);
         boat.setName(name);
         boat.setRaceNo(raceNo);
-        boat.setClassName(className);
+        boat.setBoatType(boatType);
         boat.setCapacityOfMotor(capacityOfMotor);
         boat.setLength(length);
         boat.setBeam(beam);

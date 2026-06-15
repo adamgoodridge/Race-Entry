@@ -138,7 +138,7 @@ public class EntryService {
             acroForm.getField("boatMotorCapacity").setValue(entry.getBoat().getCapacityOfMotor());
             acroForm.getField("boatBeam").setValue(entry.getBoat().getBeam().toString());
             acroForm.getField("boatLength").setValue(entry.getBoat().getLength().toString());
-            acroForm.getField("boatClass").setValue(entry.getBoat().getClassName());
+            acroForm.getField("boatClass").setValue(entry.getBoat().getBoatType());
             //driver 1 info
             acroForm.getField("driver1Name").setValue(entry.getPersonOne().getFullName());
             acroForm.getField("driver1Club").setValue(entry.getPersonOne().getClubName());

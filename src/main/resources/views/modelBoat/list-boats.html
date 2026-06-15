@@ -25,7 +25,7 @@
                 <td th:text="${b.name}" />
                 <!----<td th:text="${b.owner.firstName}" />----->\
                 <td th:text="${b.capacityOfMotor}" />
-                <td th:text="${b.className}" />
+                <td th:text="${b.boatType}" />
                 <td><!--<input type="btn btn-primary" th:href="@{/driver/delete/{id}(id=${d.driverId})}">Delete</input>; return false"-->
                     <a th:href="@{/boat/update/{id}(id=${b.boatId})}" >
                     <button type="button" class="btn btn-primary">Update</button>

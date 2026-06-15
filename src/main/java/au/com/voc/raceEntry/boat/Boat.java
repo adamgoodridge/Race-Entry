@@ -22,8 +22,8 @@ public class Boat implements LicenceExpiry {
     @Column(name = "race_no")
     private String raceNo;
     @Basic
-    @Column(name = "class_name")
-    private String className;
+    @Column(name = "boat_type")
+    private String boatType;
     @Basic
     @Column(name = "capacity_of_motor")
     private String capacityOfMotor;
@@ -82,13 +82,12 @@ public class Boat implements LicenceExpiry {
         this.deleted = deleted;
     }
 
-    public String getClassName() {
-
-        return className;
+    public String getBoatType() {
+        return boatType;
     }
 
-    public void setClassName(String className) {
-        this.className = className;
+    public void setBoatType(String boatType) {
+        this.boatType = boatType;
     }
 
     public String getCapacityOfMotor() {
