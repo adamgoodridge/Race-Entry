@@ -88,5 +88,10 @@
 - Created `EventRepository.java`: `JpaRepository<Event, Long>` (needed by `EventTableTest`)
 - Created `DateUtils.java` in `utils` package: static `format(String)` parsing `dd/MM/yyyy` → `LocalDate` (needed by `EventTableTest`)
 
+#### Task #14 — Remove List<Entry> from Event; move @PreRemove guard to EntryService (2026-06-16)
+- `Event.java` already had no `List<Entry>` in Ralph's redesign — confirmed removal is complete
+- Created `EntryRepository.java`: `JpaRepository<Entry, Long>` with `findByEvent(Event)` and `existsByEvent(Event)` derived queries (replaces the old bi-directional `Event.entries` collection navigation)
+- Created `EntryService.java`: `@Service @Transactional`; `deleteEvent(Event)` checks `entryRepository.existsByEvent()` and throws `IllegalStateException` if entries exist, then calls `eventRepository.delete()` — this is the `@PreRemove` guard moved out of the entity into the service layer
+
 ### Pending Tasks
-#14–#23 (see refactor-plan-PRD.md)
+#15–#23 (see refactor-plan-PRD.md)
