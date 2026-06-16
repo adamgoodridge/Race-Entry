@@ -97,5 +97,10 @@
 - `Entry.java` (Ralph's redesign) already models drivers as `@OneToMany List<EntryDriver> drivers` — `EntryDriver` is a dedicated join entity with `Person driver` and `DriverRole role`; this is strictly better than a plain `@ManyToMany` because it carries role metadata; confirmed no legacy `driverOne`/`driverTwo` fields exist
 - Created `EntryFormData.java`: plain POJO; fields `Long entryId` (null = new entry), `@NotNull Long eventId`, `@NotNull Long boatId`, `@Size(min=1) List<Long> driverIds`; `isNew()` helper; no `User` field (removed in task #6)
 
+#### Task #16 — Replace Entry.boatClass String with List<BoatClass> boatClasses via @ManyToMany join table (2026-06-16)
+- `Entry.java` (Ralph's redesign) had no `boatClass` field at all — confirmed old String column is gone
+- Added `@ManyToMany @JoinTable(name="entry_boat_class", joinColumns="entry_id", inverseJoinColumns="boat_class_id") List<BoatClass> boatClasses` with `getBoatClasses()` (unmodifiable) and `setBoatClasses(List<BoatClass>)`
+- Updated `isReadyToSubmit()` to also require `!boatClasses.isEmpty()` alongside owner and drivers checks
+
 ### Pending Tasks
-#16–#23 (see refactor-plan-PRD.md)
+#17–#23 (see refactor-plan-PRD.md)

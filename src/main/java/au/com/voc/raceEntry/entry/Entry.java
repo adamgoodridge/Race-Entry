@@ -1,6 +1,7 @@
 package au.com.voc.raceEntry.entry;
 
 import au.com.voc.raceEntry.boat.Boat;
+import au.com.voc.raceEntry.boat_class.BoatClass;
 import au.com.voc.raceEntry.event.Event;
 
 import javax.persistence.*;
@@ -31,6 +32,14 @@ public class Entry {
     @Column(nullable = false)
     private EntryStatus status;
 
+    @ManyToMany
+    @JoinTable(
+        name = "entry_boat_class",
+        joinColumns = @JoinColumn(name = "entry_id"),
+        inverseJoinColumns = @JoinColumn(name = "boat_class_id")
+    )
+    private List<BoatClass> boatClasses = new ArrayList<>();
+
     @OneToMany(mappedBy = "entry", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<EntryDriver> drivers = new ArrayList<>();
 
@@ -46,11 +55,13 @@ public class Entry {
     public Boat getBoat() { return boat; }
     public Event getEvent() { return event; }
     public EntryStatus getStatus() { return status; }
+    public List<BoatClass> getBoatClasses() { return Collections.unmodifiableList(boatClasses); }
     public List<EntryDriver> getDrivers() { return Collections.unmodifiableList(drivers); }
 
     public void setStatus(EntryStatus status) { this.status = status; }
+    public void setBoatClasses(List<BoatClass> boatClasses) { this.boatClasses = new ArrayList<>(boatClasses); }
 
     public boolean isReadyToSubmit() {
-        return boat.hasOwner() && !drivers.isEmpty();
+        return boat.hasOwner() && !drivers.isEmpty() && !boatClasses.isEmpty();
     }
 }
