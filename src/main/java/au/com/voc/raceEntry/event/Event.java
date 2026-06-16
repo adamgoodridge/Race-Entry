@@ -2,6 +2,7 @@ package au.com.voc.raceEntry.event;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 @Entity
 @Table(name = "event")
@@ -14,8 +15,11 @@ public class Event {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
-    private LocalDate eventDate;
+    @Column(name = "start_date", nullable = false)
+    private LocalDate startDate;
+
+    @Column(name = "end_date", nullable = false)
+    private LocalDate endDate;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -26,21 +30,25 @@ public class Event {
 
     protected Event() {}
 
-    public Event(String name, LocalDate eventDate) {
+    public Event(String name, LocalDate startDate, LocalDate endDate) {
         this.name = name;
-        this.eventDate = eventDate;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.status = EventStatus.OPEN;
         this.visible = true;
     }
 
     public Long getId() { return id; }
     public String getName() { return name; }
-    public LocalDate getEventDate() { return eventDate; }
+    public LocalDate getStartDate() { return startDate; }
+    public LocalDate getEndDate() { return endDate; }
+    public long getDuration() { return ChronoUnit.DAYS.between(startDate, endDate); }
     public EventStatus getStatus() { return status; }
     public Boolean getVisible() { return visible; }
 
     public void setName(String name) { this.name = name; }
-    public void setEventDate(LocalDate eventDate) { this.eventDate = eventDate; }
+    public void setStartDate(LocalDate startDate) { this.startDate = startDate; }
+    public void setEndDate(LocalDate endDate) { this.endDate = endDate; }
     public void setStatus(EventStatus status) { this.status = status; }
     public void setVisible(Boolean visible) { this.visible = visible; }
 

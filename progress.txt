@@ -83,5 +83,10 @@
 - Added `@Column(nullable = false) private Boolean visible` with default `true` in constructor; added `getVisible()` / `setVisible()` getter/setter
 - Also committed Ralph's untracked entity redesign (Boat, BoatClass, Person, Entry, EntryDriver, DriverRole, EntryStatus, EventStatus) that had been left unstaged after c529a9c deleted the old files
 
+#### Task #13 — Remove Event.duration column; add computed getDuration() from startDate/endDate (2026-06-16)
+- `Event.java`: renamed `eventDate` → `startDate` (`@Column(name="start_date")`); added `@Column(name="end_date") LocalDate endDate`; updated constructor to `Event(String name, LocalDate startDate, LocalDate endDate)`; renamed getter/setter accordingly; added `getDuration()` returning `ChronoUnit.DAYS.between(startDate, endDate)` (no column — pure computation); added `getEndDate()` / `setEndDate()`
+- Created `EventRepository.java`: `JpaRepository<Event, Long>` (needed by `EventTableTest`)
+- Created `DateUtils.java` in `utils` package: static `format(String)` parsing `dd/MM/yyyy` → `LocalDate` (needed by `EventTableTest`)
+
 ### Pending Tasks
-#13–#23 (see refactor-plan-PRD.md)
+#14–#23 (see refactor-plan-PRD.md)
