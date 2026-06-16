@@ -78,5 +78,10 @@
 - `GeneralController`, `EntryController`: `getEventsView(1)` → `getEventsView(EntryStatus.OPEN)`; added `EntryStatus` import
 - `EntryRepository`: all 3 JPQL queries `e.event.open = true` → `e.event.status = au.com.voc.raceEntry.event.EntryStatus.OPEN`
 
+#### Task #12 — Change Event.visible from Integer to Boolean (2026-06-16)
+- New clean `Event.java` (from Ralph's redesign) had dropped `visible` entirely; per PRD Decision Log it stays, typed as `Boolean` (orthogonal to `EventStatus`)
+- Added `@Column(nullable = false) private Boolean visible` with default `true` in constructor; added `getVisible()` / `setVisible()` getter/setter
+- Also committed Ralph's untracked entity redesign (Boat, BoatClass, Person, Entry, EntryDriver, DriverRole, EntryStatus, EventStatus) that had been left unstaged after c529a9c deleted the old files
+
 ### Pending Tasks
-#12–#23 (see refactor-plan-PRD.md)
+#13–#23 (see refactor-plan-PRD.md)
