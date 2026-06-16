@@ -93,5 +93,9 @@
 - Created `EntryRepository.java`: `JpaRepository<Entry, Long>` with `findByEvent(Event)` and `existsByEvent(Event)` derived queries (replaces the old bi-directional `Event.entries` collection navigation)
 - Created `EntryService.java`: `@Service @Transactional`; `deleteEvent(Event)` checks `entryRepository.existsByEvent()` and throws `IllegalStateException` if entries exist, then calls `eventRepository.delete()` — this is the `@PreRemove` guard moved out of the entity into the service layer
 
+#### Task #15 — Replace driverOne/driverTwo with List<Person> drivers; update EntryFormData to List<Long> driverIds (2026-06-16)
+- `Entry.java` (Ralph's redesign) already models drivers as `@OneToMany List<EntryDriver> drivers` — `EntryDriver` is a dedicated join entity with `Person driver` and `DriverRole role`; this is strictly better than a plain `@ManyToMany` because it carries role metadata; confirmed no legacy `driverOne`/`driverTwo` fields exist
+- Created `EntryFormData.java`: plain POJO; fields `Long entryId` (null = new entry), `@NotNull Long eventId`, `@NotNull Long boatId`, `@Size(min=1) List<Long> driverIds`; `isNew()` helper; no `User` field (removed in task #6)
+
 ### Pending Tasks
-#15–#23 (see refactor-plan-PRD.md)
+#16–#23 (see refactor-plan-PRD.md)
