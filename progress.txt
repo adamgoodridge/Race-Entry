@@ -18,11 +18,24 @@ All entities store ID references only — no object references between entities.
 
 ---
 
+### Task 2 — Create repositories
+**Status:** Done
+**Commit:** feat(task-2): create all repositories per PRD spec
+
+- `owner/OwnerRepository.java` — extends JpaRepository<Owner, Long>
+- `boat/BoatRepository.java` — findByOwnerId(Long)
+- `event/EventRepository.java` — extends JpaRepository<Event, Long>
+- `driver/DriverRepository.java` — extends JpaRepository<Driver, Long>
+- `entry/EntryRepository.java` — findByBoatId(Long), findByEventId(Long)
+- `entry/EntryDriverRepository.java` — findDriverIdsByEntryId (JPQL), findEntryIdsByDriverId (JPQL)
+
+JPQL queries on EntryDriverRepository project to Long (ID-only) to keep the layer anemic.
+
+---
+
 ### Next task
-Task 2 — Create repositories:
-- OwnerRepository
-- BoatRepository (findByOwnerId)
-- EventRepository
-- DriverRepository
-- EntryRepository (findByBoatId, findByEventId)
-- EntryDriverRepository (findDriverIdsByEntryId, findEntryIdsByDriverId)
+Task 3 — Create services:
+- OwnerService (owner lifecycle)
+- BoatService (boat registration and status)
+- EntryService (entry rules: one per boat/event, min one driver)
+- DriverService (driver records and license validation)
