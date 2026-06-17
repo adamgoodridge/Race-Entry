@@ -29,12 +29,16 @@ public class Boat {
     @JoinColumn(name = "boat_class_id", nullable = false)
     private BoatClass boatClass;
 
+    @Column(nullable = false)
+    private Boolean deleted = false;
+
     protected Boat() {}
 
     public Boat(String name, String sailNumber, BoatClass boatClass) {
         this.name = name;
         this.sailNumber = sailNumber;
         this.boatClass = boatClass;
+        this.deleted = false;
     }
 
     public Long getId() { return id; }
@@ -42,11 +46,13 @@ public class Boat {
     public String getSailNumber() { return sailNumber; }
     public Person getOwner() { return owner; }
     public BoatClass getBoatClass() { return boatClass; }
+    public Boolean isDeleted() { return deleted; }
 
     public void setName(String name) { this.name = name; }
     public void setSailNumber(String sailNumber) { this.sailNumber = sailNumber; }
     public void setOwner(Person owner) { this.owner = owner; }
     public void setBoatClass(BoatClass boatClass) { this.boatClass = boatClass; }
+    public void setDeleted(Boolean deleted) { this.deleted = deleted; }
 
     public boolean hasOwner() { return owner != null; }
 }

@@ -127,5 +127,11 @@
 - Created `EntryAssemblyService.java`: `@Service @Transactional`; `assemble(EntryFormData)` loads `Event`, `Boat`, `BoatClass[]`, `Person[]` from their repositories; creates or loads `Entry`; rebuilds drivers (orphanRemoval clears old ones) defaulting first to `HELMSMAN`, rest to `CREW`; rebuilds declarations; saves and returns the entry
 - `EntryService` never touched BoatRepository/PersonRepository — those live only in EntryAssemblyService
 
+#### Task #20 — Create EntryEligibilityService; enforce entry rules (2026-06-17)
+- `Boat.java`: restored `Boolean deleted` (col: `deleted`, default `false`); added `isDeleted()` / `setDeleted()` — Ralph's redesign had dropped it but the PRD soft-delete guard requires it
+- `Person.java`: same — restored `Boolean deleted` with `isDeleted()` / `setDeleted()`
+- `EntryRepository.java`: added `existsByBoatAndEvent(Boat, Event)` (new entry check) and `existsByBoatAndEventAndIdNot(Boat, Event, Long)` (update check, excludes current entry ID)
+- Created `EntryEligibilityService.java`: `@Service @Transactional(readOnly=true)`; `checkEligibility(EntryFormData)` collects ALL violations before throwing a single `IllegalStateException` with a joined message; enforces: (1) event status == OPEN, (2) boat not soft-deleted, (3) at least one driver, (4) no driver soft-deleted, (5) boat-per-event uniqueness (with `IdNot` exclusion on updates)
+
 ### Pending Tasks
-#20–#23 (see refactor-plan-PRD.md)
+#21–#23 (see refactor-plan-PRD.md)
