@@ -60,8 +60,20 @@ Services:
 
 ---
 
+### Task 5 — Create DTOs
+**Status:** Done
+**Commit:** feat(task-5): create BoatDetailsDTO and EntryDetailsDTO
+
+- `dto/BoatDetailsDTO.java` — wraps Boat, Owner, and nullable active Entry; assembled on read
+- `dto/EntryDetailsDTO.java` — wraps Entry, Boat, and List<Driver>; assembled on read
+- Both are plain Java classes (no JPA annotations); never persisted
+
+---
+
 ### Next task
-Task 5 — Create DTOs:
-- `BoatDetailsDTO` — combines Boat + Owner + active Entry for display
-- `EntryDetailsDTO` — combines Entry + Boat + assigned Driver list for display
-- DTOs assembled on read; never persisted
+Task 6 — Create REST controllers per PRD section 5:
+- `OwnerController` — POST /owners, DELETE /owners/{id}
+- `BoatController` — POST /boats, GET /boats?ownerId={id}
+- `EventController` — POST /events, GET /events
+- `EntryController` — POST /entries, GET /entries?eventId/boatId, PATCH /entries/{id}/status
+- `DriverController` — POST /drivers, POST /entries/{id}/drivers, DELETE /entries/{id}/drivers/{driverId}, GET /entries/{id}/drivers
