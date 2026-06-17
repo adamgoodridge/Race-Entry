@@ -107,7 +107,6 @@ public class UserService implements UserDetailsService {
     }
 
     public void updatePassword(User user) {
-        log.debug("{}", user.getPassword());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setResetCode(null);
         user.setResetDate(null);
