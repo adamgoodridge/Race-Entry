@@ -65,6 +65,11 @@ public class Entry {
     public void setStatus(EntryStatus status) { this.status = status; }
     public void setBoatClasses(List<BoatClass> boatClasses) { this.boatClasses = new ArrayList<>(boatClasses); }
 
+    void addDriver(EntryDriver driver) { drivers.add(driver); }
+    void clearDrivers() { drivers.clear(); }
+    void addDeclaration(EntryDeclaration declaration) { declarations.add(declaration); }
+    void clearDeclarations() { declarations.clear(); }
+
     public boolean isReadyToSubmit() {
         return boat.hasOwner() && !drivers.isEmpty() && !boatClasses.isEmpty();
     }

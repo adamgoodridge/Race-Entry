@@ -118,5 +118,14 @@
 - Updated driver loop to use `entry.getDrivers()` (new `List<EntryDriver>` model) instead of old `entry.getPersonOne()` / `entry.getPersonTwo()`
 - `EntryService.java` left with only event-deletion guard; all PDF logic lives in `EntryPDFService`
 
+#### Task #19 — Create EntryAssemblyService; move formEventEntry() logic; remove BoatRepository/PersonRepository from EntryService (2026-06-17)
+- Created `BoatRepository.java`: `JpaRepository<Boat, Long>`
+- Created `PersonRepository.java`: `JpaRepository<Person, Long>`
+- Created `BoatClassRepository.java`: `JpaRepository<BoatClass, Long>`
+- `EntryFormData.java`: added `List<Long> boatClassIds` with getter/setter (needed to assemble boat-class associations)
+- `Entry.java`: added package-private `addDriver()`, `clearDrivers()`, `addDeclaration()`, `clearDeclarations()` so `EntryAssemblyService` (same package) can manage the collections without exposing them publicly
+- Created `EntryAssemblyService.java`: `@Service @Transactional`; `assemble(EntryFormData)` loads `Event`, `Boat`, `BoatClass[]`, `Person[]` from their repositories; creates or loads `Entry`; rebuilds drivers (orphanRemoval clears old ones) defaulting first to `HELMSMAN`, rest to `CREW`; rebuilds declarations; saves and returns the entry
+- `EntryService` never touched BoatRepository/PersonRepository — those live only in EntryAssemblyService
+
 ### Pending Tasks
-#19–#23 (see refactor-plan-PRD.md)
+#20–#23 (see refactor-plan-PRD.md)
