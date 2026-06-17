@@ -43,6 +43,9 @@ public class Entry {
     @OneToMany(mappedBy = "entry", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<EntryDriver> drivers = new ArrayList<>();
 
+    @OneToMany(mappedBy = "entry", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<EntryDeclaration> declarations = new ArrayList<>();
+
     protected Entry() {}
 
     public Entry(Boat boat, Event event) {
@@ -57,6 +60,7 @@ public class Entry {
     public EntryStatus getStatus() { return status; }
     public List<BoatClass> getBoatClasses() { return Collections.unmodifiableList(boatClasses); }
     public List<EntryDriver> getDrivers() { return Collections.unmodifiableList(drivers); }
+    public List<EntryDeclaration> getDeclarations() { return Collections.unmodifiableList(declarations); }
 
     public void setStatus(EntryStatus status) { this.status = status; }
     public void setBoatClasses(List<BoatClass> boatClasses) { this.boatClasses = new ArrayList<>(boatClasses); }

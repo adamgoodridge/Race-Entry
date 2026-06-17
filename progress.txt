@@ -102,5 +102,12 @@
 - Added `@ManyToMany @JoinTable(name="entry_boat_class", joinColumns="entry_id", inverseJoinColumns="boat_class_id") List<BoatClass> boatClasses` with `getBoatClasses()` (unmodifiable) and `setBoatClasses(List<BoatClass>)`
 - Updated `isReadyToSubmit()` to also require `!boatClasses.isEmpty()` alongside owner and drivers checks
 
+#### Task #17 — Create EntryDeclaration entity; remove hardcoded signature fields from Entry; update EntryFormData (2026-06-17)
+- `Entry.java` already had no hardcoded signature fields in Ralph's redesign — confirmed clean
+- Created `EntryDeclaration.java`: `@Entity(name="entry_declaration")` with `@ManyToOne Entry entry`, `@ManyToOne Person person`, `String signature`, `LocalDate signedDate`; constructor-only mutation (no setters — immutable once signed)
+- Created `DeclarationFormData.java`: plain POJO with `@NotNull Long personId`, `@NotBlank String signature`, `@NotNull LocalDate signedDate`
+- `Entry.java`: added `@OneToMany(mappedBy="entry", cascade=ALL, orphanRemoval=true) List<EntryDeclaration> declarations` with unmodifiable getter
+- `EntryFormData.java`: added `@Size(min=1) List<DeclarationFormData> declarations` with getter/setter
+
 ### Pending Tasks
-#17–#23 (see refactor-plan-PRD.md)
+#18–#23 (see refactor-plan-PRD.md)
