@@ -84,8 +84,18 @@ Each controller uses inner static request classes for @RequestBody deserializati
 
 ---
 
+### Task 7 — Add global exception handling
+**Status:** Done
+**Commit:** feat(task-7): add GlobalExceptionHandler with 404/409 mappings
+
+- `exception/GlobalExceptionHandler.java` — @RestControllerAdvice
+- `IllegalArgumentException` → 404 Not Found
+- `IllegalStateException` → 409 Conflict
+- Consistent JSON error body: timestamp, status, error, message
+
+---
+
 ### Next task
-Task 7 — Add global exception handling:
-- Map `IllegalArgumentException` → 404 Not Found
-- Map `IllegalStateException` → 409 Conflict
-- Return a consistent JSON error body
+Task 8 — Write integration tests:
+- Test the happy path for each controller endpoint
+- Test that exception mappings return the correct HTTP status and JSON body
