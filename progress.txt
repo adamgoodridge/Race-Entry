@@ -109,5 +109,14 @@
 - `Entry.java`: added `@OneToMany(mappedBy="entry", cascade=ALL, orphanRemoval=true) List<EntryDeclaration> declarations` with unmodifiable getter
 - `EntryFormData.java`: added `@Size(min=1) List<DeclarationFormData> declarations` with getter/setter
 
+#### Task #18 — Extract EntryPDFService from EntryService; fix NPE bug (2026-06-17)
+- Created `EntryPDFService.java`: extracted `generatePDF(Entry)` out of the old monolithic `EntryService` into its own `@Service`
+- Fixed NPE bug: old code did `if (entry.getEvent() == null) { eventService.getEvent(entry.getEvent().getEventId()) }` — dereferences null on the same line it checked null; fixed by removing the dead guard entirely (`@ManyToOne(optional=false)` guarantees event is never null)
+- Fixed resource leak: old code did not close `PDDocument`; new code uses try-with-resources
+- Added null-safe `setField()` helper that silently skips PDF fields that don't exist in the form template
+- Null-checked `boat.getOwner()` (which is nullable per domain model)
+- Updated driver loop to use `entry.getDrivers()` (new `List<EntryDriver>` model) instead of old `entry.getPersonOne()` / `entry.getPersonTwo()`
+- `EntryService.java` left with only event-deletion guard; all PDF logic lives in `EntryPDFService`
+
 ### Pending Tasks
-#18–#23 (see refactor-plan-PRD.md)
+#19–#23 (see refactor-plan-PRD.md)
