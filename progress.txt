@@ -50,7 +50,18 @@ Services:
 
 ---
 
+### Task 4 — Create RacingEventMediator
+**Status:** Done
+**Commit:** feat(task-4): create RacingEventMediator with owner deletion cascade
+
+- `mediator/RacingEventMediator.java` — @Component, @Transactional deleteOwner()
+- Cascade sequence: for each boat owned → cancel all ACTIVE entries (EntryService.cancel removes EntryDriverMaps) → markOrphaned → then delete owner record
+- No business logic in the mediator; all rules enforced by BoatService, EntryService, OwnerService
+
+---
+
 ### Next task
-Task 4 — Create RacingEventMediator:
-- Orchestrates owner deletion cascade: delete owner → orphan boats → cancel active entries (which removes EntryDriverMaps)
-- No business logic in the mediator itself — calls services and repositories in sequence
+Task 5 — Create DTOs:
+- `BoatDetailsDTO` — combines Boat + Owner + active Entry for display
+- `EntryDetailsDTO` — combines Entry + Boat + assigned Driver list for display
+- DTOs assembled on read; never persisted
