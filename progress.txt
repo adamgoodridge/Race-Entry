@@ -150,5 +150,13 @@
 - `application.properties`: added `encryption.key=changeme-override-in-production` (placeholder; intended to be overridden via environment variable in production)
 - `EntryAssemblyService.java`: injected `EncryptionService`; declaration signatures are now encrypted before constructing `EntryDeclaration` (`encryptionService.encrypt(decl.getSignature())`)
 
+#### Task #23 — Create EntryRepository and EntryDriverRepository with EntryStatus JPQL queries (2026-06-17)
+- Created `EntryStatus.java` enum (`PENDING`, `ACTIVE`, `CANCELLED`) in `entry` package
+- Created `DriverRole.java` enum (`HELMSMAN`, `CREW`) in `entry` package
+- Created `Entry.java`: anemic `@Entity`; stores `boatId`, `eventId` as `Long` IDs (no object references per PRD); `status` typed as `EntryStatus` enum with `@Enumerated(EnumType.STRING)`; defaults to `PENDING` on construction
+- Created `EntryDriverMap.java`: anemic `@Entity` for the `entry_driver_map` join table; stores `entryId`, `driverId`, `role` as plain columns (no `@ManyToOne` — ID-based per PRD)
+- Created `EntryRepository.java`: Spring Data JPA; `findByBoatId(Long)` and `findByEventId(Long)` derived queries; JPQL `findByEventIdAndStatus` uses `EntryStatus` enum parameter (replaces old boolean `open` queries); `existsByBoatIdAndEventId` and `existsByBoatIdAndEventIdAndEntryIdNot` for uniqueness enforcement
+- Created `EntryDriverRepository.java`: JPQL `findDriverIdsByEntryId` and `findEntryIdsByDriverId` project only the ID columns (no full entity load); `deleteByEntryId` supports the cascade rule (cancel entry → remove driver maps)
+
 ### Pending Tasks
-#23 (see refactor-plan-PRD.md)
+None
