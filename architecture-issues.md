@@ -1,4 +1,8 @@
-This application has major architectural issues and is not production ready. It is a prototype to demonstrate the concept of storing information for competitors and race officials. Currently, the application lacks proper architectural breaking and separation of concerns, which can lead to maintenance challenges in the future. Objects are tightly coupled, and there is a lack of clear boundaries between different layers of the application. Relationships are tightly coupled, making it difficult to modify or extend the application without affecting other parts of the codebase. 
+This application will be used to manage boat racing events, including the boats, their owners, the entries for each event, and the drivers associated with each entry. The main entities in this application are Boat, Owner, Entry, and Driver.
+
+You should design the classes and their relationships in a way that allows for flexibility and maintainability. The relationships between these entities should be designed to allow for easy navigation and management of the data.
+
+Under no circumstances should the relationships between these entities create a tight coupling that would make it difficult to maintain or extend the application in the future. Relationships should be designed in a way that allows for easy navigation and management of the data, without creating dependencies that in objects that should be able to exist independently of each other.
 An object should be able to exist without the other, and they should not be dependent on each other. Do you suggest using different objects solely for maintaining relationships? Or do you suggest using a different design pattern to decouple the objects and their relationships?
 
 
