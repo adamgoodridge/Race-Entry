@@ -16,6 +16,9 @@ public class Boat {
     @Column(name = "boat_class")
     private String boatClass;
 
+    @Enumerated(EnumType.STRING)
+    private BoatStatus status = BoatStatus.ACTIVE;
+
     public Long getBoatId() { return boatId; }
     public void setBoatId(Long boatId) { this.boatId = boatId; }
 
@@ -27,4 +30,7 @@ public class Boat {
 
     public String getBoatClass() { return boatClass; }
     public void setBoatClass(String boatClass) { this.boatClass = boatClass; }
+
+    public BoatStatus getStatus() { return status; }
+    public void setStatus(BoatStatus status) { this.status = status; }
 }

@@ -33,9 +33,24 @@ JPQL queries on EntryDriverRepository project to Long (ID-only) to keep the laye
 
 ---
 
+### Task 3 — Create services
+**Status:** Done
+**Commit:** feat(task-3): create four services and BoatStatus enum
+
+Supporting changes:
+- `boat/BoatStatus.java` — ACTIVE, ORPHANED enum (required by cascade rules)
+- `boat/Boat.java` — added status field (default ACTIVE)
+- `entry/EntryDriverRepository.java` — added deleteByEntryIdAndDriverId JPQL
+
+Services:
+- `owner/OwnerService.java` — create, findById, delete
+- `boat/BoatService.java` — register (validates owner exists), findById, findByOwner, markOrphaned
+- `entry/EntryService.java` — create (enforces one-per-boat-per-event), findById, findByEvent, findByBoat, updateStatus (enforces min driver before ACTIVE), cancel (sets CANCELLED + deletes EntryDriverMaps), assignDriver, removeDriver (enforces min one driver)
+- `driver/DriverService.java` — create (validates license not blank), findById
+
+---
+
 ### Next task
-Task 3 — Create services:
-- OwnerService (owner lifecycle)
-- BoatService (boat registration and status)
-- EntryService (entry rules: one per boat/event, min one driver)
-- DriverService (driver records and license validation)
+Task 4 — Create RacingEventMediator:
+- Orchestrates owner deletion cascade: delete owner → orphan boats → cancel active entries (which removes EntryDriverMaps)
+- No business logic in the mediator itself — calls services and repositories in sequence
