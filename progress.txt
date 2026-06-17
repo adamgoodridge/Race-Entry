@@ -133,5 +133,16 @@
 - `EntryRepository.java`: added `existsByBoatAndEvent(Boat, Event)` (new entry check) and `existsByBoatAndEventAndIdNot(Boat, Event, Long)` (update check, excludes current entry ID)
 - Created `EntryEligibilityService.java`: `@Service @Transactional(readOnly=true)`; `checkEligibility(EntryFormData)` collects ALL violations before throwing a single `IllegalStateException` with a joined message; enforces: (1) event status == OPEN, (2) boat not soft-deleted, (3) at least one driver, (4) no driver soft-deleted, (5) boat-per-event uniqueness (with `IdNot` exclusion on updates)
 
+#### Task #21 — Create DashboardService; gut GeneralController.home() (2026-06-17)
+- Created `User.java` stub (`@Entity(table="users")`): `id`, `username`, `password`, `enabled`; no `@ColumnTransformer` (encryption deferred to task #22)
+- Created `UserRepository.java`: `JpaRepository<User, Long>` with `findByUsername(String)`
+- Created `UserService.java`: `getCurrentUser()` resolves from `SecurityContextHolder`; `isAdmin()` checks for `ROLE_ADMIN` authority — replaces the old `UserAuthentication` component for the controller's needs
+- `EventRepository`: added `findByStatusAndVisible(EventStatus, Boolean)` derived query
+- `EntryRepository`: added `findByEvent_Status(EventStatus)` for open-entry listing
+- Created `AdminDashboardData.java`: POJO holding `List<Event> openEvents`
+- Created `UserDashboardData.java`: POJO holding `List<Event> openEvents` + `List<Entry> userEntries`
+- Created `DashboardService.java`: `getAdminDashboard()` returns open visible events; `getUserDashboard(User)` returns same plus open entries (user-specific filtering deferred until User→Person link established)
+- Created `GeneralController.java`: lean `@GetMapping("/")` delegates to `DashboardService`; admin check via `UserService.isAdmin()`; old per-field model population removed; single `model.addAttribute("dashboard", ...)` call
+
 ### Pending Tasks
-#21–#23 (see refactor-plan-PRD.md)
+#22–#23 (see refactor-plan-PRD.md)

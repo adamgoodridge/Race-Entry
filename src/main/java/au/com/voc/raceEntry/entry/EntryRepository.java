@@ -15,4 +15,6 @@ public interface EntryRepository extends JpaRepository<Entry, Long> {
     boolean existsByBoatAndEvent(Boat boat, Event event);
 
     boolean existsByBoatAndEventAndIdNot(Boat boat, Event event, Long excludedEntryId);
+
+    List<Entry> findByEvent_Status(au.com.voc.raceEntry.event.EventStatus status);
 }
