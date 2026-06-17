@@ -1,0 +1,28 @@
+## Progress Log
+
+### Task 1 — Create core entities
+**Status:** Done
+**Commit:** feat(task-1): create all 6 core entities and enums
+
+Created the following anemic JPA entities and enums per PRD section 2:
+- `owner/Owner.java` — ownerId, name, contactEmail
+- `boat/Boat.java` — boatId, ownerId, name, boatClass
+- `event/Event.java` — eventId, name, date (LocalDate), location
+- `driver/Driver.java` — driverId, name, licenseNumber
+- `entry/Entry.java` — entryId, boatId, eventId, status (EntryStatus)
+- `entry/EntryStatus.java` — PENDING, ACTIVE, CANCELLED
+- `entry/EntryDriverMap.java` — mapId, entryId, driverId, role (DriverRole)
+- `entry/DriverRole.java` — HELMSMAN, CREW
+
+All entities store ID references only — no object references between entities. No business logic in entities.
+
+---
+
+### Next task
+Task 2 — Create repositories:
+- OwnerRepository
+- BoatRepository (findByOwnerId)
+- EventRepository
+- DriverRepository
+- EntryRepository (findByBoatId, findByEventId)
+- EntryDriverRepository (findDriverIdsByEntryId, findEntryIdsByDriverId)
