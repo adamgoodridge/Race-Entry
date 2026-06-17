@@ -70,10 +70,22 @@ Services:
 
 ---
 
+### Task 6 — Create REST controllers
+**Status:** Done
+**Commit:** feat(task-6): create five REST controllers per PRD section 5
+
+- `owner/OwnerController.java` — POST /owners (201), DELETE /owners/{id} (204) via RacingEventMediator
+- `boat/BoatController.java` — POST /boats (201), GET /boats?ownerId={id}
+- `event/EventController.java` — POST /events (201), GET /events (uses EventRepository directly — no service needed for pure CRUD)
+- `entry/EntryController.java` — POST /entries (201), GET /entries?eventId={id} or ?boatId={id}, PATCH /entries/{id}/status (returns updated entry)
+- `driver/DriverController.java` — POST /drivers (201), POST /entries/{id}/drivers (201), DELETE /entries/{id}/drivers/{driverId} (204), GET /entries/{id}/drivers
+
+Each controller uses inner static request classes for @RequestBody deserialization. DriverController injects EntryDriverRepository + DriverRepository directly for the driver-list read path (no service-layer business logic there).
+
+---
+
 ### Next task
-Task 6 — Create REST controllers per PRD section 5:
-- `OwnerController` — POST /owners, DELETE /owners/{id}
-- `BoatController` — POST /boats, GET /boats?ownerId={id}
-- `EventController` — POST /events, GET /events
-- `EntryController` — POST /entries, GET /entries?eventId/boatId, PATCH /entries/{id}/status
-- `DriverController` — POST /drivers, POST /entries/{id}/drivers, DELETE /entries/{id}/drivers/{driverId}, GET /entries/{id}/drivers
+Task 7 — Add global exception handling:
+- Map `IllegalArgumentException` → 404 Not Found
+- Map `IllegalStateException` → 409 Conflict
+- Return a consistent JSON error body
