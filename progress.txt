@@ -144,5 +144,11 @@
 - Created `DashboardService.java`: `getAdminDashboard()` returns open visible events; `getUserDashboard(User)` returns same plus open entries (user-specific filtering deferred until User→Person link established)
 - Created `GeneralController.java`: lean `@GetMapping("/")` delegates to `DashboardService`; admin check via `UserService.isAdmin()`; old per-field model population removed; single `model.addAttribute("dashboard", ...)` call
 
+#### Task #22 — Move encryption to EncryptionService; remove @ColumnTransformer; load key from config (2026-06-17)
+- `Person.java` and `Entry.java` already had no `@ColumnTransformer` in Ralph's redesign — confirmed clean; `User.java` (created in task #21) was created without it
+- Created `EncryptionService.java` in `utils` package: `@Service`; key loaded via `@Value("${encryption.key}")`; SHA-256 hashes the config string to produce a 256-bit AES key; `encrypt()` uses AES/GCM/NoPadding with a per-call 12-byte random IV prepended to ciphertext; `decrypt()` reverses; both base64-encode/decode the result; checked exceptions wrapped in `IllegalStateException`
+- `application.properties`: added `encryption.key=changeme-override-in-production` (placeholder; intended to be overridden via environment variable in production)
+- `EntryAssemblyService.java`: injected `EncryptionService`; declaration signatures are now encrypted before constructing `EntryDeclaration` (`encryptionService.encrypt(decl.getSignature())`)
+
 ### Pending Tasks
-#22–#23 (see refactor-plan-PRD.md)
+#23 (see refactor-plan-PRD.md)

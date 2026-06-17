@@ -8,6 +8,7 @@ import au.com.voc.raceEntry.event.Event;
 import au.com.voc.raceEntry.event.EventRepository;
 import au.com.voc.raceEntry.person.Person;
 import au.com.voc.raceEntry.person.PersonRepository;
+import au.com.voc.raceEntry.utils.EncryptionService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,18 +23,21 @@ public class EntryAssemblyService {
     private final BoatRepository boatRepository;
     private final BoatClassRepository boatClassRepository;
     private final PersonRepository personRepository;
+    private final EncryptionService encryptionService;
 
     public EntryAssemblyService(
             EntryRepository entryRepository,
             EventRepository eventRepository,
             BoatRepository boatRepository,
             BoatClassRepository boatClassRepository,
-            PersonRepository personRepository) {
+            PersonRepository personRepository,
+            EncryptionService encryptionService) {
         this.entryRepository = entryRepository;
         this.eventRepository = eventRepository;
         this.boatRepository = boatRepository;
         this.boatClassRepository = boatClassRepository;
         this.personRepository = personRepository;
+        this.encryptionService = encryptionService;
     }
 
     public Entry assemble(EntryFormData form) {
@@ -57,11 +61,12 @@ public class EntryAssemblyService {
             entry.addDriver(new EntryDriver(entry, driver, role));
         }
 
-        // declarations: clear existing then rebuild
+        // declarations: clear existing then rebuild; signature encrypted at rest
         entry.clearDeclarations();
         for (DeclarationFormData decl : form.getDeclarations()) {
             Person person = personRepository.getReferenceById(decl.getPersonId());
-            entry.addDeclaration(new EntryDeclaration(entry, person, decl.getSignature(), decl.getSignedDate()));
+            String encryptedSignature = encryptionService.encrypt(decl.getSignature());
+            entry.addDeclaration(new EntryDeclaration(entry, person, encryptedSignature, decl.getSignedDate()));
         }
 
         return entryRepository.save(entry);
