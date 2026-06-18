@@ -385,6 +385,23 @@ All 46 integration tests pass.
 
 ---
 
+### Task 27 — Cover missing 404 paths for boat list by owner and unassigned driver removal
+**Status:** Done
+**Commit:** test(task-27): cover missing 404 paths for boat list by owner and unassigned driver removal
+
+Two 404 code paths existed in the implementation but had no integration test coverage:
+- `GET /boats?ownerId=99999` — `BoatService.findByOwnerWithDetails()` already threw 404 for an unknown owner (noted as "already working" in task 17), but no test existed for it
+- `DELETE /entries/{id}/drivers/{driverId}` where the driver exists but is not assigned to the entry — `removeDriver()` threw `IllegalArgumentException` ("Driver X is not assigned to entry Y") → 404, but only the unknown-entry case (task 18) was tested; the "not assigned" branch had no coverage
+
+Changes:
+- `RaceEntryIntegrationTest.java` — 2 new tests:
+  - `removeDriverFromEntry_driverNotAssigned_returns404`: create entry with one assigned driver, attempt to remove a different (unassigned) driver → 404 with message containing "not assigned to entry"
+  - `listBoatsByOwner_unknownOwner_returns404`: `GET /boats?ownerId=99999` → 404 with message containing "Owner not found"
+
+All 49 integration tests pass.
+
+---
+
 ### Task 26 — Block activating entries whose boat is ORPHANED
 **Status:** Done
 **Commit:** fix(task-26): block activating entries whose boat is ORPHANED
