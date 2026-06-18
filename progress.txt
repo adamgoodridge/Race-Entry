@@ -382,3 +382,17 @@ Changes:
   - `assignDriver_unknownEntry_returns404`: `POST /entries/99999/drivers` → 404
 
 All 46 integration tests pass.
+
+---
+
+### Task 26 — Block activating entries whose boat is ORPHANED
+**Status:** Done
+**Commit:** fix(task-26): block activating entries whose boat is ORPHANED
+
+Task 15 prevented *creating* entries for ORPHANED boats, but a PENDING entry that existed before its boat was orphaned could still be PATCH'd to ACTIVE — bypassing the orphan guard.
+
+Changes:
+- `entry/EntryService.java` — `updateStatus()`: when `newStatus == ACTIVE`, fetches the boat and throws `IllegalStateException` (→ 409) if its status is `ORPHANED`; check is placed before the driver-count check so the error message is unambiguous
+- `RaceEntryIntegrationTest.java` — 1 new test: create entry, assign driver, delete owner (orphans boat, leaves PENDING entry intact), attempt PATCH to ACTIVE → 409
+
+All 47 integration tests pass.
