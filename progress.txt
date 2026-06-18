@@ -215,3 +215,17 @@ Changes:
 - `RaceEntryIntegrationTest.java` — 1 new test: creating a second driver with a duplicate license returns 409 with error body
 
 All 31 integration tests pass.
+
+---
+
+### Task 15 — Prevent entry creation for ORPHANED boats
+**Status:** Done
+**Commit:** feat(task-15): prevent entry creation for ORPHANED boats
+
+The PRD states that orphaning a boat cancels all its active entries, implying an orphaned boat cannot participate in events. However, `EntryService.create()` previously allowed creating new entries for ORPHANED boats.
+
+Changes:
+- `entry/EntryService.java` — imported `BoatStatus`; `create()` now assigns the fetched `Boat` to a local variable and checks `boat.getStatus() == BoatStatus.ORPHANED`, throwing `IllegalStateException` (→ 409 Conflict) if true
+- `RaceEntryIntegrationTest.java` — 1 new test: create owner + boat, delete owner (orphans boat), attempt to create entry for the orphaned boat → 409 with error body
+
+All 32 integration tests pass.
