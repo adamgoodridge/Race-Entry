@@ -271,3 +271,18 @@ Changes:
 - `RaceEntryIntegrationTest.java` — 1 new test: `DELETE /entries/99999/drivers/{id}` → 404 with message containing "Entry not found"
 
 All 36 integration tests pass.
+
+---
+
+### Task 19 — Fix GET /entries with no params returning 404 instead of 400
+**Status:** Done
+**Commit:** fix(task-19): return 400 for GET /entries with no query params
+
+`EntryController.list()` required either `eventId` or `boatId` but both were declared `required = false`. When neither was provided, it threw `IllegalArgumentException("Either eventId or boatId must be provided")` which the `GlobalExceptionHandler` mapped to 404 — wrong, since this is a client input error (400 Bad Request).
+
+Changes:
+- `exception/GlobalExceptionHandler.java` — added `@ExceptionHandler(ResponseStatusException.class)` handler that returns our custom `{timestamp, status, error, message}` body using the exception's own status and reason
+- `entry/EntryController.java` — changed `throw new IllegalArgumentException(...)` to `throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Either eventId or boatId must be provided")`
+- `RaceEntryIntegrationTest.java` — 1 new test: `GET /entries` with no params → 400 with exact custom error body
+
+All 37 integration tests pass.
