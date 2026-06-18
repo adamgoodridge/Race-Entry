@@ -1,5 +1,6 @@
 package au.com.voc.raceEntry.boat;
 
+import au.com.voc.raceEntry.dto.BoatDetailsDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,8 +23,8 @@ public class BoatController {
     }
 
     @GetMapping
-    public List<Boat> listByOwner(@RequestParam Long ownerId) {
-        return boatService.findByOwner(ownerId);
+    public List<BoatDetailsDTO> listByOwner(@RequestParam Long ownerId) {
+        return boatService.findByOwnerWithDetails(ownerId);
     }
 
     static class RegisterBoatRequest {

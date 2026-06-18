@@ -1,5 +1,6 @@
 package au.com.voc.raceEntry.entry;
 
+import au.com.voc.raceEntry.dto.EntryDetailsDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,13 +23,13 @@ public class EntryController {
     }
 
     @GetMapping
-    public List<Entry> list(@RequestParam(required = false) Long eventId,
-                            @RequestParam(required = false) Long boatId) {
+    public List<EntryDetailsDTO> list(@RequestParam(required = false) Long eventId,
+                                      @RequestParam(required = false) Long boatId) {
         if (eventId != null) {
-            return entryService.findByEvent(eventId);
+            return entryService.findByEventWithDetails(eventId);
         }
         if (boatId != null) {
-            return entryService.findByBoat(boatId);
+            return entryService.findByBoatWithDetails(boatId);
         }
         throw new IllegalArgumentException("Either eventId or boatId must be provided");
     }

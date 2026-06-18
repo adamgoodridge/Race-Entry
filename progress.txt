@@ -115,5 +115,24 @@ Each controller uses inner static request classes for @RequestBody deserializati
 
 ---
 
+---
+
+### Task 9 — Wire DTOs into read endpoints
+**Status:** Done
+**Commit:** feat(task-9): wire BoatDetailsDTO and EntryDetailsDTO into list read endpoints
+
+Per PRD section 4 ("DTOs are assembled on read; never persisted"), the GET endpoints now return rich DTO responses instead of raw entities.
+
+Changes:
+- `boat/BoatService.java` — injected `EntryRepository`; added `findByOwnerWithDetails()` which assembles `BoatDetailsDTO` (boat + owner + nullable active entry) for each boat
+- `entry/EntryService.java` — injected `BoatRepository` + `DriverRepository`; added `findByEventWithDetails()`, `findByBoatWithDetails()`, and private `toDetailsDTO()` helper which assembles `EntryDetailsDTO` (entry + boat + driver list)
+- `boat/BoatController.java` — `GET /boats?ownerId=` now returns `List<BoatDetailsDTO>`
+- `entry/EntryController.java` — `GET /entries?eventId=` and `GET /entries?boatId=` now return `List<EntryDetailsDTO>`
+- `RaceEntryIntegrationTest.java` — updated list-endpoint assertions to navigate the DTO structure (`$[0].boat.name`, `$[0].entry.boatId`, etc.)
+
+All 20 integration tests pass.
+
+---
+
 ### Next task
-Task 9 — TBD
+Task 10 — TBD

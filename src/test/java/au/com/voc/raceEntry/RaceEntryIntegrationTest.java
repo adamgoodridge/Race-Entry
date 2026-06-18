@@ -111,7 +111,9 @@ class RaceEntryIntegrationTest {
         mockMvc.perform(get("/boats?ownerId=" + ownerId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$[0].name").value("Wind Dancer"));
+                .andExpect(jsonPath("$[0].boat.name").value("Wind Dancer"))
+                .andExpect(jsonPath("$[0].owner.ownerId").value(ownerId))
+                .andExpect(jsonPath("$[0].activeEntry").isEmpty());
     }
 
     @Test
@@ -171,7 +173,9 @@ class RaceEntryIntegrationTest {
         mockMvc.perform(get("/entries?eventId=" + eventId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$[0].boatId").value(boatId));
+                .andExpect(jsonPath("$[0].entry.boatId").value(boatId))
+                .andExpect(jsonPath("$[0].boat.boatId").value(boatId))
+                .andExpect(jsonPath("$[0].drivers").isArray());
     }
 
     @Test
@@ -183,7 +187,9 @@ class RaceEntryIntegrationTest {
         mockMvc.perform(get("/entries?boatId=" + boatId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$[0].eventId").value(eventId));
+                .andExpect(jsonPath("$[0].entry.eventId").value(eventId))
+                .andExpect(jsonPath("$[0].boat.boatId").value(boatId))
+                .andExpect(jsonPath("$[0].drivers").isArray());
     }
 
     @Test
@@ -321,7 +327,7 @@ class RaceEntryIntegrationTest {
 
         mockMvc.perform(get("/entries?boatId=" + boatId))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].status").value("CANCELLED"));
+                .andExpect(jsonPath("$[0].entry.status").value("CANCELLED"));
     }
 
     // ---- Helpers ----

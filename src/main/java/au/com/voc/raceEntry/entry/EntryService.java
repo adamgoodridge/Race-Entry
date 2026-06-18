@@ -1,19 +1,30 @@
 package au.com.voc.raceEntry.entry;
 
+import au.com.voc.raceEntry.boat.Boat;
+import au.com.voc.raceEntry.boat.BoatRepository;
+import au.com.voc.raceEntry.driver.Driver;
+import au.com.voc.raceEntry.driver.DriverRepository;
+import au.com.voc.raceEntry.dto.EntryDetailsDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class EntryService {
 
     private final EntryRepository entryRepository;
     private final EntryDriverRepository entryDriverRepository;
+    private final BoatRepository boatRepository;
+    private final DriverRepository driverRepository;
 
-    public EntryService(EntryRepository entryRepository, EntryDriverRepository entryDriverRepository) {
+    public EntryService(EntryRepository entryRepository, EntryDriverRepository entryDriverRepository,
+                        BoatRepository boatRepository, DriverRepository driverRepository) {
         this.entryRepository = entryRepository;
         this.entryDriverRepository = entryDriverRepository;
+        this.boatRepository = boatRepository;
+        this.driverRepository = driverRepository;
     }
 
     public Entry create(Long boatId, Long eventId) {
@@ -40,6 +51,28 @@ public class EntryService {
 
     public List<Entry> findByBoat(Long boatId) {
         return entryRepository.findByBoatId(boatId);
+    }
+
+    public List<EntryDetailsDTO> findByEventWithDetails(Long eventId) {
+        return entryRepository.findByEventId(eventId).stream()
+                .map(this::toDetailsDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<EntryDetailsDTO> findByBoatWithDetails(Long boatId) {
+        return entryRepository.findByBoatId(boatId).stream()
+                .map(this::toDetailsDTO)
+                .collect(Collectors.toList());
+    }
+
+    private EntryDetailsDTO toDetailsDTO(Entry entry) {
+        Boat boat = boatRepository.findById(entry.getBoatId())
+                .orElseThrow(() -> new IllegalStateException("Boat not found: " + entry.getBoatId()));
+        List<Driver> drivers = entryDriverRepository.findDriverIdsByEntryId(entry.getEntryId()).stream()
+                .map(id -> driverRepository.findById(id)
+                        .orElseThrow(() -> new IllegalStateException("Driver not found: " + id)))
+                .collect(Collectors.toList());
+        return new EntryDetailsDTO(entry, boat, drivers);
     }
 
     public void updateStatus(Long entryId, EntryStatus newStatus) {

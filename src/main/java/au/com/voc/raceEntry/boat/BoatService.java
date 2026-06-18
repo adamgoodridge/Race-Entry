@@ -1,19 +1,28 @@
 package au.com.voc.raceEntry.boat;
 
+import au.com.voc.raceEntry.dto.BoatDetailsDTO;
+import au.com.voc.raceEntry.entry.Entry;
+import au.com.voc.raceEntry.entry.EntryRepository;
+import au.com.voc.raceEntry.entry.EntryStatus;
+import au.com.voc.raceEntry.owner.Owner;
 import au.com.voc.raceEntry.owner.OwnerRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class BoatService {
 
     private final BoatRepository boatRepository;
     private final OwnerRepository ownerRepository;
+    private final EntryRepository entryRepository;
 
-    public BoatService(BoatRepository boatRepository, OwnerRepository ownerRepository) {
+    public BoatService(BoatRepository boatRepository, OwnerRepository ownerRepository,
+                       EntryRepository entryRepository) {
         this.boatRepository = boatRepository;
         this.ownerRepository = ownerRepository;
+        this.entryRepository = entryRepository;
     }
 
     public Boat register(Long ownerId, String name, String boatClass) {
@@ -33,6 +42,20 @@ public class BoatService {
 
     public List<Boat> findByOwner(Long ownerId) {
         return boatRepository.findByOwnerId(ownerId);
+    }
+
+    public List<BoatDetailsDTO> findByOwnerWithDetails(Long ownerId) {
+        Owner owner = ownerRepository.findById(ownerId)
+                .orElseThrow(() -> new IllegalArgumentException("Owner not found: " + ownerId));
+        return boatRepository.findByOwnerId(ownerId).stream()
+                .map(boat -> {
+                    Entry activeEntry = entryRepository.findByBoatId(boat.getBoatId()).stream()
+                            .filter(e -> e.getStatus() == EntryStatus.ACTIVE)
+                            .findFirst()
+                            .orElse(null);
+                    return new BoatDetailsDTO(boat, owner, activeEntry);
+                })
+                .collect(Collectors.toList());
     }
 
     public void markOrphaned(Long boatId) {
