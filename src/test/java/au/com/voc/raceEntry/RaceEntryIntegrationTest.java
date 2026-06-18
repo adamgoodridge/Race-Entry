@@ -410,6 +410,35 @@ class RaceEntryIntegrationTest {
     }
 
     @Test
+    void updateEntryStatus_unknownEntry_returns404() throws Exception {
+        mockMvc.perform(patch("/entries/99999/status")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"status\":\"CANCELLED\"}"))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.status").value(404))
+                .andExpect(jsonPath("$.message").value(containsString("Entry not found")));
+    }
+
+    @Test
+    void listDriversForEntry_unknownEntry_returns404() throws Exception {
+        mockMvc.perform(get("/entries/99999/drivers"))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.status").value(404))
+                .andExpect(jsonPath("$.message").value(containsString("Entry not found")));
+    }
+
+    @Test
+    void assignDriver_unknownEntry_returns404() throws Exception {
+        Long driverId = createDriver("Xavier", "LIC-X01");
+        mockMvc.perform(post("/entries/99999/drivers")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"driverId\":" + driverId + ",\"role\":\"HELMSMAN\"}"))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.status").value(404))
+                .andExpect(jsonPath("$.message").value(containsString("Entry not found")));
+    }
+
+    @Test
     void removeDriverFromEntry_unknownEntry_returns404() throws Exception {
         Long driverId = createDriver("Rosa", "LIC-R01");
         mockMvc.perform(delete("/entries/99999/drivers/" + driverId))
