@@ -306,3 +306,20 @@ Changes:
 - `RaceEntryIntegrationTest.java` — 1 new test: cancel an entry, then attempt to assign a driver → 409
 
 All 38 integration tests pass.
+
+---
+
+### Task 21 — Test last-driver removal and duplicate driver assignment constraints
+**Status:** Done
+**Commit:** test(task-21): cover last-driver removal and duplicate driver assignment constraints
+
+Two driver-management business rules existed in the service layer with no integration test coverage:
+- `removeDriver()` throws 409 when attempting to remove the only driver (enforces PRD rule "each entry must have one or more drivers")
+- `assignDriver()` throws 409 when the driver is already assigned to the same entry
+
+Changes:
+- `RaceEntryIntegrationTest.java` — 2 new tests:
+  - `removeDriverFromEntry_lastDriver_returns409`: assign one driver, remove them → 409
+  - `assignDriver_duplicate_returns409`: assign same driver twice → 409 on the second attempt
+
+All 40 integration tests pass.
