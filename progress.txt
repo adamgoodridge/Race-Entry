@@ -229,3 +229,17 @@ Changes:
 - `RaceEntryIntegrationTest.java` — 1 new test: create owner + boat, delete owner (orphans boat), attempt to create entry for the orphaned boat → 409 with error body
 
 All 32 integration tests pass.
+
+---
+
+### Task 16 — Fix PATCH /entries/{id}/status not removing EntryDriverMaps on cancel
+**Status:** Done
+**Commit:** fix(task-16): remove EntryDriverMaps when PATCH cancels an entry
+
+PRD section 3 states: "Cancelling an entry removes all associated EntryDriverMap records." This rule was only enforced through the mediator's `cancel()` method (called during owner-deletion cascade). `PATCH /entries/{id}/status` with `CANCELLED` called `updateStatus()`, which changed the status but left EntryDriverMap rows behind — a direct PRD violation.
+
+Changes:
+- `entry/EntryService.java` — added `@Transactional` to `updateStatus()`; when `newStatus == CANCELLED`, calls `entryDriverRepository.deleteByEntryId(entryId)` before saving the status change
+- `RaceEntryIntegrationTest.java` — 1 new test: create entry with an assigned driver, PATCH to CANCELLED, verify GET /entries/{id}/drivers returns an empty list
+
+All 33 integration tests pass.
