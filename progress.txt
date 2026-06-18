@@ -337,3 +337,18 @@ Changes:
 - `RaceEntryIntegrationTest.java` — 1 new test: cancel an entry, then PATCH to PENDING → 409
 
 All 41 integration tests pass.
+
+---
+
+### Task 23 — Enforce unique contact email on owner creation
+**Status:** Done
+**Commit:** feat(task-23): enforce unique contact email on owner creation
+
+A contact email is a real-world unique identifier for a person. By analogy with task 14 (unique driver license numbers), two owners with the same email could be silently created, making it impossible to look up an owner by email without ambiguity.
+
+Changes:
+- `owner/OwnerRepository.java` — added `Optional<Owner> findByContactEmail(String contactEmail)` derived query
+- `owner/OwnerService.java` — `create()` now checks for an existing owner with the same email and throws `IllegalStateException` (→ 409 Conflict) if found
+- `RaceEntryIntegrationTest.java` — 1 new test: creating a second owner with a duplicate email returns 409 with error body
+
+All 42 integration tests pass.
