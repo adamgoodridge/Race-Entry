@@ -379,6 +379,43 @@ class RaceEntryIntegrationTest {
                 .andExpect(jsonPath("$.timestamp").isString());
     }
 
+    @Test
+    void createEntry_unknownBoat_returns404() throws Exception {
+        Long eventId = createEvent("Orphan Test");
+        mockMvc.perform(post("/entries")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"boatId\":99999,\"eventId\":" + eventId + "}"))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.status").value(404))
+                .andExpect(jsonPath("$.message").isString());
+    }
+
+    @Test
+    void createEntry_unknownEvent_returns404() throws Exception {
+        Long ownerId = createOwner("Vera");
+        Long boatId = createBoat(ownerId, "Scout", "Laser");
+        mockMvc.perform(post("/entries")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"boatId\":" + boatId + ",\"eventId\":99999}"))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.status").value(404))
+                .andExpect(jsonPath("$.message").isString());
+    }
+
+    @Test
+    void assignDriver_unknownDriver_returns404() throws Exception {
+        Long ownerId = createOwner("Will");
+        Long boatId = createBoat(ownerId, "Voyager", "Finn");
+        Long eventId = createEvent("Open Race");
+        Long entryId = createEntry(boatId, eventId);
+        mockMvc.perform(post("/entries/" + entryId + "/drivers")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"driverId\":99999,\"role\":\"HELMSMAN\"}"))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.status").value(404))
+                .andExpect(jsonPath("$.message").isString());
+    }
+
     // ---- Owner deletion cascade ----
 
     @Test

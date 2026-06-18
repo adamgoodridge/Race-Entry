@@ -184,3 +184,19 @@ Changes:
 - `RaceEntryIntegrationTest.java` — 2 new tests verify both new handlers return the custom JSON body
 
 All 27 integration tests pass.
+
+---
+
+### Task 13 — Fix missing foreign-key existence checks in EntryService
+**Status:** Done
+**Commit:** fix(task-13): validate boat, event, and driver existence before persisting
+
+Three write operations silently stored invalid foreign-key references:
+- `create()` stored `boatId` / `eventId` without checking they existed → a later read would blow up with a 500 (IllegalStateException in `toDetailsDTO`)
+- `assignDriver()` stored `driverId` without checking it existed → a later `GET /entries/{id}/drivers` would blow up with a 500
+
+Changes:
+- `entry/EntryService.java` — injected `EventRepository`; `create()` now validates boat and event existence (throws 404 if either not found); `assignDriver()` now validates driver existence (throws 404 if not found)
+- `RaceEntryIntegrationTest.java` — 3 new tests: create entry with unknown boatId → 404, create entry with unknown eventId → 404, assign unknown driverId → 404
+
+All 30 integration tests pass.

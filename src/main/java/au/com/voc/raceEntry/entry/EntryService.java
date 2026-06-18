@@ -5,6 +5,7 @@ import au.com.voc.raceEntry.boat.BoatRepository;
 import au.com.voc.raceEntry.driver.Driver;
 import au.com.voc.raceEntry.driver.DriverRepository;
 import au.com.voc.raceEntry.dto.EntryDetailsDTO;
+import au.com.voc.raceEntry.event.EventRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,16 +19,23 @@ public class EntryService {
     private final EntryDriverRepository entryDriverRepository;
     private final BoatRepository boatRepository;
     private final DriverRepository driverRepository;
+    private final EventRepository eventRepository;
 
     public EntryService(EntryRepository entryRepository, EntryDriverRepository entryDriverRepository,
-                        BoatRepository boatRepository, DriverRepository driverRepository) {
+                        BoatRepository boatRepository, DriverRepository driverRepository,
+                        EventRepository eventRepository) {
         this.entryRepository = entryRepository;
         this.entryDriverRepository = entryDriverRepository;
         this.boatRepository = boatRepository;
         this.driverRepository = driverRepository;
+        this.eventRepository = eventRepository;
     }
 
     public Entry create(Long boatId, Long eventId) {
+        boatRepository.findById(boatId)
+                .orElseThrow(() -> new IllegalArgumentException("Boat not found: " + boatId));
+        eventRepository.findById(eventId)
+                .orElseThrow(() -> new IllegalArgumentException("Event not found: " + eventId));
         boolean exists = entryRepository.findByBoatId(boatId).stream()
                 .anyMatch(e -> e.getEventId().equals(eventId));
         if (exists) {
@@ -105,6 +113,8 @@ public class EntryService {
 
     public EntryDriverMap assignDriver(Long entryId, Long driverId, DriverRole role) {
         findById(entryId);
+        driverRepository.findById(driverId)
+                .orElseThrow(() -> new IllegalArgumentException("Driver not found: " + driverId));
         boolean alreadyAssigned = entryDriverRepository.findDriverIdsByEntryId(entryId)
                 .contains(driverId);
         if (alreadyAssigned) {
