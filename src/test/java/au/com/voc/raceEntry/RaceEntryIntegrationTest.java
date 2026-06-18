@@ -357,6 +357,28 @@ class RaceEntryIntegrationTest {
                 .andExpect(jsonPath("$.status").value(400));
     }
 
+    @Test
+    void listBoats_missingOwnerIdParam_returns400WithCustomBody() throws Exception {
+        mockMvc.perform(get("/boats"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.status").value(400))
+                .andExpect(jsonPath("$.error").value("Bad Request"))
+                .andExpect(jsonPath("$.message").value("Required parameter 'ownerId' is missing"))
+                .andExpect(jsonPath("$.timestamp").isString());
+    }
+
+    @Test
+    void createOwner_malformedJson_returns400WithCustomBody() throws Exception {
+        mockMvc.perform(post("/owners")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{bad json"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.status").value(400))
+                .andExpect(jsonPath("$.error").value("Bad Request"))
+                .andExpect(jsonPath("$.message").value("Request body is missing or malformed"))
+                .andExpect(jsonPath("$.timestamp").isString());
+    }
+
     // ---- Owner deletion cascade ----
 
     @Test

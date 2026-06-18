@@ -166,3 +166,21 @@ Changes:
 - `driver/DriverController.java` — `listDrivers()` now delegates to `entryService.findDriversForEntry(id)` (one-liner); removed direct injections of `EntryDriverRepository` and `DriverRepository`; constructor simplified to two parameters
 
 No new tests needed — `listDriversForEntry_returns200` continues to cover the happy path. All 25 integration tests pass.
+
+---
+
+### Task 12 — Complete error-response coverage in GlobalExceptionHandler
+**Status:** Done
+**Commit:** feat(task-12): handle MissingServletRequestParameterException and HttpMessageNotReadableException
+
+Two common 400 paths previously fell through to Spring Boot's default error controller instead of our custom `{timestamp, status, error, message}` format:
+- Missing required `@RequestParam` (e.g. `GET /boats` without `?ownerId=`)
+- Malformed / missing request body (bad JSON)
+
+Changes:
+- `exception/GlobalExceptionHandler.java` — added two new `@ExceptionHandler` methods:
+  - `MissingServletRequestParameterException` → 400, message: `"Required parameter '{name}' is missing"`
+  - `HttpMessageNotReadableException` → 400, message: `"Request body is missing or malformed"`
+- `RaceEntryIntegrationTest.java` — 2 new tests verify both new handlers return the custom JSON body
+
+All 27 integration tests pass.
