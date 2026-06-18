@@ -439,6 +439,24 @@ class RaceEntryIntegrationTest {
     }
 
     @Test
+    void updateEntryStatus_toActive_orphanedBoat_returns409() throws Exception {
+        Long ownerId = createOwner("Yara");
+        Long boatId = createBoat(ownerId, "Orphan Racer", "Laser");
+        Long eventId = createEvent("Orphan Activation Test");
+        Long entryId = createEntry(boatId, eventId);
+        Long driverId = createDriver("Zane", "LIC-Z01");
+        assignDriver(entryId, driverId, "HELMSMAN");
+        mockMvc.perform(delete("/owners/" + ownerId))
+                .andExpect(status().isNoContent());
+        mockMvc.perform(patch("/entries/" + entryId + "/status")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"status\":\"ACTIVE\"}"))
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.status").value(409))
+                .andExpect(jsonPath("$.message").isString());
+    }
+
+    @Test
     void removeDriverFromEntry_unknownEntry_returns404() throws Exception {
         Long driverId = createDriver("Rosa", "LIC-R01");
         mockMvc.perform(delete("/entries/99999/drivers/" + driverId))

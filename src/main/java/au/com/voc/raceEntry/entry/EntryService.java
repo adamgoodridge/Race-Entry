@@ -106,6 +106,11 @@ public class EntryService {
             throw new IllegalStateException("Entry " + entryId + " is CANCELLED and its status cannot be changed");
         }
         if (newStatus == EntryStatus.ACTIVE) {
+            Boat boat = boatRepository.findById(entry.getBoatId())
+                    .orElseThrow(() -> new IllegalStateException("Boat not found: " + entry.getBoatId()));
+            if (boat.getStatus() == BoatStatus.ORPHANED) {
+                throw new IllegalStateException("Cannot activate entry " + entryId + ": boat " + entry.getBoatId() + " is ORPHANED");
+            }
             boolean hasDrivers = !entryDriverRepository.findDriverIdsByEntryId(entryId).isEmpty();
             if (!hasDrivers) {
                 throw new IllegalStateException("Entry " + entryId + " must have at least one driver before becoming ACTIVE");
