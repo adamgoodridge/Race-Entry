@@ -252,6 +252,20 @@ class RaceEntryIntegrationTest {
     // ---- Driver ----
 
     @Test
+    void createDriver_duplicateLicense_returns409() throws Exception {
+        mockMvc.perform(post("/drivers")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"name\":\"First\",\"licenseNumber\":\"DUP-001\"}"))
+                .andExpect(status().isCreated());
+        mockMvc.perform(post("/drivers")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"name\":\"Second\",\"licenseNumber\":\"DUP-001\"}"))
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.status").value(409))
+                .andExpect(jsonPath("$.message").isString());
+    }
+
+    @Test
     void createDriver_returns201() throws Exception {
         mockMvc.perform(post("/drivers")
                 .contentType(MediaType.APPLICATION_JSON)

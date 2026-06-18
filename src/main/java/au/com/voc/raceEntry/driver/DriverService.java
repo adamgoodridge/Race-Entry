@@ -15,6 +15,9 @@ public class DriverService {
         if (licenseNumber == null || licenseNumber.isBlank()) {
             throw new IllegalArgumentException("License number must not be blank");
         }
+        if (driverRepository.findByLicenseNumber(licenseNumber).isPresent()) {
+            throw new IllegalStateException("A driver with license number '" + licenseNumber + "' already exists");
+        }
         Driver driver = new Driver();
         driver.setName(name);
         driver.setLicenseNumber(licenseNumber);

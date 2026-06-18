@@ -200,3 +200,18 @@ Changes:
 - `RaceEntryIntegrationTest.java` — 3 new tests: create entry with unknown boatId → 404, create entry with unknown eventId → 404, assign unknown driverId → 404
 
 All 30 integration tests pass.
+
+---
+
+### Task 14 — Enforce unique driver license numbers
+**Status:** Done
+**Commit:** feat(task-14): enforce unique license number on driver creation
+
+A license number is a real-world unique identifier for a racing driver. Previously two drivers with the same license number could be created silently.
+
+Changes:
+- `driver/DriverRepository.java` — added `Optional<Driver> findByLicenseNumber(String licenseNumber)` derived query
+- `driver/DriverService.java` — `create()` now checks for an existing driver with the same license number and throws `IllegalStateException` (→ 409 Conflict) if found
+- `RaceEntryIntegrationTest.java` — 1 new test: creating a second driver with a duplicate license returns 409 with error body
+
+All 31 integration tests pass.
