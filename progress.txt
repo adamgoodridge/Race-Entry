@@ -95,7 +95,25 @@ Each controller uses inner static request classes for @RequestBody deserializati
 
 ---
 
+---
+
+### Task 8 — Write integration tests
+**Status:** Done
+**Commit:** feat(task-8): add integration tests for all controllers and exception mappings
+
+- Added H2 test dependency to `pom.xml`
+- Created `src/test/resources/application.properties` (H2, no SSL, no security — serves as documentation, but test inline properties take effective precedence)
+- Created `src/test/java/au/com/voc/raceEntry/RaceEntryIntegrationTest.java` — 20 tests:
+  - **Owners:** POST creates owner (201), DELETE cascades and returns 204, DELETE unknown → 404 JSON error body
+  - **Boats:** POST registers boat (201), GET by owner returns list, POST unknown owner → 404
+  - **Events:** POST creates event (201), GET lists all
+  - **Entries:** POST creates entry (201), GET by eventId / boatId return correct lists, PATCH to CANCELLED (200), PATCH to ACTIVE with driver (200), PATCH to ACTIVE without driver → 409, POST duplicate → 409 JSON error body
+  - **Drivers:** POST creates driver (201), POST assigns driver to entry (201), GET lists drivers, DELETE removes second driver (204)
+  - **Cascade:** DELETE owner cancels ACTIVE entries (verified via GET)
+- Used `@SpringBootTest(properties = {...})` inline properties to guarantee H2 overrides MySQL config
+- `@BeforeEach` clears all tables to keep tests fully independent
+
+---
+
 ### Next task
-Task 8 — Write integration tests:
-- Test the happy path for each controller endpoint
-- Test that exception mappings return the correct HTTP status and JSON body
+Task 9 — TBD
