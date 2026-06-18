@@ -134,5 +134,21 @@ All 20 integration tests pass.
 
 ---
 
-### Next task
-Task 10 — TBD
+---
+
+### Task 10 — Add input validation
+**Status:** Done
+**Commit:** feat(task-10): add bean validation to request bodies and 400 handler
+
+`spring-boot-starter-validation` was already in the pom. All controller request classes now carry `@NotBlank` / `@NotNull` constraints; controller methods use `@Valid` on `@RequestBody`.
+
+Changes:
+- `exception/GlobalExceptionHandler.java` — added `MethodArgumentNotValidException` → 400 Bad Request handler; collects field-level messages into the same `{timestamp, status, error, message}` JSON shape
+- `owner/OwnerController.java` — `@NotBlank` on name, contactEmail
+- `boat/BoatController.java` — `@NotNull` on ownerId, `@NotBlank` on name, boatClass
+- `event/EventController.java` — `@NotBlank` on name, location; `@NotNull` on date
+- `entry/EntryController.java` — `@NotNull` on boatId, eventId, status
+- `driver/DriverController.java` — `@NotBlank` on name, licenseNumber; `@NotNull` on driverId, role
+- `RaceEntryIntegrationTest.java` — 5 new 400 tests (missing name, missing ownerId, missing date, missing boatId, blank licenseNumber)
+
+All 25 integration tests pass.

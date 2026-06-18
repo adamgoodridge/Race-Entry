@@ -4,6 +4,9 @@ import au.com.voc.raceEntry.mediator.RacingEventMediator;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+
 @RestController
 @RequestMapping("/owners")
 public class OwnerController {
@@ -18,7 +21,7 @@ public class OwnerController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Owner create(@RequestBody CreateOwnerRequest request) {
+    public Owner create(@Valid @RequestBody CreateOwnerRequest request) {
         return ownerService.create(request.name, request.contactEmail);
     }
 
@@ -29,7 +32,9 @@ public class OwnerController {
     }
 
     static class CreateOwnerRequest {
+        @NotBlank(message = "name is required")
         public String name;
+        @NotBlank(message = "contactEmail is required")
         public String contactEmail;
     }
 }

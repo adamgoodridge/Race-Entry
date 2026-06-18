@@ -3,6 +3,9 @@ package au.com.voc.raceEntry.event;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -18,7 +21,7 @@ public class EventController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Event create(@RequestBody CreateEventRequest request) {
+    public Event create(@Valid @RequestBody CreateEventRequest request) {
         Event event = new Event();
         event.setName(request.name);
         event.setDate(request.date);
@@ -32,8 +35,11 @@ public class EventController {
     }
 
     static class CreateEventRequest {
+        @NotBlank(message = "name is required")
         public String name;
+        @NotNull(message = "date is required")
         public LocalDate date;
+        @NotBlank(message = "location is required")
         public String location;
     }
 }

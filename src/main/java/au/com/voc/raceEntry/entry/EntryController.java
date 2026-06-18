@@ -4,6 +4,8 @@ import au.com.voc.raceEntry.dto.EntryDetailsDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController
@@ -18,7 +20,7 @@ public class EntryController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Entry create(@RequestBody CreateEntryRequest request) {
+    public Entry create(@Valid @RequestBody CreateEntryRequest request) {
         return entryService.create(request.boatId, request.eventId);
     }
 
@@ -35,17 +37,20 @@ public class EntryController {
     }
 
     @PatchMapping("/{id}/status")
-    public Entry updateStatus(@PathVariable Long id, @RequestBody UpdateStatusRequest request) {
+    public Entry updateStatus(@PathVariable Long id, @Valid @RequestBody UpdateStatusRequest request) {
         entryService.updateStatus(id, request.status);
         return entryService.findById(id);
     }
 
     static class CreateEntryRequest {
+        @NotNull(message = "boatId is required")
         public Long boatId;
+        @NotNull(message = "eventId is required")
         public Long eventId;
     }
 
     static class UpdateStatusRequest {
+        @NotNull(message = "status is required")
         public EntryStatus status;
     }
 }

@@ -307,6 +307,56 @@ class RaceEntryIntegrationTest {
                 .andExpect(status().isNoContent());
     }
 
+    // ---- Input validation (400) ----
+
+    @Test
+    void createOwner_missingName_returns400() throws Exception {
+        mockMvc.perform(post("/owners")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"contactEmail\":\"noname@example.com\"}"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.status").value(400))
+                .andExpect(jsonPath("$.error").value("Bad Request"))
+                .andExpect(jsonPath("$.message").isString())
+                .andExpect(jsonPath("$.timestamp").isString());
+    }
+
+    @Test
+    void registerBoat_missingOwnerId_returns400() throws Exception {
+        mockMvc.perform(post("/boats")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"name\":\"No Owner\",\"boatClass\":\"Laser\"}"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.status").value(400));
+    }
+
+    @Test
+    void createEvent_missingDate_returns400() throws Exception {
+        mockMvc.perform(post("/events")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"name\":\"No Date\",\"location\":\"Sydney\"}"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.status").value(400));
+    }
+
+    @Test
+    void createEntry_missingBoatId_returns400() throws Exception {
+        mockMvc.perform(post("/entries")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"eventId\":1}"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.status").value(400));
+    }
+
+    @Test
+    void createDriver_blankLicense_returns400() throws Exception {
+        mockMvc.perform(post("/drivers")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"name\":\"Test\",\"licenseNumber\":\"\"}"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.status").value(400));
+    }
+
     // ---- Owner deletion cascade ----
 
     @Test

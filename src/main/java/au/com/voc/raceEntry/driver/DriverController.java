@@ -7,6 +7,9 @@ import au.com.voc.raceEntry.entry.EntryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,13 +31,13 @@ public class DriverController {
 
     @PostMapping("/drivers")
     @ResponseStatus(HttpStatus.CREATED)
-    public Driver create(@RequestBody CreateDriverRequest request) {
+    public Driver create(@Valid @RequestBody CreateDriverRequest request) {
         return driverService.create(request.name, request.licenseNumber);
     }
 
     @PostMapping("/entries/{id}/drivers")
     @ResponseStatus(HttpStatus.CREATED)
-    public EntryDriverMap assignDriver(@PathVariable Long id, @RequestBody AssignDriverRequest request) {
+    public EntryDriverMap assignDriver(@PathVariable Long id, @Valid @RequestBody AssignDriverRequest request) {
         return entryService.assignDriver(id, request.driverId, request.role);
     }
 
@@ -54,12 +57,16 @@ public class DriverController {
     }
 
     static class CreateDriverRequest {
+        @NotBlank(message = "name is required")
         public String name;
+        @NotBlank(message = "licenseNumber is required")
         public String licenseNumber;
     }
 
     static class AssignDriverRequest {
+        @NotNull(message = "driverId is required")
         public Long driverId;
+        @NotNull(message = "role is required")
         public DriverRole role;
     }
 }
