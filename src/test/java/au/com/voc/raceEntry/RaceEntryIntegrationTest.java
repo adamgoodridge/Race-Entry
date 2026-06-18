@@ -452,6 +452,25 @@ class RaceEntryIntegrationTest {
     }
 
     @Test
+    void assignDriver_toCancelledEntry_returns409() throws Exception {
+        Long ownerId = createOwner("Nora");
+        Long boatId = createBoat(ownerId, "Eclipse", "Laser");
+        Long eventId = createEvent("Twilight Race");
+        Long entryId = createEntry(boatId, eventId);
+        Long driverId = createDriver("Owen", "LIC-O01");
+        mockMvc.perform(patch("/entries/" + entryId + "/status")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"status\":\"CANCELLED\"}"))
+                .andExpect(status().isOk());
+        mockMvc.perform(post("/entries/" + entryId + "/drivers")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"driverId\":" + driverId + ",\"role\":\"HELMSMAN\"}"))
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.status").value(409))
+                .andExpect(jsonPath("$.message").isString());
+    }
+
+    @Test
     void assignDriver_unknownDriver_returns404() throws Exception {
         Long ownerId = createOwner("Will");
         Long boatId = createBoat(ownerId, "Voyager", "Finn");

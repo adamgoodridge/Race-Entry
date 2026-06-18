@@ -117,14 +117,14 @@ public class EntryService {
 
     @Transactional
     public void cancel(Long entryId) {
-        Entry entry = findById(entryId);
-        entry.setStatus(EntryStatus.CANCELLED);
-        entryRepository.save(entry);
-        entryDriverRepository.deleteByEntryId(entryId);
+        updateStatus(entryId, EntryStatus.CANCELLED);
     }
 
     public EntryDriverMap assignDriver(Long entryId, Long driverId, DriverRole role) {
-        findById(entryId);
+        Entry entry = findById(entryId);
+        if (entry.getStatus() == EntryStatus.CANCELLED) {
+            throw new IllegalStateException("Cannot assign a driver to CANCELLED entry " + entryId);
+        }
         driverRepository.findById(driverId)
                 .orElseThrow(() -> new IllegalArgumentException("Driver not found: " + driverId));
         boolean alreadyAssigned = entryDriverRepository.findDriverIdsByEntryId(entryId)
