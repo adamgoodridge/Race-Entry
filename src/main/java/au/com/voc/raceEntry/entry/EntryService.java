@@ -2,6 +2,7 @@ package au.com.voc.raceEntry.entry;
 
 import au.com.voc.raceEntry.boat.Boat;
 import au.com.voc.raceEntry.boat.BoatRepository;
+import au.com.voc.raceEntry.boat.BoatStatus;
 import au.com.voc.raceEntry.driver.Driver;
 import au.com.voc.raceEntry.driver.DriverRepository;
 import au.com.voc.raceEntry.dto.EntryDetailsDTO;
@@ -32,8 +33,11 @@ public class EntryService {
     }
 
     public Entry create(Long boatId, Long eventId) {
-        boatRepository.findById(boatId)
+        Boat boat = boatRepository.findById(boatId)
                 .orElseThrow(() -> new IllegalArgumentException("Boat not found: " + boatId));
+        if (boat.getStatus() == BoatStatus.ORPHANED) {
+            throw new IllegalStateException("Boat " + boatId + " is ORPHANED and cannot be entered in events");
+        }
         eventRepository.findById(eventId)
                 .orElseThrow(() -> new IllegalArgumentException("Event not found: " + eventId));
         boolean exists = entryRepository.findByBoatId(boatId).stream()

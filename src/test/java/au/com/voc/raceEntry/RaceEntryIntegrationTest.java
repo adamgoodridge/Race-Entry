@@ -430,6 +430,21 @@ class RaceEntryIntegrationTest {
                 .andExpect(jsonPath("$.message").isString());
     }
 
+    @Test
+    void createEntry_orphanedBoat_returns409() throws Exception {
+        Long ownerId = createOwner("Orphan");
+        Long boatId = createBoat(ownerId, "Lost", "Laser");
+        Long eventId = createEvent("Orphan Race");
+        mockMvc.perform(delete("/owners/" + ownerId))
+                .andExpect(status().isNoContent());
+        mockMvc.perform(post("/entries")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"boatId\":" + boatId + ",\"eventId\":" + eventId + "}"))
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.status").value(409))
+                .andExpect(jsonPath("$.message").isString());
+    }
+
     // ---- Owner deletion cascade ----
 
     @Test
