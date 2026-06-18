@@ -193,6 +193,16 @@ class RaceEntryIntegrationTest {
     }
 
     @Test
+    void listEntries_noParams_returns400WithCustomBody() throws Exception {
+        mockMvc.perform(get("/entries"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.status").value(400))
+                .andExpect(jsonPath("$.error").value("Bad Request"))
+                .andExpect(jsonPath("$.message").value("Either eventId or boatId must be provided"))
+                .andExpect(jsonPath("$.timestamp").isString());
+    }
+
+    @Test
     void listEntriesByEvent_unknownEvent_returns404() throws Exception {
         mockMvc.perform(get("/entries?eventId=99999"))
                 .andExpect(status().isNotFound())

@@ -3,6 +3,7 @@ package au.com.voc.raceEntry.entry;
 import au.com.voc.raceEntry.dto.EntryDetailsDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -33,7 +34,7 @@ public class EntryController {
         if (boatId != null) {
             return entryService.findByBoatWithDetails(boatId);
         }
-        throw new IllegalArgumentException("Either eventId or boatId must be provided");
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Either eventId or boatId must be provided");
     }
 
     @PatchMapping("/{id}/status")
