@@ -392,6 +392,24 @@ class RaceEntryIntegrationTest {
     }
 
     @Test
+    void removeDriverFromEntry_cancelledEntry_returns409() throws Exception {
+        Long ownerId = createOwner("Victor");
+        Long boatId = createBoat(ownerId, "Ghost", "Laser");
+        Long eventId = createEvent("Ghost Race");
+        Long entryId = createEntry(boatId, eventId);
+        Long driverId = createDriver("Wendy", "LIC-W01");
+        assignDriver(entryId, driverId, "HELMSMAN");
+        mockMvc.perform(patch("/entries/" + entryId + "/status")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"status\":\"CANCELLED\"}"))
+                .andExpect(status().isOk());
+        mockMvc.perform(delete("/entries/" + entryId + "/drivers/" + driverId))
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.status").value(409))
+                .andExpect(jsonPath("$.message").isString());
+    }
+
+    @Test
     void removeDriverFromEntry_unknownEntry_returns404() throws Exception {
         Long driverId = createDriver("Rosa", "LIC-R01");
         mockMvc.perform(delete("/entries/99999/drivers/" + driverId))

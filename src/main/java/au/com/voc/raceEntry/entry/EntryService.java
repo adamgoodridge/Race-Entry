@@ -144,7 +144,10 @@ public class EntryService {
 
     @Transactional
     public void removeDriver(Long entryId, Long driverId) {
-        findById(entryId);
+        Entry entry = findById(entryId);
+        if (entry.getStatus() == EntryStatus.CANCELLED) {
+            throw new IllegalStateException("Entry " + entryId + " is CANCELLED and drivers cannot be removed");
+        }
         List<Long> driverIds = entryDriverRepository.findDriverIdsByEntryId(entryId);
         if (!driverIds.contains(driverId)) {
             throw new IllegalArgumentException("Driver " + driverId + " is not assigned to entry " + entryId);
