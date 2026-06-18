@@ -286,3 +286,23 @@ Changes:
 - `RaceEntryIntegrationTest.java` — 1 new test: `GET /entries` with no params → 400 with exact custom error body
 
 All 37 integration tests pass.
+
+---
+
+### Task 20 — Block driver assignment to CANCELLED entries and deduplicate cancel()
+**Status:** Done
+**Commit:** fix(task-20): block driver assignment to cancelled entries and deduplicate cancel()
+
+Two related issues addressed together:
+
+1. `assignDriver()` didn't check entry status — a driver could be added to a CANCELLED entry, and that entry could then be re-activated via `PATCH /entries/{id}/status`. This let cancelled entries be un-cancelled through the back door, violating the intent of CANCELLED as a terminal state.
+
+2. `cancel()` was a duplicate of `updateStatus(CANCELLED)` after task 16 — both deleted EntryDriverMaps and set status to CANCELLED. This was a maintenance hazard where changes to the cancellation logic in one method wouldn't automatically apply to the other.
+
+Changes:
+- `entry/EntryService.java`:
+  - `cancel()` now delegates to `updateStatus(entryId, CANCELLED)` (single source of truth)
+  - `assignDriver()` now assigns the result of `findById(entryId)` to a local variable and checks `entry.getStatus() == CANCELLED`, throwing `IllegalStateException` (→ 409) if so
+- `RaceEntryIntegrationTest.java` — 1 new test: cancel an entry, then attempt to assign a driver → 409
+
+All 38 integration tests pass.
