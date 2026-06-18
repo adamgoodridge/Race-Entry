@@ -2,7 +2,6 @@ package au.com.voc.raceEntry.driver;
 
 import au.com.voc.raceEntry.entry.DriverRole;
 import au.com.voc.raceEntry.entry.EntryDriverMap;
-import au.com.voc.raceEntry.entry.EntryDriverRepository;
 import au.com.voc.raceEntry.entry.EntryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -11,22 +10,16 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 public class DriverController {
 
     private final DriverService driverService;
     private final EntryService entryService;
-    private final EntryDriverRepository entryDriverRepository;
-    private final DriverRepository driverRepository;
 
-    public DriverController(DriverService driverService, EntryService entryService,
-                            EntryDriverRepository entryDriverRepository, DriverRepository driverRepository) {
+    public DriverController(DriverService driverService, EntryService entryService) {
         this.driverService = driverService;
         this.entryService = entryService;
-        this.entryDriverRepository = entryDriverRepository;
-        this.driverRepository = driverRepository;
     }
 
     @PostMapping("/drivers")
@@ -49,11 +42,7 @@ public class DriverController {
 
     @GetMapping("/entries/{id}/drivers")
     public List<Driver> listDrivers(@PathVariable Long id) {
-        List<Long> driverIds = entryDriverRepository.findDriverIdsByEntryId(id);
-        return driverIds.stream()
-                .map(driverId -> driverRepository.findById(driverId)
-                        .orElseThrow(() -> new IllegalStateException("Driver not found: " + driverId)))
-                .collect(Collectors.toList());
+        return entryService.findDriversForEntry(id);
     }
 
     static class CreateDriverRequest {

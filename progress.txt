@@ -152,3 +152,17 @@ Changes:
 - `RaceEntryIntegrationTest.java` — 5 new 400 tests (missing name, missing ownerId, missing date, missing boatId, blank licenseNumber)
 
 All 25 integration tests pass.
+
+---
+
+### Task 11 — Refactor DriverController to use service layer for driver list
+**Status:** Done
+**Commit:** refactor(task-11): move GET /entries/{id}/drivers logic into EntryService
+
+`DriverController.listDrivers()` was the only place in the codebase where a controller queried repositories directly, bypassing the service layer.
+
+Changes:
+- `entry/EntryService.java` — added `findDriversForEntry(Long entryId)`: validates entry exists (404 if not), then resolves driver IDs to `List<Driver>` using already-injected `entryDriverRepository` and `driverRepository`
+- `driver/DriverController.java` — `listDrivers()` now delegates to `entryService.findDriversForEntry(id)` (one-liner); removed direct injections of `EntryDriverRepository` and `DriverRepository`; constructor simplified to two parameters
+
+No new tests needed — `listDriversForEntry_returns200` continues to cover the happy path. All 25 integration tests pass.

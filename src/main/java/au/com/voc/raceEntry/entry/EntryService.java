@@ -65,6 +65,14 @@ public class EntryService {
                 .collect(Collectors.toList());
     }
 
+    public List<Driver> findDriversForEntry(Long entryId) {
+        findById(entryId);
+        return entryDriverRepository.findDriverIdsByEntryId(entryId).stream()
+                .map(id -> driverRepository.findById(id)
+                        .orElseThrow(() -> new IllegalStateException("Driver not found: " + id)))
+                .collect(Collectors.toList());
+    }
+
     private EntryDetailsDTO toDetailsDTO(Entry entry) {
         Boat boat = boatRepository.findById(entry.getBoatId())
                 .orElseThrow(() -> new IllegalStateException("Boat not found: " + entry.getBoatId()));
