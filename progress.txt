@@ -323,3 +323,17 @@ Changes:
   - `assignDriver_duplicate_returns409`: assign same driver twice → 409 on the second attempt
 
 All 40 integration tests pass.
+
+---
+
+### Task 22 — Make CANCELLED a terminal entry status
+**Status:** Done
+**Commit:** fix(task-22): make CANCELLED a terminal entry status
+
+Task 20 blocked `assignDriver()` on CANCELLED entries, but a bypass remained: PATCH to PENDING → assignDriver (entry is now PENDING, not CANCELLED) → PATCH to ACTIVE. This let a cancelled entry be fully resurrected without any restriction.
+
+Changes:
+- `entry/EntryService.java` — `updateStatus()` now checks `entry.getStatus() == CANCELLED` at the top and throws `IllegalStateException` (→ 409) before allowing any status change; this makes CANCELLED a true terminal state from which no transition is possible
+- `RaceEntryIntegrationTest.java` — 1 new test: cancel an entry, then PATCH to PENDING → 409
+
+All 41 integration tests pass.
