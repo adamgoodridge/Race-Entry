@@ -243,3 +243,17 @@ Changes:
 - `RaceEntryIntegrationTest.java` — 1 new test: create entry with an assigned driver, PATCH to CANCELLED, verify GET /entries/{id}/drivers returns an empty list
 
 All 33 integration tests pass.
+
+---
+
+### Task 17 — Return 404 for unknown eventId/boatId on entry list endpoints
+**Status:** Done
+**Commit:** feat(task-17): return 404 for unknown eventId/boatId on entry list endpoints
+
+`GET /boats?ownerId=` already returned 404 for an unknown ownerId (via `BoatService.findByOwnerWithDetails()`). But `GET /entries?eventId=` and `GET /entries?boatId=` returned 200 with `[]` for unknown IDs — a caller could not distinguish "exists with no entries" from "doesn't exist."
+
+Changes:
+- `entry/EntryService.java` — `findByEventWithDetails()` now validates event existence before querying entries (throws 404 if not found); `findByBoatWithDetails()` does the same for boat existence. Both use the already-injected `eventRepository` and `boatRepository`.
+- `RaceEntryIntegrationTest.java` — 2 new tests: `GET /entries?eventId=99999` → 404, `GET /entries?boatId=99999` → 404
+
+All 35 integration tests pass.
