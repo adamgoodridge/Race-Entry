@@ -12,6 +12,9 @@ public class OwnerService {
     }
 
     public Owner create(String name, String contactEmail) {
+        if (ownerRepository.findByContactEmail(contactEmail).isPresent()) {
+            throw new IllegalStateException("An owner with email '" + contactEmail + "' already exists");
+        }
         Owner owner = new Owner();
         owner.setName(name);
         owner.setContactEmail(contactEmail);

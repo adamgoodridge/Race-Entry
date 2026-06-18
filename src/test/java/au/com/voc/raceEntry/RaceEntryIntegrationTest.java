@@ -89,6 +89,20 @@ class RaceEntryIntegrationTest {
                 .andExpect(jsonPath("$.timestamp").isString());
     }
 
+    @Test
+    void createOwner_duplicateEmail_returns409() throws Exception {
+        mockMvc.perform(post("/owners")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"name\":\"First\",\"contactEmail\":\"dup@test.com\"}"))
+                .andExpect(status().isCreated());
+        mockMvc.perform(post("/owners")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"name\":\"Second\",\"contactEmail\":\"dup@test.com\"}"))
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.status").value(409))
+                .andExpect(jsonPath("$.message").isString());
+    }
+
     // ---- Boat ----
 
     @Test
