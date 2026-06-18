@@ -352,3 +352,17 @@ Changes:
 - `RaceEntryIntegrationTest.java` — 1 new test: creating a second owner with a duplicate email returns 409 with error body
 
 All 42 integration tests pass.
+
+---
+
+### Task 24 — Block driver removal from CANCELLED entries
+**Status:** Done
+**Commit:** fix(task-24): block driver removal from CANCELLED entries
+
+`assignDriver()` correctly rejects CANCELLED entries with 409 (task 20), but `removeDriver()` did not have the same guard. Calling `DELETE /entries/{id}/drivers/{driverId}` on a CANCELLED entry fell through to "Driver not assigned to entry" (404) — a misleading message since the real issue is that the entry is CANCELLED, not that the driver was never assigned.
+
+Changes:
+- `entry/EntryService.java` — `removeDriver()` now assigns `findById(entryId)` to a local variable and checks `entry.getStatus() == CANCELLED`, throwing `IllegalStateException` (→ 409) with a clear message before checking driver assignment
+- `RaceEntryIntegrationTest.java` — 1 new test: assign driver, cancel entry, attempt to remove the driver → 409
+
+All 43 integration tests pass.
