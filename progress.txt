@@ -366,3 +366,19 @@ Changes:
 - `RaceEntryIntegrationTest.java` — 1 new test: assign driver, cancel entry, attempt to remove the driver → 409
 
 All 43 integration tests pass.
+
+---
+
+### Task 25 — Cover missing 404 paths for entry-scoped endpoints
+**Status:** Done
+**Commit:** test(task-25): cover unknown-entry 404 paths for PATCH status, GET drivers, POST drivers
+
+All three entry-scoped endpoints call `findById(entryId)` first, but only `DELETE /entries/{id}/drivers/{driverId}` had a test for the unknown-entry 404 case.
+
+Changes:
+- `RaceEntryIntegrationTest.java` — 3 new tests:
+  - `updateEntryStatus_unknownEntry_returns404`: `PATCH /entries/99999/status` → 404
+  - `listDriversForEntry_unknownEntry_returns404`: `GET /entries/99999/drivers` → 404
+  - `assignDriver_unknownEntry_returns404`: `POST /entries/99999/drivers` → 404
+
+All 46 integration tests pass.
