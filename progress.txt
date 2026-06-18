@@ -257,3 +257,17 @@ Changes:
 - `RaceEntryIntegrationTest.java` — 2 new tests: `GET /entries?eventId=99999` → 404, `GET /entries?boatId=99999` → 404
 
 All 35 integration tests pass.
+
+---
+
+### Task 18 — Fix removeDriver to validate entry existence before checking assignment
+**Status:** Done
+**Commit:** fix(task-18): validate entry existence in removeDriver before checking assignment
+
+`assignDriver()` calls `findById(entryId)` at the start, returning "Entry not found: X" → 404 for unknown entries. `removeDriver()` did not — it queried `entryDriverRepository.findDriverIdsByEntryId(entryId)` first, which returns `[]` for a non-existent entry, then threw "Driver X is not assigned to entry Y" → 404 with a misleading message.
+
+Changes:
+- `entry/EntryService.java` — added `findById(entryId)` as the first line of `removeDriver()`, consistent with `assignDriver()`
+- `RaceEntryIntegrationTest.java` — 1 new test: `DELETE /entries/99999/drivers/{id}` → 404 with message containing "Entry not found"
+
+All 36 integration tests pass.
