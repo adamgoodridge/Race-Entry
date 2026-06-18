@@ -141,6 +141,7 @@ public class EntryService {
 
     @Transactional
     public void removeDriver(Long entryId, Long driverId) {
+        findById(entryId);
         List<Long> driverIds = entryDriverRepository.findDriverIdsByEntryId(entryId);
         if (!driverIds.contains(driverId)) {
             throw new IllegalArgumentException("Driver " + driverId + " is not assigned to entry " + entryId);

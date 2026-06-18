@@ -337,6 +337,15 @@ class RaceEntryIntegrationTest {
                 .andExpect(status().isNoContent());
     }
 
+    @Test
+    void removeDriverFromEntry_unknownEntry_returns404() throws Exception {
+        Long driverId = createDriver("Rosa", "LIC-R01");
+        mockMvc.perform(delete("/entries/99999/drivers/" + driverId))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.status").value(404))
+                .andExpect(jsonPath("$.message").value(containsString("Entry not found")));
+    }
+
     // ---- Input validation (400) ----
 
     @Test
