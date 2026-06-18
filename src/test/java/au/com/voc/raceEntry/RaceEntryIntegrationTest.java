@@ -465,6 +465,29 @@ class RaceEntryIntegrationTest {
                 .andExpect(jsonPath("$.message").value(containsString("Entry not found")));
     }
 
+    @Test
+    void removeDriverFromEntry_driverNotAssigned_returns404() throws Exception {
+        Long ownerId = createOwner("Theo");
+        Long boatId = createBoat(ownerId, "Nomad", "Laser");
+        Long eventId = createEvent("Nomad Race");
+        Long entryId = createEntry(boatId, eventId);
+        Long assignedDriver = createDriver("Uma", "LIC-U01");
+        Long unassignedDriver = createDriver("Vera", "LIC-V01");
+        assignDriver(entryId, assignedDriver, "HELMSMAN");
+        mockMvc.perform(delete("/entries/" + entryId + "/drivers/" + unassignedDriver))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.status").value(404))
+                .andExpect(jsonPath("$.message").value(containsString("not assigned to entry")));
+    }
+
+    @Test
+    void listBoatsByOwner_unknownOwner_returns404() throws Exception {
+        mockMvc.perform(get("/boats?ownerId=99999"))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.status").value(404))
+                .andExpect(jsonPath("$.message").value(containsString("Owner not found")));
+    }
+
     // ---- Input validation (400) ----
 
     @Test
