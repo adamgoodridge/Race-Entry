@@ -348,6 +348,36 @@ class RaceEntryIntegrationTest {
     }
 
     @Test
+    void removeDriverFromEntry_lastDriver_returns409() throws Exception {
+        Long ownerId = createOwner("Pete");
+        Long boatId = createBoat(ownerId, "Solo", "Laser");
+        Long eventId = createEvent("Solo Series");
+        Long entryId = createEntry(boatId, eventId);
+        Long driverId = createDriver("Rita", "LIC-R02");
+        assignDriver(entryId, driverId, "HELMSMAN");
+        mockMvc.perform(delete("/entries/" + entryId + "/drivers/" + driverId))
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.status").value(409))
+                .andExpect(jsonPath("$.message").isString());
+    }
+
+    @Test
+    void assignDriver_duplicate_returns409() throws Exception {
+        Long ownerId = createOwner("Steve");
+        Long boatId = createBoat(ownerId, "Double", "Finn");
+        Long eventId = createEvent("Double Race");
+        Long entryId = createEntry(boatId, eventId);
+        Long driverId = createDriver("Tina", "LIC-T01");
+        assignDriver(entryId, driverId, "HELMSMAN");
+        mockMvc.perform(post("/entries/" + entryId + "/drivers")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"driverId\":" + driverId + ",\"role\":\"HELMSMAN\"}"))
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.status").value(409))
+                .andExpect(jsonPath("$.message").isString());
+    }
+
+    @Test
     void removeDriverFromEntry_unknownEntry_returns404() throws Exception {
         Long driverId = createDriver("Rosa", "LIC-R01");
         mockMvc.perform(delete("/entries/99999/drivers/" + driverId))
