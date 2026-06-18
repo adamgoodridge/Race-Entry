@@ -102,6 +102,9 @@ public class EntryService {
     @Transactional
     public void updateStatus(Long entryId, EntryStatus newStatus) {
         Entry entry = findById(entryId);
+        if (entry.getStatus() == EntryStatus.CANCELLED) {
+            throw new IllegalStateException("Entry " + entryId + " is CANCELLED and its status cannot be changed");
+        }
         if (newStatus == EntryStatus.ACTIVE) {
             boolean hasDrivers = !entryDriverRepository.findDriverIdsByEntryId(entryId).isEmpty();
             if (!hasDrivers) {
