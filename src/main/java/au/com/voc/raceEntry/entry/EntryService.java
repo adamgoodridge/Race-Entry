@@ -95,6 +95,7 @@ public class EntryService {
         return new EntryDetailsDTO(entry, boat, drivers);
     }
 
+    @Transactional
     public void updateStatus(Long entryId, EntryStatus newStatus) {
         Entry entry = findById(entryId);
         if (newStatus == EntryStatus.ACTIVE) {
@@ -102,6 +103,9 @@ public class EntryService {
             if (!hasDrivers) {
                 throw new IllegalStateException("Entry " + entryId + " must have at least one driver before becoming ACTIVE");
             }
+        }
+        if (newStatus == EntryStatus.CANCELLED) {
+            entryDriverRepository.deleteByEntryId(entryId);
         }
         entry.setStatus(newStatus);
         entryRepository.save(entry);
