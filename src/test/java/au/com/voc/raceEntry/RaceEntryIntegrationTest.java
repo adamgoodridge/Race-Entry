@@ -193,6 +193,22 @@ class RaceEntryIntegrationTest {
     }
 
     @Test
+    void listEntriesByEvent_unknownEvent_returns404() throws Exception {
+        mockMvc.perform(get("/entries?eventId=99999"))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.status").value(404))
+                .andExpect(jsonPath("$.message").isString());
+    }
+
+    @Test
+    void listEntriesByBoat_unknownBoat_returns404() throws Exception {
+        mockMvc.perform(get("/entries?boatId=99999"))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.status").value(404))
+                .andExpect(jsonPath("$.message").isString());
+    }
+
+    @Test
     void updateEntryStatus_toCancelled_returns200() throws Exception {
         Long ownerId = createOwner("Hank");
         Long boatId = createBoat(ownerId, "Ripple", "Snipe");

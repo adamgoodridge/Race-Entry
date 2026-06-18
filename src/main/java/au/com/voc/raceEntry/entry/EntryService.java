@@ -66,12 +66,16 @@ public class EntryService {
     }
 
     public List<EntryDetailsDTO> findByEventWithDetails(Long eventId) {
+        eventRepository.findById(eventId)
+                .orElseThrow(() -> new IllegalArgumentException("Event not found: " + eventId));
         return entryRepository.findByEventId(eventId).stream()
                 .map(this::toDetailsDTO)
                 .collect(Collectors.toList());
     }
 
     public List<EntryDetailsDTO> findByBoatWithDetails(Long boatId) {
+        boatRepository.findById(boatId)
+                .orElseThrow(() -> new IllegalArgumentException("Boat not found: " + boatId));
         return entryRepository.findByBoatId(boatId).stream()
                 .map(this::toDetailsDTO)
                 .collect(Collectors.toList());
