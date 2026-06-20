@@ -14,3 +14,8 @@ BoatClassController: POST /api/boat-classes (201), GET /api/boat-classes (200), 
 BoatClassControllerIT: 6 MockMvc @SpringBootTest tests against H2 covering all endpoints including 404 paths.
 Note: @TestPropertySource used to override legacy c3p0 pool properties from main application.properties that conflicted with H2 datasource selection. Surefire configured in pom.xml to include *IT.java classes.
 mvn test: 12/12 PASSED (6 service + 6 controller IT)
+
+2026-06-20 | Task 6 | PersonRepository
+Created Person JPA entity (person table, id + firstName + lastName + email) and PersonRepository (extends JpaRepository<Person, Long>).
+Package: au.com.voc.raceEntry.person
+mvn compile: SUCCESS | mvn test: 12/12 PASSED (all existing tests green)

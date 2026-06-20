@@ -60,7 +60,7 @@ _(none yet)_
 
 #### Person
 
-- [ ] **6** — Repository interface (`PersonRepository`)
+- [x] **6** — Repository interface (`PersonRepository`)
 - [ ] **7** — Service unit tests (`PersonServiceTest`) — `POST /api/persons`, `GET /api/persons`, `GET /api/persons/{id}`, `PUT /api/persons/{id}`, `DELETE /api/persons/{id}`
 - [ ] **8** — Service implementation (`PersonService`)
 - [ ] **9** — Controller integration tests (`PersonControllerIT`)
