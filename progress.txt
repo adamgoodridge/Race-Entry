@@ -36,3 +36,9 @@ Created Boat JPA entity (boat table, id + name + sailNumber + boatClassId + owne
 Uses ID-based reference pattern (no JPA object relationships) per mediator/decoupling architecture. ownerId is nullable (owner optional at creation).
 Package: au.com.voc.raceEntry.boat
 mvn compile: SUCCESS | mvn test: 28/28 PASSED (all existing tests green)
+
+2026-06-20 | Tasks 12-13 | BoatServiceTest + BoatService
+BoatService: create (ownerId nullable), findAll, findById, update (name/sailNumber/boatClassId), assignOwner, removeOwner, delete; throws ResourceNotFoundException on missing id.
+BoatServiceTest: 13 unit tests (Mockito) covering all seven operations including 404 paths on findById, update, assignOwner, removeOwner, and delete; create tested with and without owner.
+Package: au.com.voc.raceEntry.boat
+mvn test -Dtest=BoatServiceTest: 13/13 PASSED | mvn test: 41/41 PASSED
