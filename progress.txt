@@ -53,3 +53,9 @@ mvn test: 53/53 PASSED
 Created EventStatus enum (OPEN, CLOSED) and Event JPA entity (event table, id + name + status; status defaults to OPEN via constructor) and EventRepository (extends JpaRepository<Event, Long>).
 Package: au.com.voc.raceEntry.event
 mvn compile: SUCCESS | mvn test: 53/53 PASSED (all existing tests green)
+
+2026-06-20 | Tasks 17-18 | EventServiceTest + EventService
+EventService: create (defaults to OPEN), findAll, findById, update, close (sets status to CLOSED), delete; throws ResourceNotFoundException on missing id.
+EventServiceTest: 10 unit tests (Mockito) covering all six operations including 404 paths on findById, update, close, and delete.
+Package: au.com.voc.raceEntry.event
+mvn test -Dtest=EventServiceTest: 10/10 PASSED | mvn test: 63/63 PASSED

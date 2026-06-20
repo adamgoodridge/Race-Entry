@@ -93,8 +93,8 @@ _(none yet)_
 #### Event
 
 - [x] **16** — Repository interface (`EventRepository`)
-- [ ] **17** — Service unit tests (`EventServiceTest`) — create (defaults to OPEN), list, get, update, close, delete
-- [ ] **18** — Service implementation (`EventService`)
+- [x] **17** — Service unit tests (`EventServiceTest`) — create (defaults to OPEN), list, get, update, close, delete
+- [x] **18** — Service implementation (`EventService`)
 - [ ] **19** — Controller integration tests (`EventControllerIT`) — covers `PUT /api/events/{id}/close`
 - [ ] **20** — Controller (`EventController`)
 
