@@ -83,3 +83,9 @@ mvn test -Dtest=EntryServiceTest: 13/13 PASSED | mvn test: 86/86 PASSED
 EntryService was already fully implemented as a prerequisite during Task 22. Confirmed implementation covers all business rules: create (409 on duplicate boat+event), findById (404), findByEventId, submit (422 on closed event / no owner / no drivers), updateStatus, delete (404).
 Package: au.com.voc.raceEntry.entry
 mvn test -Dtest=EntryServiceTest: 13/13 PASSED | mvn test: 86/86 PASSED
+
+2026-06-20 | Tasks 24-25 | EntryControllerIT + EntryController
+EntryController: POST /api/entries (201), GET /api/entries/event/{eventId} (200), GET /api/entries/{id} (200/404), POST /api/entries/{id}/submit (200/422/404), PUT /api/entries/{id}/status (200/404), DELETE /api/entries/{id} (204/404).
+EntryControllerIT: 14 MockMvc @SpringBootTest tests against H2 covering all endpoints including submit happy path, 3x 422 paths (closed event / no owner / no drivers), 409 duplicate, and 404 paths.
+Package: au.com.voc.raceEntry.entry
+mvn test: 100/100 PASSED
