@@ -102,3 +102,8 @@ EntryDriverServiceTest: 7 unit tests (Mockito) covering all four operations incl
 EntryDriverService also created as a prerequisite for tests to compile (full implementation will be confirmed in Task 28).
 Package: au.com.voc.raceEntry.entry
 mvn test -Dtest=EntryDriverServiceTest: 7/7 PASSED | mvn test: 107/107 PASSED
+
+2026-06-20 | Task 28 | EntryDriverService
+EntryDriverService was already fully implemented as a prerequisite during Task 27. Confirmed implementation covers all operations: addDriver (409 on duplicate entry+person), findByEntryId, updateRole (404 on missing), removeDriver (404 on missing).
+Package: au.com.voc.raceEntry.entry
+mvn test -Dtest=EntryDriverServiceTest: 7/7 PASSED | mvn test: 107/107 PASSED
