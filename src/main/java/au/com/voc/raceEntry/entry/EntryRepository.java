@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface EntryRepository extends JpaRepository<Entry, Long> {
     List<Entry> findByEventId(Long eventId);
+
+    boolean existsByBoatIdAndEventId(Long boatId, Long eventId);
 }

@@ -71,3 +71,10 @@ Note: Entry entity and EntryStatus enum (DRAFT, SUBMITTED) were already present 
 Created EntryRepository extends JpaRepository<Entry, Long> with findByEventId(Long eventId). Unique constraint boat_id+event_id already declared on the Entry entity via @UniqueConstraint.
 Package: au.com.voc.raceEntry.entry
 mvn compile: SUCCESS | mvn test: 73/73 PASSED (all existing tests green)
+
+2026-06-20 | Task 22 | EntryServiceTest
+EntryService: create (409 on duplicate boat+event), findById, findByEventId, submit (checks event OPEN, boat has owner, entry has ≥1 driver), updateStatus, delete; throws ResourceNotFoundException (404), ConflictException (409), BusinessRuleViolationException (422).
+EntryServiceTest: 13 unit tests (Mockito) covering all operations including all 422 paths (closed event, no owner, no drivers), 409 duplicate, and 404 paths on findById, updateStatus, and delete.
+Prerequisites created: BusinessRuleViolationException (422), ConflictException (409), EntryDriver entity, EntryDriverRepository (countByEntryId), EntryService, existsByBoatIdAndEventId added to EntryRepository.
+Package: au.com.voc.raceEntry.entry | exception: au.com.voc.raceEntry.exception
+mvn test -Dtest=EntryServiceTest: 13/13 PASSED | mvn test: 86/86 PASSED
