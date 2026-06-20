@@ -1,0 +1,4 @@
+2026-06-20 | Task 1 | BoatClassRepository
+Created BoatClass JPA entity (boat_class table, id + name) and BoatClassRepository (extends JpaRepository<BoatClass, Long>).
+Package: au.com.voc.raceEntry.boatclass
+mvn compile: SUCCESS | mvn test: SUCCESS (no tests yet)
