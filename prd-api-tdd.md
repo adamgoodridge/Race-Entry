@@ -45,6 +45,8 @@
 - [x] **6** — Repository interface (`PersonRepository`) — `Person` entity (id + firstName + lastName + email) + `PersonRepository extends JpaRepository<Person, Long>`
 - [x] **7** — Service unit tests (`PersonServiceTest`) — 8 tests covering create, findAll, findById (found + 404), update (found + 404), delete (found + 404); all green
 - [x] **8** — Service implementation (`PersonService`) — create, findAll, findById, update, delete; throws `ResourceNotFoundException` on missing id
+- [x] **9** — Controller integration tests (`PersonControllerIT`) — 8 MockMvc tests against H2 covering POST/GET/GET-by-id/PUT/DELETE with 404 paths
+- [x] **10** — Controller (`PersonController`) — `POST /api/persons` (201), `GET` (200), `GET /{id}` (200/404), `PUT /{id}` (200/404), `DELETE /{id}` (204/404)
 
 ---
 
@@ -69,8 +71,8 @@ _(none yet)_
 - [x] **6** — Repository interface (`PersonRepository`)
 - [x] **7** — Service unit tests (`PersonServiceTest`) — `POST /api/persons`, `GET /api/persons`, `GET /api/persons/{id}`, `PUT /api/persons/{id}`, `DELETE /api/persons/{id}`
 - [x] **8** — Service implementation (`PersonService`)
-- [ ] **9** — Controller integration tests (`PersonControllerIT`)
-- [ ] **10** — Controller (`PersonController`)
+- [x] **9** — Controller integration tests (`PersonControllerIT`)
+- [x] **10** — Controller (`PersonController`)
 
 #### Boat
 

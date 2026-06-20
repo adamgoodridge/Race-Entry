@@ -25,3 +25,8 @@ PersonService: create, findAll, findById, update, delete; throws ResourceNotFoun
 PersonServiceTest: 8 unit tests (Mockito) covering all five operations including 404 paths on findById, update, and delete.
 Package: au.com.voc.raceEntry.person
 mvn test -Dtest=PersonServiceTest: 8/8 PASSED | mvn test: 20/20 PASSED
+
+2026-06-20 | Tasks 9–10 | PersonControllerIT + PersonController
+PersonController: POST /api/persons (201), GET /api/persons (200), GET /api/persons/{id} (200/404), PUT /api/persons/{id} (200/404), DELETE /api/persons/{id} (204/404).
+PersonControllerIT: 8 MockMvc @SpringBootTest tests against H2 covering all endpoints including 404 paths.
+mvn test: 28/28 PASSED (6 BoatClass IT + 6 BoatClass service + 8 Person service + 8 Person IT)
