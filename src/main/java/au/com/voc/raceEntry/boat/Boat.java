@@ -1,9 +1,12 @@
 package au.com.voc.raceEntry.boat;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "boat")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Boat {
 
     @Id

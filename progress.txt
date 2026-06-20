@@ -42,3 +42,9 @@ BoatService: create (ownerId nullable), findAll, findById, update (name/sailNumb
 BoatServiceTest: 13 unit tests (Mockito) covering all seven operations including 404 paths on findById, update, assignOwner, removeOwner, and delete; create tested with and without owner.
 Package: au.com.voc.raceEntry.boat
 mvn test -Dtest=BoatServiceTest: 13/13 PASSED | mvn test: 41/41 PASSED
+
+2026-06-20 | Tasks 14-15 | BoatControllerIT + BoatController
+BoatController: POST /api/boats (201), GET /api/boats (200), GET /api/boats/{id} (200/404), PUT /api/boats/{id} (200/404), PUT /api/boats/{id}/owner/{personId} (200/404), DELETE /api/boats/{id}/owner (200/404), DELETE /api/boats/{id} (204/404).
+BoatControllerIT: 12 MockMvc @SpringBootTest tests against H2 covering all endpoints including owner assign/remove and 404 paths.
+Note: Added @JsonInclude(NON_NULL) to Boat entity so null ownerId is omitted from JSON responses.
+mvn test: 53/53 PASSED

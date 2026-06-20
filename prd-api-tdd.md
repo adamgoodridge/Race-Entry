@@ -53,6 +53,8 @@
 - [x] **11** — Repository interface (`BoatRepository`) — `Boat` entity (id + name + sailNumber + boatClassId + ownerId) + `BoatRepository extends JpaRepository<Boat, Long>` with `findByOwnerId`; ownerId nullable
 - [x] **12** — Service unit tests (`BoatServiceTest`) — 13 tests covering create with/without owner, findAll, findById (found + 404), update (found + 404), assignOwner (found + 404), removeOwner (found + 404), delete (found + 404); all green
 - [x] **13** — Service implementation (`BoatService`) — create, findAll, findById, update, assignOwner, removeOwner, delete; throws `ResourceNotFoundException` on missing id
+- [x] **14** — Controller integration tests (`BoatControllerIT`) — 12 MockMvc tests against H2 covering POST/GET/GET-by-id/PUT/PUT-assign-owner/DELETE-owner/DELETE with 404 paths; `@JsonInclude(NON_NULL)` added to Boat entity so null ownerId is omitted
+- [x] **15** — Controller (`BoatController`) — `POST /api/boats` (201), `GET` (200), `GET /{id}` (200/404), `PUT /{id}` (200/404), `PUT /{id}/owner/{personId}` (200/404), `DELETE /{id}/owner` (200/404), `DELETE /{id}` (204/404)
 
 ---
 
@@ -85,8 +87,8 @@ _(none yet)_
 - [x] **11** — Repository interface (`BoatRepository`) — include `findByOwnerId`
 - [x] **12** — Service unit tests (`BoatServiceTest`) — create (owner optional), list, get, update, assign owner, remove owner, delete
 - [x] **13** — Service implementation (`BoatService`)
-- [ ] **14** — Controller integration tests (`BoatControllerIT`) — covers `PUT /api/boats/{id}/owner/{personId}` and `DELETE /api/boats/{id}/owner`
-- [ ] **15** — Controller (`BoatController`)
+- [x] **14** — Controller integration tests (`BoatControllerIT`) — covers `PUT /api/boats/{id}/owner/{personId}` and `DELETE /api/boats/{id}/owner`
+- [x] **15** — Controller (`BoatController`)
 
 #### Event
 
