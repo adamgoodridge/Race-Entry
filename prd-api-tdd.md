@@ -40,6 +40,12 @@
 - [x] **4** — Controller integration tests (`BoatClassControllerIT`) — 6 MockMvc tests against H2 covering POST/GET/GET-by-id/DELETE with 404 paths; `@TestPropertySource` overrides legacy c3p0 pool properties; surefire configured to include `*IT.java`
 - [x] **5** — Controller (`BoatClassController`) — `POST /api/boat-classes` (201), `GET` (200), `GET /{id}` (200/404), `DELETE /{id}` (204/404)
 
+#### Person
+
+- [x] **6** — Repository interface (`PersonRepository`) — `Person` entity (id + firstName + lastName + email) + `PersonRepository extends JpaRepository<Person, Long>`
+- [x] **7** — Service unit tests (`PersonServiceTest`) — 8 tests covering create, findAll, findById (found + 404), update (found + 404), delete (found + 404); all green
+- [x] **8** — Service implementation (`PersonService`) — create, findAll, findById, update, delete; throws `ResourceNotFoundException` on missing id
+
 ---
 
 ### In Progress
@@ -61,8 +67,8 @@ _(none yet)_
 #### Person
 
 - [x] **6** — Repository interface (`PersonRepository`)
-- [ ] **7** — Service unit tests (`PersonServiceTest`) — `POST /api/persons`, `GET /api/persons`, `GET /api/persons/{id}`, `PUT /api/persons/{id}`, `DELETE /api/persons/{id}`
-- [ ] **8** — Service implementation (`PersonService`)
+- [x] **7** — Service unit tests (`PersonServiceTest`) — `POST /api/persons`, `GET /api/persons`, `GET /api/persons/{id}`, `PUT /api/persons/{id}`, `DELETE /api/persons/{id}`
+- [x] **8** — Service implementation (`PersonService`)
 - [ ] **9** — Controller integration tests (`PersonControllerIT`)
 - [ ] **10** — Controller (`PersonController`)
 

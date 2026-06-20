@@ -19,3 +19,9 @@ mvn test: 12/12 PASSED (6 service + 6 controller IT)
 Created Person JPA entity (person table, id + firstName + lastName + email) and PersonRepository (extends JpaRepository<Person, Long>).
 Package: au.com.voc.raceEntry.person
 mvn compile: SUCCESS | mvn test: 12/12 PASSED (all existing tests green)
+
+2026-06-20 | Tasks 7–8 | PersonServiceTest + PersonService
+PersonService: create, findAll, findById, update, delete; throws ResourceNotFoundException on missing id.
+PersonServiceTest: 8 unit tests (Mockito) covering all five operations including 404 paths on findById, update, and delete.
+Package: au.com.voc.raceEntry.person
+mvn test -Dtest=PersonServiceTest: 8/8 PASSED | mvn test: 20/20 PASSED
