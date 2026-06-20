@@ -111,5 +111,5 @@ _(none yet)_
 - [x] **26** — Repository interface (`EntryDriverRepository`) — unique constraint entry+driver
 - [x] **27** — Service unit tests (`EntryDriverServiceTest`) — add driver, list drivers, update role, remove driver, duplicate driver → 409
 - [x] **28** — Service implementation (`EntryDriverService`)
-- [ ] **29** — Controller integration tests (`EntryDriverControllerIT`)
+- [x] **29** — Controller integration tests (`EntryDriverControllerIT`)
 - [ ] **30** — Controller (`EntryDriverController`)

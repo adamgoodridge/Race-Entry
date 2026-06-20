@@ -107,3 +107,9 @@ mvn test -Dtest=EntryDriverServiceTest: 7/7 PASSED | mvn test: 107/107 PASSED
 EntryDriverService was already fully implemented as a prerequisite during Task 27. Confirmed implementation covers all operations: addDriver (409 on duplicate entry+person), findByEntryId, updateRole (404 on missing), removeDriver (404 on missing).
 Package: au.com.voc.raceEntry.entry
 mvn test -Dtest=EntryDriverServiceTest: 7/7 PASSED | mvn test: 107/107 PASSED
+
+2026-06-20 | Task 29 | EntryDriverControllerIT
+EntryDriverControllerIT: 7 MockMvc @SpringBootTest tests against H2 covering: POST /api/entries/{entryId}/drivers (201), POST duplicate (409), GET /api/entries/{entryId}/drivers (200), PUT /api/entry-drivers/{id}/role (200/404), DELETE /api/entry-drivers/{id} (204/404).
+EntryDriverController also created to support tests: addDriver (POST, 201), listDrivers (GET, 200), updateRole (PUT, 200/404), removeDriver (DELETE, 204/404).
+Package: au.com.voc.raceEntry.entry
+mvn test -Dtest=EntryDriverControllerIT: 7/7 PASSED | mvn test: 114/114 PASSED
