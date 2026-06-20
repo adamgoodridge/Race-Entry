@@ -2,3 +2,9 @@
 Created BoatClass JPA entity (boat_class table, id + name) and BoatClassRepository (extends JpaRepository<BoatClass, Long>).
 Package: au.com.voc.raceEntry.boatclass
 mvn compile: SUCCESS | mvn test: SUCCESS (no tests yet)
+
+2026-06-20 | Tasks 2–3 | BoatClassServiceTest + BoatClassService
+BoatClassService: create, findAll, findById, delete; throws ResourceNotFoundException on missing id.
+BoatClassServiceTest: 6 unit tests (Mockito) covering all four operations including 404 paths.
+Package: au.com.voc.raceEntry.boatclass | exception: au.com.voc.raceEntry.exception
+mvn test -Dtest=BoatClassServiceTest: 6/6 PASSED

@@ -35,6 +35,8 @@
 #### BoatClass
 
 - [x] **1** — Repository interface (`BoatClassRepository`) — `BoatClass` entity + `BoatClassRepository extends JpaRepository<BoatClass, Long>`
+- [x] **2** — Service unit tests (`BoatClassServiceTest`) — 6 tests covering create, findAll, findById (found + 404), delete (found + 404); all green
+- [x] **3** — Service implementation (`BoatClassService`) — create, findAll, findById, delete; throws `ResourceNotFoundException` on missing id
 
 ---
 
@@ -49,8 +51,8 @@ _(none yet)_
 #### BoatClass
 
 - [x] **1** — Repository interface (`BoatClassRepository`)
-- [ ] **2** — Service unit tests (`BoatClassServiceTest`) — `POST /api/boat-classes`, `GET /api/boat-classes`, `GET /api/boat-classes/{id}`, `DELETE /api/boat-classes/{id}`
-- [ ] **3** — Service implementation (`BoatClassService`)
+- [x] **2** — Service unit tests (`BoatClassServiceTest`) — `POST /api/boat-classes`, `GET /api/boat-classes`, `GET /api/boat-classes/{id}`, `DELETE /api/boat-classes/{id}`
+- [x] **3** — Service implementation (`BoatClassService`)
 - [ ] **4** — Controller integration tests (`BoatClassControllerIT`) — `MockMvc` against H2
 - [ ] **5** — Controller (`BoatClassController`)
 
