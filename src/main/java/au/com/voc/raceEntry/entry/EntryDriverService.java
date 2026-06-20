@@ -15,12 +15,12 @@ public class EntryDriverService {
         this.driverRepository = driverRepository;
     }
 
-    public EntryDriver addDriver(Long entryId, Long personId, String role) {
-        if (driverRepository.existsByEntryIdAndPersonId(entryId, personId)) {
-            throw new ConflictException("Person " + personId + " is already a driver on entry " + entryId);
+    public EntryDriver addDriver(Long entryId, DriverRequest request) {
+        if (driverRepository.existsByEntryIdAndPersonId(entryId, request.getPersonId())) {
+            throw new ConflictException("Person " + request.getPersonId() + " is already a driver on entry " + entryId);
         }
-        EntryDriver driver = new EntryDriver(entryId, personId);
-        driver.setRole(role);
+        EntryDriver driver = new EntryDriver(entryId, request.getPersonId());
+        driver.setRole(request.getRole());
         return driverRepository.save(driver);
     }
 

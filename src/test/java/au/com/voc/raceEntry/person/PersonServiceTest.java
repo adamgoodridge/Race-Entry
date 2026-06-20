@@ -25,12 +25,20 @@ class PersonServiceTest {
     @InjectMocks
     private PersonService service;
 
+    private PersonRequest request(String firstName, String lastName, String email) {
+        PersonRequest req = new PersonRequest();
+        req.setFirstName(firstName);
+        req.setLastName(lastName);
+        req.setEmail(email);
+        return req;
+    }
+
     @Test
     void create_savesAndReturnsPerson() {
         Person saved = new Person("John", "Smith", "john@example.com");
         when(repository.save(any(Person.class))).thenReturn(saved);
 
-        Person result = service.create("John", "Smith", "john@example.com");
+        Person result = service.create(request("John", "Smith", "john@example.com"));
 
         assertThat(result.getFirstName()).isEqualTo("John");
         assertThat(result.getLastName()).isEqualTo("Smith");
@@ -74,7 +82,7 @@ class PersonServiceTest {
         when(repository.findById(1L)).thenReturn(Optional.of(existing));
         when(repository.save(any(Person.class))).thenReturn(existing);
 
-        Person result = service.update(1L, "Jane", "Doe", "jane@example.com");
+        Person result = service.update(1L, request("Jane", "Doe", "jane@example.com"));
 
         assertThat(result.getFirstName()).isEqualTo("Jane");
         assertThat(result.getLastName()).isEqualTo("Doe");
@@ -86,7 +94,8 @@ class PersonServiceTest {
     void update_throws404_whenNotFound() {
         when(repository.findById(99L)).thenReturn(Optional.empty());
 
-        assertThatThrownBy(() -> service.update(99L, "Jane", "Doe", "jane@example.com"))
+        PersonRequest req = request("Jane", "Doe", "jane@example.com");
+        assertThatThrownBy(() -> service.update(99L, req))
                 .isInstanceOf(ResourceNotFoundException.class)
                 .hasMessageContaining("99");
     }

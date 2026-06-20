@@ -18,7 +18,7 @@ public class EntryDriverController {
     @PostMapping("/api/entries/{entryId}/drivers")
     @ResponseStatus(HttpStatus.CREATED)
     public EntryDriver addDriver(@PathVariable Long entryId, @RequestBody DriverRequest request) {
-        return service.addDriver(entryId, request.getPersonId(), request.getRole());
+        return service.addDriver(entryId, request);
     }
 
     @GetMapping("/api/entries/{entryId}/drivers")
@@ -35,12 +35,6 @@ public class EntryDriverController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void removeDriver(@PathVariable Long id) {
         service.removeDriver(id);
-    }
-
-    @Data
-    static class DriverRequest {
-        private Long personId;
-        private String role;
     }
 
     @Data

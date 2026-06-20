@@ -25,12 +25,21 @@ class BoatServiceTest {
     @InjectMocks
     private BoatService service;
 
+    private BoatRequest request(String name, String sailNumber, Long boatClassId, Long ownerId) {
+        BoatRequest req = new BoatRequest();
+        req.setName(name);
+        req.setSailNumber(sailNumber);
+        req.setBoatClassId(boatClassId);
+        req.setOwnerId(ownerId);
+        return req;
+    }
+
     @Test
     void create_withOwner_savesAndReturnsBoat() {
         Boat saved = new Boat("Speedy", "AUS123", 1L, 10L);
         when(repository.save(any(Boat.class))).thenReturn(saved);
 
-        Boat result = service.create("Speedy", "AUS123", 1L, 10L);
+        Boat result = service.create(request("Speedy", "AUS123", 1L, 10L));
 
         assertThat(result.getName()).isEqualTo("Speedy");
         assertThat(result.getSailNumber()).isEqualTo("AUS123");
@@ -44,7 +53,7 @@ class BoatServiceTest {
         Boat saved = new Boat("Speedy", "AUS123", 1L, null);
         when(repository.save(any(Boat.class))).thenReturn(saved);
 
-        Boat result = service.create("Speedy", "AUS123", 1L, null);
+        Boat result = service.create(request("Speedy", "AUS123", 1L, null));
 
         assertThat(result.getOwnerId()).isNull();
         verify(repository).save(any(Boat.class));
@@ -86,7 +95,7 @@ class BoatServiceTest {
         when(repository.findById(1L)).thenReturn(Optional.of(existing));
         when(repository.save(any(Boat.class))).thenReturn(existing);
 
-        Boat result = service.update(1L, "Faster", "AUS999", 2L);
+        Boat result = service.update(1L, request("Faster", "AUS999", 2L, null));
 
         assertThat(result.getName()).isEqualTo("Faster");
         assertThat(result.getSailNumber()).isEqualTo("AUS999");
@@ -98,7 +107,8 @@ class BoatServiceTest {
     void update_throws404_whenNotFound() {
         when(repository.findById(99L)).thenReturn(Optional.empty());
 
-        assertThatThrownBy(() -> service.update(99L, "Faster", "AUS999", 2L))
+        BoatRequest req = request("Faster", "AUS999", 2L, null);
+        assertThatThrownBy(() -> service.update(99L, req))
                 .isInstanceOf(ResourceNotFoundException.class)
                 .hasMessageContaining("99");
     }

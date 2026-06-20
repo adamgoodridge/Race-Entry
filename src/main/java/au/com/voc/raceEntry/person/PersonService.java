@@ -14,8 +14,8 @@ public class PersonService {
         this.repository = repository;
     }
 
-    public Person create(String firstName, String lastName, String email) {
-        return repository.save(new Person(firstName, lastName, email));
+    public Person create(PersonRequest request) {
+        return repository.save(new Person(request.getFirstName(), request.getLastName(), request.getEmail()));
     }
 
     public List<Person> findAll() {
@@ -27,11 +27,11 @@ public class PersonService {
                 .orElseThrow(() -> new ResourceNotFoundException("Person not found: " + id));
     }
 
-    public Person update(Long id, String firstName, String lastName, String email) {
+    public Person update(Long id, PersonRequest request) {
         Person person = findById(id);
-        person.setFirstName(firstName);
-        person.setLastName(lastName);
-        person.setEmail(email);
+        person.setFirstName(request.getFirstName());
+        person.setLastName(request.getLastName());
+        person.setEmail(request.getEmail());
         return repository.save(person);
     }
 

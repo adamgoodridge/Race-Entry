@@ -24,6 +24,13 @@ class EntryDriverServiceTest {
 
     @InjectMocks private EntryDriverService service;
 
+    private DriverRequest request(Long personId, String role) {
+        DriverRequest req = new DriverRequest();
+        req.setPersonId(personId);
+        req.setRole(role);
+        return req;
+    }
+
     @Test
     void addDriver_savesEntryDriver_whenValid() {
         EntryDriver saved = new EntryDriver(1L, 10L);
@@ -31,7 +38,7 @@ class EntryDriverServiceTest {
         when(driverRepository.existsByEntryIdAndPersonId(1L, 10L)).thenReturn(false);
         when(driverRepository.save(any(EntryDriver.class))).thenReturn(saved);
 
-        EntryDriver result = service.addDriver(1L, 10L, "helm");
+        EntryDriver result = service.addDriver(1L, request(10L, "helm"));
 
         assertThat(result.getEntryId()).isEqualTo(1L);
         assertThat(result.getPersonId()).isEqualTo(10L);
@@ -43,7 +50,7 @@ class EntryDriverServiceTest {
     void addDriver_throws409_whenDuplicateDriver() {
         when(driverRepository.existsByEntryIdAndPersonId(1L, 10L)).thenReturn(true);
 
-        assertThatThrownBy(() -> service.addDriver(1L, 10L, null))
+        assertThatThrownBy(() -> service.addDriver(1L, request(10L, null)))
                 .isInstanceOf(ConflictException.class);
     }
 

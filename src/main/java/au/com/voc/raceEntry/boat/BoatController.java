@@ -1,6 +1,5 @@
 package au.com.voc.raceEntry.boat;
 
-import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +18,7 @@ public class BoatController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Boat create(@RequestBody BoatRequest request) {
-        return service.create(request.getName(), request.getSailNumber(), request.getBoatClassId(), request.getOwnerId());
+        return service.create(request);
     }
 
     @GetMapping
@@ -34,7 +33,7 @@ public class BoatController {
 
     @PutMapping("/{id}")
     public Boat update(@PathVariable Long id, @RequestBody BoatRequest request) {
-        return service.update(id, request.getName(), request.getSailNumber(), request.getBoatClassId());
+        return service.update(id, request);
     }
 
     @PutMapping("/{id}/owner/{personId}")
@@ -53,11 +52,4 @@ public class BoatController {
         service.delete(id);
     }
 
-    @Data
-    static class BoatRequest {
-        private String name;
-        private String sailNumber;
-        private Long boatClassId;
-        private Long ownerId;
-    }
 }

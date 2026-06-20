@@ -14,8 +14,8 @@ public class BoatService {
         this.repository = repository;
     }
 
-    public Boat create(String name, String sailNumber, Long boatClassId, Long ownerId) {
-        return repository.save(new Boat(name, sailNumber, boatClassId, ownerId));
+    public Boat create(BoatRequest request) {
+        return repository.save(new Boat(request.getName(), request.getSailNumber(), request.getBoatClassId(), request.getOwnerId()));
     }
 
     public List<Boat> findAll() {
@@ -27,11 +27,11 @@ public class BoatService {
                 .orElseThrow(() -> new ResourceNotFoundException("Boat not found: " + id));
     }
 
-    public Boat update(Long id, String name, String sailNumber, Long boatClassId) {
+    public Boat update(Long id, BoatRequest request) {
         Boat boat = findById(id);
-        boat.setName(name);
-        boat.setSailNumber(sailNumber);
-        boat.setBoatClassId(boatClassId);
+        boat.setName(request.getName());
+        boat.setSailNumber(request.getSailNumber());
+        boat.setBoatClassId(request.getBoatClassId());
         return repository.save(boat);
     }
 

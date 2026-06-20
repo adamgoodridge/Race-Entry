@@ -1,6 +1,5 @@
 package au.com.voc.raceEntry.person;
 
-import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +18,7 @@ public class PersonController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Person create(@RequestBody PersonRequest request) {
-        return service.create(request.getFirstName(), request.getLastName(), request.getEmail());
+        return service.create(request);
     }
 
     @GetMapping
@@ -34,7 +33,7 @@ public class PersonController {
 
     @PutMapping("/{id}")
     public Person update(@PathVariable Long id, @RequestBody PersonRequest request) {
-        return service.update(id, request.getFirstName(), request.getLastName(), request.getEmail());
+        return service.update(id, request);
     }
 
     @DeleteMapping("/{id}")
@@ -43,10 +42,4 @@ public class PersonController {
         service.delete(id);
     }
 
-    @Data
-    static class PersonRequest {
-        private String firstName;
-        private String lastName;
-        private String email;
-    }
 }
