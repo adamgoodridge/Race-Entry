@@ -37,6 +37,8 @@
 - [x] **1** — Repository interface (`BoatClassRepository`) — `BoatClass` entity + `BoatClassRepository extends JpaRepository<BoatClass, Long>`
 - [x] **2** — Service unit tests (`BoatClassServiceTest`) — 6 tests covering create, findAll, findById (found + 404), delete (found + 404); all green
 - [x] **3** — Service implementation (`BoatClassService`) — create, findAll, findById, delete; throws `ResourceNotFoundException` on missing id
+- [x] **4** — Controller integration tests (`BoatClassControllerIT`) — 6 MockMvc tests against H2 covering POST/GET/GET-by-id/DELETE with 404 paths; `@TestPropertySource` overrides legacy c3p0 pool properties; surefire configured to include `*IT.java`
+- [x] **5** — Controller (`BoatClassController`) — `POST /api/boat-classes` (201), `GET` (200), `GET /{id}` (200/404), `DELETE /{id}` (204/404)
 
 ---
 
@@ -53,8 +55,8 @@ _(none yet)_
 - [x] **1** — Repository interface (`BoatClassRepository`)
 - [x] **2** — Service unit tests (`BoatClassServiceTest`) — `POST /api/boat-classes`, `GET /api/boat-classes`, `GET /api/boat-classes/{id}`, `DELETE /api/boat-classes/{id}`
 - [x] **3** — Service implementation (`BoatClassService`)
-- [ ] **4** — Controller integration tests (`BoatClassControllerIT`) — `MockMvc` against H2
-- [ ] **5** — Controller (`BoatClassController`)
+- [x] **4** — Controller integration tests (`BoatClassControllerIT`) — `MockMvc` against H2
+- [x] **5** — Controller (`BoatClassController`)
 
 #### Person
 

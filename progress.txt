@@ -8,3 +8,9 @@ BoatClassService: create, findAll, findById, delete; throws ResourceNotFoundExce
 BoatClassServiceTest: 6 unit tests (Mockito) covering all four operations including 404 paths.
 Package: au.com.voc.raceEntry.boatclass | exception: au.com.voc.raceEntry.exception
 mvn test -Dtest=BoatClassServiceTest: 6/6 PASSED
+
+2026-06-20 | Tasks 4–5 | BoatClassControllerIT + BoatClassController
+BoatClassController: POST /api/boat-classes (201), GET /api/boat-classes (200), GET /api/boat-classes/{id} (200/404), DELETE /api/boat-classes/{id} (204/404).
+BoatClassControllerIT: 6 MockMvc @SpringBootTest tests against H2 covering all endpoints including 404 paths.
+Note: @TestPropertySource used to override legacy c3p0 pool properties from main application.properties that conflicted with H2 datasource selection. Surefire configured in pom.xml to include *IT.java classes.
+mvn test: 12/12 PASSED (6 service + 6 controller IT)
