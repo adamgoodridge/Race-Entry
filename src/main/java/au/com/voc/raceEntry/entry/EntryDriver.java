@@ -1,7 +1,11 @@
 package au.com.voc.raceEntry.entry;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 
+@Getter
 @Entity
 @Table(name = "entry_driver", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"entry_id", "person_id"})
@@ -18,6 +22,7 @@ public class EntryDriver {
     @Column(name = "person_id", nullable = false)
     private Long personId;
 
+    @Setter
     @Column(name = "role")
     private String role;
 
@@ -27,10 +32,4 @@ public class EntryDriver {
         this.entryId = entryId;
         this.personId = personId;
     }
-
-    public Long getId() { return id; }
-    public Long getEntryId() { return entryId; }
-    public Long getPersonId() { return personId; }
-    public String getRole() { return role; }
-    public void setRole(String role) { this.role = role; }
 }

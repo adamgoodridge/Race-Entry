@@ -1,9 +1,12 @@
 package au.com.voc.raceEntry.boat;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
+@Getter
 @Entity
 @Table(name = "boat")
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -13,15 +16,19 @@ public class Boat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Setter
     @Column(nullable = false)
     private String name;
 
+    @Setter
     @Column(nullable = false)
     private String sailNumber;
 
+    @Setter
     @Column(nullable = false)
     private Long boatClassId;
 
+    @Setter
     @Column
     private Long ownerId;
 
@@ -33,18 +40,4 @@ public class Boat {
         this.boatClassId = boatClassId;
         this.ownerId = ownerId;
     }
-
-    public Long getId() { return id; }
-
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-
-    public String getSailNumber() { return sailNumber; }
-    public void setSailNumber(String sailNumber) { this.sailNumber = sailNumber; }
-
-    public Long getBoatClassId() { return boatClassId; }
-    public void setBoatClassId(Long boatClassId) { this.boatClassId = boatClassId; }
-
-    public Long getOwnerId() { return ownerId; }
-    public void setOwnerId(Long ownerId) { this.ownerId = ownerId; }
 }

@@ -1,7 +1,11 @@
 package au.com.voc.raceEntry.event;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 
+@Getter
 @Entity
 @Table(name = "event")
 public class Event {
@@ -10,9 +14,11 @@ public class Event {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Setter
     @Column(nullable = false)
     private String name;
 
+    @Setter
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private EventStatus status;
@@ -23,12 +29,4 @@ public class Event {
         this.name = name;
         this.status = EventStatus.OPEN;
     }
-
-    public Long getId() { return id; }
-
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-
-    public EventStatus getStatus() { return status; }
-    public void setStatus(EventStatus status) { this.status = status; }
 }

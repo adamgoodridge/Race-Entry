@@ -1,7 +1,11 @@
 package au.com.voc.raceEntry.entry;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 
+@Getter
 @Entity
 @Table(name = "entry", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"boat_id", "event_id"})
@@ -12,12 +16,15 @@ public class Entry {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Setter
     @Column(name = "boat_id", nullable = false)
     private Long boatId;
 
+    @Setter
     @Column(name = "event_id", nullable = false)
     private Long eventId;
 
+    @Setter
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private EntryStatus status;
@@ -29,15 +36,4 @@ public class Entry {
         this.eventId = eventId;
         this.status = EntryStatus.DRAFT;
     }
-
-    public Long getId() { return id; }
-
-    public Long getBoatId() { return boatId; }
-    public void setBoatId(Long boatId) { this.boatId = boatId; }
-
-    public Long getEventId() { return eventId; }
-    public void setEventId(Long eventId) { this.eventId = eventId; }
-
-    public EntryStatus getStatus() { return status; }
-    public void setStatus(EntryStatus status) { this.status = status; }
 }

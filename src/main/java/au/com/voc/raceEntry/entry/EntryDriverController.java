@@ -1,5 +1,6 @@
 package au.com.voc.raceEntry.entry;
 
+import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,21 +37,14 @@ public class EntryDriverController {
         service.removeDriver(id);
     }
 
+    @Data
     static class DriverRequest {
         private Long personId;
         private String role;
-
-        public Long getPersonId() { return personId; }
-        public void setPersonId(Long personId) { this.personId = personId; }
-
-        public String getRole() { return role; }
-        public void setRole(String role) { this.role = role; }
     }
 
+    @Data
     static class RoleRequest {
         private String role;
-
-        public String getRole() { return role; }
-        public void setRole(String role) { this.role = role; }
     }
 }

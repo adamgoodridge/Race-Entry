@@ -1,5 +1,6 @@
 package au.com.voc.raceEntry.entry;
 
+import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,21 +48,14 @@ public class EntryController {
         service.delete(id);
     }
 
+    @Data
     static class EntryRequest {
         private Long boatId;
         private Long eventId;
-
-        public Long getBoatId() { return boatId; }
-        public void setBoatId(Long boatId) { this.boatId = boatId; }
-
-        public Long getEventId() { return eventId; }
-        public void setEventId(Long eventId) { this.eventId = eventId; }
     }
 
+    @Data
     static class StatusRequest {
         private EntryStatus status;
-
-        public EntryStatus getStatus() { return status; }
-        public void setStatus(EntryStatus status) { this.status = status; }
     }
 }

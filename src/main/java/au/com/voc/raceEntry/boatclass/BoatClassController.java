@@ -1,5 +1,6 @@
 package au.com.voc.raceEntry.boatclass;
 
+import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,9 +38,8 @@ public class BoatClassController {
         service.delete(id);
     }
 
+    @Data
     static class CreateBoatClassRequest {
         private String name;
-        public String getName() { return name; }
-        public void setName(String name) { this.name = name; }
     }
 }
