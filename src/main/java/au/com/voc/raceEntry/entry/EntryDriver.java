@@ -18,6 +18,9 @@ public class EntryDriver {
     @Column(name = "person_id", nullable = false)
     private Long personId;
 
+    @Column(name = "role")
+    private String role;
+
     protected EntryDriver() {}
 
     public EntryDriver(Long entryId, Long personId) {
@@ -28,4 +31,6 @@ public class EntryDriver {
     public Long getId() { return id; }
     public Long getEntryId() { return entryId; }
     public Long getPersonId() { return personId; }
+    public String getRole() { return role; }
+    public void setRole(String role) { this.role = role; }
 }
