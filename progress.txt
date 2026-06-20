@@ -95,3 +95,10 @@ EntryDriver entity and EntryDriverRepository already existed as prerequisites fr
 Unique constraint entry_id+person_id already declared on the entity via @UniqueConstraint.
 Package: au.com.voc.raceEntry.entry
 mvn compile: SUCCESS | mvn test: 100/100 PASSED (all existing tests green)
+
+2026-06-20 | Task 27 | EntryDriverServiceTest
+EntryDriverService: addDriver (409 on duplicate entry+person), findByEntryId, updateRole (404 on missing), removeDriver (404 on missing).
+EntryDriverServiceTest: 7 unit tests (Mockito) covering all four operations including 409 on duplicate and 404 paths on updateRole and removeDriver.
+EntryDriverService also created as a prerequisite for tests to compile (full implementation will be confirmed in Task 28).
+Package: au.com.voc.raceEntry.entry
+mvn test -Dtest=EntryDriverServiceTest: 7/7 PASSED | mvn test: 107/107 PASSED
