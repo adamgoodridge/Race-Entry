@@ -113,3 +113,8 @@ EntryDriverControllerIT: 7 MockMvc @SpringBootTest tests against H2 covering: PO
 EntryDriverController also created to support tests: addDriver (POST, 201), listDrivers (GET, 200), updateRole (PUT, 200/404), removeDriver (DELETE, 204/404).
 Package: au.com.voc.raceEntry.entry
 mvn test -Dtest=EntryDriverControllerIT: 7/7 PASSED | mvn test: 114/114 PASSED
+
+2026-06-20 | Task 30 | EntryDriverController
+EntryDriverController was already fully implemented as a prerequisite during Task 29. Confirmed implementation covers all operations: addDriver (POST /api/entries/{entryId}/drivers, 201), listDrivers (GET /api/entries/{entryId}/drivers, 200), updateRole (PUT /api/entry-drivers/{id}/role, 200/404), removeDriver (DELETE /api/entry-drivers/{id}, 204/404).
+Package: au.com.voc.raceEntry.entry
+mvn test: 114/114 PASSED — all tasks in prd-api-tdd.md complete.

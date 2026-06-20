@@ -112,4 +112,4 @@ _(none yet)_
 - [x] **27** — Service unit tests (`EntryDriverServiceTest`) — add driver, list drivers, update role, remove driver, duplicate driver → 409
 - [x] **28** — Service implementation (`EntryDriverService`)
 - [x] **29** — Controller integration tests (`EntryDriverControllerIT`)
-- [ ] **30** — Controller (`EntryDriverController`)
+- [x] **30** — Controller (`EntryDriverController`)
