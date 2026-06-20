@@ -30,3 +30,9 @@ mvn test -Dtest=PersonServiceTest: 8/8 PASSED | mvn test: 20/20 PASSED
 PersonController: POST /api/persons (201), GET /api/persons (200), GET /api/persons/{id} (200/404), PUT /api/persons/{id} (200/404), DELETE /api/persons/{id} (204/404).
 PersonControllerIT: 8 MockMvc @SpringBootTest tests against H2 covering all endpoints including 404 paths.
 mvn test: 28/28 PASSED (6 BoatClass IT + 6 BoatClass service + 8 Person service + 8 Person IT)
+
+2026-06-20 | Task 11 | BoatRepository
+Created Boat JPA entity (boat table, id + name + sailNumber + boatClassId + ownerId) and BoatRepository (extends JpaRepository<Boat, Long>) with findByOwnerId(Long ownerId).
+Uses ID-based reference pattern (no JPA object relationships) per mediator/decoupling architecture. ownerId is nullable (owner optional at creation).
+Package: au.com.voc.raceEntry.boat
+mvn compile: SUCCESS | mvn test: 28/28 PASSED (all existing tests green)

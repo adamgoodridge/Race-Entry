@@ -76,7 +76,7 @@ _(none yet)_
 
 #### Boat
 
-- [ ] **11** — Repository interface (`BoatRepository`) — include `findByOwnerId`
+- [x] **11** — Repository interface (`BoatRepository`) — include `findByOwnerId`
 - [ ] **12** — Service unit tests (`BoatServiceTest`) — create (owner optional), list, get, update, assign owner, remove owner, delete
 - [ ] **13** — Service implementation (`BoatService`)
 - [ ] **14** — Controller integration tests (`BoatControllerIT`) — covers `PUT /api/boats/{id}/owner/{personId}` and `DELETE /api/boats/{id}/owner`
