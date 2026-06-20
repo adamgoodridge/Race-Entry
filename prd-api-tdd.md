@@ -100,7 +100,7 @@ _(none yet)_
 
 #### Entry
 
-- [ ] **21** — Repository interface (`EntryRepository`) — include `findByEventId`, unique constraint boat+event
+- [x] **21** — Repository interface (`EntryRepository`) — include `findByEventId`, unique constraint boat+event
 - [ ] **22** — Service unit tests (`EntryServiceTest`) — create draft, get, list by event, submit (happy path), submit without owner → 422, submit without drivers → 422, entry to closed event → 422, duplicate boat+event → 409, update status, delete draft
 - [ ] **23** — Service implementation (`EntryService`) — enforce all business rules in `submit()`
 - [ ] **24** — Controller integration tests (`EntryControllerIT`) — covers `POST /api/entries/{id}/submit` and `PUT /api/entries/{id}/status`

@@ -65,3 +65,9 @@ EventController: POST /api/events (201), GET /api/events (200), GET /api/events/
 EventControllerIT: 10 MockMvc @SpringBootTest tests against H2 covering all endpoints including close and 404 paths.
 Package: au.com.voc.raceEntry.event
 mvn test: 73/73 PASSED
+
+2026-06-20 | Task 21 | EntryRepository
+Note: Entry entity and EntryStatus enum (DRAFT, SUBMITTED) were already present in the entry package.
+Created EntryRepository extends JpaRepository<Entry, Long> with findByEventId(Long eventId). Unique constraint boat_id+event_id already declared on the Entry entity via @UniqueConstraint.
+Package: au.com.voc.raceEntry.entry
+mvn compile: SUCCESS | mvn test: 73/73 PASSED (all existing tests green)
