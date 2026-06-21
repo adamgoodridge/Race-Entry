@@ -123,3 +123,9 @@ mvn test: 114/114 PASSED — all tasks in prd-api-tdd.md complete.
 Created User JPA entity (app_user table — name avoids SQL reserved word; id, username unique, password, role, personId nullable) and UserRepository (extends JpaRepository<User, Long>) with findByUsername(String username).
 Package: au.com.voc.raceEntry.user
 mvn test: 114/114 PASSED (all existing tests green)
+
+2026-06-22 | prd-frontend-auth Task 2 | JWT utility + JwtFilter
+Added io.jsonwebtoken jjwt-api/impl/jackson 0.11.5 to pom.xml. Created JwtUtil (@Component): generateToken (24h default expiry), package-private generateToken(username, expirationMs) for tests, extractUsername, isTokenValid; secret injected from jwt.secret property via @Value; uses Keys.hmacShaKeyFor + HS256. Created JwtFilter (OncePerRequestFilter): reads Authorization: Bearer header, validates via JwtUtil, sets UsernamePasswordAuthenticationToken in SecurityContextHolder. Added jwt.secret to main and test application.properties.
+JwtUtilTest: 5 unit tests (ReflectionTestUtils to inject secret) — generate non-blank, extract username, valid token true, expired token false, tampered token false.
+Package: au.com.voc.raceEntry.security
+mvn test -Dtest=JwtUtilTest: 5/5 PASSED | mvn test: 119/119 PASSED

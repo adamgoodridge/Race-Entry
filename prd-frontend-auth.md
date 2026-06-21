@@ -58,6 +58,13 @@
 - [x] `UserRepository extends JpaRepository<User, Long>`
 - [x] `Optional<User> findByUsername(String username)`
 
+#### [2] JWT utility + JwtFilter
+**Auth — Backend**
+- [x] Add `io.jsonwebtoken:jjwt-api/impl/jackson` (0.11.x) to `pom.xml`
+- [x] `JwtUtil`: `generateToken`, `extractUsername`, `isTokenValid`
+- [x] `JwtFilter extends OncePerRequestFilter`: reads `Authorization: Bearer <token>`, validates, sets `SecurityContextHolder`
+- [x] Test: `JwtUtilTest` — generate, extract username, reject expired, reject tampered
+
 ---
 
 ### In Progress
@@ -69,13 +76,6 @@ _(none yet)_
 ### To Do
 
 ---
-
-#### [2] JWT utility + JwtFilter
-**Auth — Backend**
-- [ ] Add `io.jsonwebtoken:jjwt-api/impl/jackson` (0.11.x) to `pom.xml`
-- [ ] `JwtUtil`: `generateToken`, `extractUsername`, `isTokenValid`
-- [ ] `JwtFilter extends OncePerRequestFilter`: reads `Authorization: Bearer <token>`, validates, sets `SecurityContextHolder`
-- [ ] Test: `JwtUtilTest` — generate, extract username, reject expired
 
 ---
 
