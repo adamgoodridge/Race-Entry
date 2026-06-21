@@ -1,0 +1,157 @@
+# Kanban: Race Entry React Frontend + JWT Authentication
+
+## Reference
+
+**Stack:** React 19 · Vite 6 (`/frontend`) · React Router v6 · fetch API · Spring Security + JJWT · Vite proxies `/api` → `http://localhost:8080`
+
+**Auth:** JWT Bearer token stored in `localStorage`. Spring `JwtFilter` validates on every request. Login/register return `{token}`.
+
+**Build order:** JWT backend → Auth API → React auth shell → Auth pages → Events → My Boats → Entries → Driver mgmt → Admin
+
+**Error contract**
+
+| Status | Behaviour |
+|--------|-----------|
+| `401` | Clear token, redirect `/login` |
+| `403` | Show "Access denied" |
+| `404` | Show inline "Not found" |
+| `409` | Show inline conflict error |
+| `422` | Show inline business rule message |
+
+**Roles**
+
+| Role | Permissions |
+|------|-------------|
+| `ROLE_USER` | View events · manage own boats · create/submit entries · manage own entry's drivers |
+| `ROLE_ADMIN` | All above + manage boat classes + manage events |
+
+**Auth API endpoints**
+
+| Method | Path | Returns |
+|--------|------|---------|
+| `POST` | `/api/auth/register` | `{token}` |
+| `POST` | `/api/auth/login` | `{token}` |
+
+**React route map**
+
+| Path | Role | Component |
+|------|------|-----------|
+| `/login` | Public | `LoginPage` |
+| `/register` | Public | `RegisterPage` |
+| `/events` | USER | `EventListPage` |
+| `/events/:id` | USER | `EventDetailPage` |
+| `/my-boats` | USER | `MyBoatsPage` |
+| `/entries/new` | USER | `NewEntryPage` |
+| `/entries/:id` | USER | `EntryDetailPage` |
+| `/admin/boat-classes` | ADMIN | `AdminBoatClassesPage` |
+| `/admin/events` | ADMIN | `AdminEventsPage` |
+
+---
+
+## Board
+
+### Done
+
+_(none yet)_
+
+---
+
+### In Progress
+
+_(none yet)_
+
+---
+
+### To Do
+
+---
+
+#### [1] User entity + UserRepository
+**Auth — Backend**
+- [ ] `User`: `id`, `username` (unique), `password` (BCrypt), `role` (`ROLE_USER`/`ROLE_ADMIN`), `personId` (FK → `person.id`, nullable)
+- [ ] `UserRepository extends JpaRepository<User, Long>`
+- [ ] `Optional<User> findByUsername(String username)`
+
+---
+
+#### [2] JWT utility + JwtFilter
+**Auth — Backend**
+- [ ] Add `io.jsonwebtoken:jjwt-api/impl/jackson` (0.11.x) to `pom.xml`
+- [ ] `JwtUtil`: `generateToken`, `extractUsername`, `isTokenValid`
+- [ ] `JwtFilter extends OncePerRequestFilter`: reads `Authorization: Bearer <token>`, validates, sets `SecurityContextHolder`
+- [ ] Test: `JwtUtilTest` — generate, extract username, reject expired
+
+---
+
+#### [3] UserDetailsServiceImpl + SecurityConfig
+**Auth — Backend**
+- [ ] `UserDetailsServiceImpl implements UserDetailsService` — loads `User` by username
+- [ ] `SecurityConfig`: `BCryptPasswordEncoder` bean · stateless sessions · add `JwtFilter` before `UsernamePasswordAuthenticationFilter`
+- [ ] CORS: allow `http://localhost:5173`, GET/POST/PUT/DELETE, Authorization/Content-Type headers
+- [ ] Permit: `POST /api/auth/register`, `POST /api/auth/login`; `ROLE_ADMIN` for `/api/admin/**`; auth required for all other `/api/**`; CSRF disabled
+
+---
+
+#### [4] AuthService + AuthController
+**Auth — Backend**
+- [ ] `AuthService.register`: validate username not taken · BCrypt password · save `ROLE_USER` · auto-create `Person` (firstName=username) · return JWT
+- [ ] `AuthService.login`: authenticate → JWT; throw `401` on bad credentials
+- [ ] `AuthController` (`/api/auth`): `POST /register` → `200 {token}` · `POST /login` → `200 {token}` or `401`
+- [ ] Test: `AuthServiceTest` — register success · duplicate → `ConflictException` · login success · bad password → exception
+- [ ] Test: `AuthControllerIT` — register 200+token · duplicate 409 · login 200+token · bad password 401
+
+---
+
+#### [5] React foundation — project structure + routing + auth context
+**React — Foundation**
+- [ ] Install `react-router-dom`
+- [ ] `src/api/client.js` — fetch wrapper: reads token from `localStorage`, sets `Authorization` header, on `401` clear token + redirect `/login`
+- [ ] `src/context/AuthContext.jsx` — `{user, token, login, logout}`: `login` stores token + decodes username; `logout` clears localStorage
+- [ ] `src/router.jsx` — `<BrowserRouter>` + routes + `<ProtectedRoute>` (→ `/login`) + `<AdminRoute>` (checks `ROLE_ADMIN` from token)
+- [ ] `src/App.jsx` — wraps router in `<AuthContext.Provider>`
+
+---
+
+#### [6] Login + Register pages + NavBar
+**React — Foundation**
+- [ ] `LoginPage`: username/password form → `POST /api/auth/login` · success: `login(token)` + navigate `/events` · failure: inline "Invalid username or password" · link to `/register`
+- [ ] `RegisterPage`: username/password/confirm form · validate passwords match · `POST /api/auth/register` · success: `login(token)` + navigate `/events` · 409: "Username already taken" · link to `/login`
+- [ ] `NavBar`: Events · My Boats links; if admin also Boat Classes + Admin Events; Logout button
+
+---
+
+#### [7] Events list + detail pages
+**React — Events**
+- [ ] `EventListPage`: `GET /api/events` on mount · table: name, status badge (OPEN=green, CLOSED=grey), "View" → `/events/:id`
+- [ ] `EventDetailPage`: `GET /api/events/:id` + `GET /api/entries/event/:id` · render name+status · entries table (boat name via `GET /api/boats/:id`, entry status) · "Enter this event" → `/entries/new?eventId=:id` (visible only when OPEN)
+
+---
+
+#### [8] My Boats CRUD page
+**React — My Boats**
+- [ ] Decode `personId` claim from JWT; add `personId` claim in `JwtUtil.generateToken`
+- [ ] Backend: add `?ownerId=` query param to `GET /api/boats` (`findByOwnerId`)
+- [ ] `MyBoatsPage`: load own boats · table: name, sail number, boat class; Edit + Delete buttons · inline "Add boat" form: name, sail number, boat class `<select>` (from `GET /api/boat-classes`)
+- [ ] Add: `POST /api/boats` with `ownerId` from token · Edit: `PUT /api/boats/:id` · Delete: `DELETE /api/boats/:id` with confirmation
+
+---
+
+#### [9] New entry + entry detail pages
+**React — Entries**
+- [ ] `NewEntryPage`: load user's boats + open events · form: boat `<select>` + event `<select>` (pre-select `?eventId=`) · `POST /api/entries` · success → `/entries/:id` · 409: "Entry already exists for this boat in this event"
+- [ ] `EntryDetailPage`: `GET /api/entries/:id` + `GET /api/entries/:id/drivers` · resolve boat + event names · entry summary: boat, event, status badge
+- [ ] Driver table: person name (via `GET /api/persons/:id`), role, Remove (`DELETE /api/entry-drivers/:driverId`)
+- [ ] "Add driver" form: person `<select>` + role input → `POST /api/entries/:id/drivers` · 409: "Person already a driver on this entry"
+- [ ] "Submit entry" → `POST /api/entries/:id/submit` · 422: show business rule · hide button if SUBMITTED
+
+---
+
+#### [10] Admin: Boat Classes page
+**React — Admin**
+- [ ] `AdminBoatClassesPage` (wrapped in `<AdminRoute>`): `GET /api/boat-classes` on mount · table with Delete (`DELETE /api/boat-classes/:id`) · inline "Add boat class" form → `POST /api/boat-classes`
+
+---
+
+#### [11] Admin: Events page
+**React — Admin**
+- [ ] `AdminEventsPage` (wrapped in `<AdminRoute>`): `GET /api/events` on mount · table: name, status badge, "Close" (`PUT /api/events/:id/close`, only if OPEN), Delete (`DELETE /api/events/:id`) · inline "Create event" form → `POST /api/events`
