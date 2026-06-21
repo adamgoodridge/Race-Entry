@@ -118,3 +118,8 @@ mvn test -Dtest=EntryDriverControllerIT: 7/7 PASSED | mvn test: 114/114 PASSED
 EntryDriverController was already fully implemented as a prerequisite during Task 29. Confirmed implementation covers all operations: addDriver (POST /api/entries/{entryId}/drivers, 201), listDrivers (GET /api/entries/{entryId}/drivers, 200), updateRole (PUT /api/entry-drivers/{id}/role, 200/404), removeDriver (DELETE /api/entry-drivers/{id}, 204/404).
 Package: au.com.voc.raceEntry.entry
 mvn test: 114/114 PASSED — all tasks in prd-api-tdd.md complete.
+
+2026-06-22 | prd-frontend-auth Task 1 | User entity + UserRepository
+Created User JPA entity (app_user table — name avoids SQL reserved word; id, username unique, password, role, personId nullable) and UserRepository (extends JpaRepository<User, Long>) with findByUsername(String username).
+Package: au.com.voc.raceEntry.user
+mvn test: 114/114 PASSED (all existing tests green)

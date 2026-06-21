@@ -52,7 +52,11 @@
 
 ### Done
 
-_(none yet)_
+#### [1] User entity + UserRepository
+**Auth — Backend**
+- [x] `User`: `id`, `username` (unique), `password` (BCrypt), `role` (`ROLE_USER`/`ROLE_ADMIN`), `personId` (FK → `person.id`, nullable)
+- [x] `UserRepository extends JpaRepository<User, Long>`
+- [x] `Optional<User> findByUsername(String username)`
 
 ---
 
@@ -63,14 +67,6 @@ _(none yet)_
 ---
 
 ### To Do
-
----
-
-#### [1] User entity + UserRepository
-**Auth — Backend**
-- [ ] `User`: `id`, `username` (unique), `password` (BCrypt), `role` (`ROLE_USER`/`ROLE_ADMIN`), `personId` (FK → `person.id`, nullable)
-- [ ] `UserRepository extends JpaRepository<User, Long>`
-- [ ] `Optional<User> findByUsername(String username)`
 
 ---
 
