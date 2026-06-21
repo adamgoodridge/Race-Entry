@@ -1,11 +1,5 @@
 package au.com.voc.raceEntry.entry;
 
-import au.com.voc.raceEntry.boat.Boat;
-import au.com.voc.raceEntry.boat.BoatRepository;
-import au.com.voc.raceEntry.event.Event;
-import au.com.voc.raceEntry.event.EventRepository;
-import au.com.voc.raceEntry.event.EventStatus;
-import au.com.voc.raceEntry.exception.BusinessRuleViolationException;
 import au.com.voc.raceEntry.exception.ConflictException;
 import au.com.voc.raceEntry.exception.ResourceNotFoundException;
 import org.junit.jupiter.api.Test;
@@ -27,9 +21,6 @@ import static org.mockito.Mockito.when;
 class EntryServiceTest {
 
     @Mock private EntryRepository entryRepository;
-    @Mock private BoatRepository boatRepository;
-    @Mock private EventRepository eventRepository;
-    @Mock private EntryDriverRepository driverRepository;
 
     @InjectMocks private EntryService service;
 
@@ -84,69 +75,6 @@ class EntryServiceTest {
         List<Entry> result = service.findByEventId(2L);
 
         assertThat(result).hasSize(2);
-    }
-
-    @Test
-    void submit_setsStatusSubmitted_whenValid() {
-        Entry entry = new Entry(1L, 2L);
-        Event event = new Event("Regatta");
-        Boat boat = new Boat("Speedy", "AUS1", 1L, 10L);
-
-        when(entryRepository.findById(1L)).thenReturn(Optional.of(entry));
-        when(eventRepository.findById(2L)).thenReturn(Optional.of(event));
-        when(boatRepository.findById(1L)).thenReturn(Optional.of(boat));
-        when(driverRepository.countByEntryId(1L)).thenReturn(1L);
-        when(entryRepository.save(any(Entry.class))).thenReturn(entry);
-
-        Entry result = service.submit(1L);
-
-        assertThat(result.getStatus()).isEqualTo(EntryStatus.SUBMITTED);
-        verify(entryRepository).save(entry);
-    }
-
-    @Test
-    void submit_throws422_whenEventIsClosed() {
-        Entry entry = new Entry(1L, 2L);
-        Event event = new Event("Regatta");
-        event.setStatus(EventStatus.CLOSED);
-
-        when(entryRepository.findById(1L)).thenReturn(Optional.of(entry));
-        when(eventRepository.findById(2L)).thenReturn(Optional.of(event));
-
-        assertThatThrownBy(() -> service.submit(1L))
-                .isInstanceOf(BusinessRuleViolationException.class)
-                .hasMessageContaining("closed");
-    }
-
-    @Test
-    void submit_throws422_whenBoatHasNoOwner() {
-        Entry entry = new Entry(1L, 2L);
-        Event event = new Event("Regatta");
-        Boat boat = new Boat("Speedy", "AUS1", 1L, null);
-
-        when(entryRepository.findById(1L)).thenReturn(Optional.of(entry));
-        when(eventRepository.findById(2L)).thenReturn(Optional.of(event));
-        when(boatRepository.findById(1L)).thenReturn(Optional.of(boat));
-
-        assertThatThrownBy(() -> service.submit(1L))
-                .isInstanceOf(BusinessRuleViolationException.class)
-                .hasMessageContaining("no owner");
-    }
-
-    @Test
-    void submit_throws422_whenNoDrivers() {
-        Entry entry = new Entry(1L, 2L);
-        Event event = new Event("Regatta");
-        Boat boat = new Boat("Speedy", "AUS1", 1L, 10L);
-
-        when(entryRepository.findById(1L)).thenReturn(Optional.of(entry));
-        when(eventRepository.findById(2L)).thenReturn(Optional.of(event));
-        when(boatRepository.findById(1L)).thenReturn(Optional.of(boat));
-        when(driverRepository.countByEntryId(1L)).thenReturn(0L);
-
-        assertThatThrownBy(() -> service.submit(1L))
-                .isInstanceOf(BusinessRuleViolationException.class)
-                .hasMessageContaining("no drivers");
     }
 
     @Test

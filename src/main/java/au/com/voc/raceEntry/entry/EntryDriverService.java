@@ -28,6 +28,10 @@ public class EntryDriverService {
         return driverRepository.findByEntryId(entryId);
     }
 
+    public long countByEntryId(Long entryId) {
+        return driverRepository.countByEntryId(entryId);
+    }
+
     public EntryDriver updateRole(Long entryDriverId, String role) {
         EntryDriver driver = driverRepository.findById(entryDriverId)
                 .orElseThrow(() -> new ResourceNotFoundException("EntryDriver not found: " + entryDriverId));
