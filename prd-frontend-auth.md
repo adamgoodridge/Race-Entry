@@ -52,6 +52,12 @@
 
 ### Done
 
+#### [6] Login + Register pages + NavBar
+**React — Foundation**
+- [x] `LoginPage`: username/password form → `POST /api/auth/login` · success: `login(token)` + navigate `/events` · failure: inline "Invalid username or password" · link to `/register`
+- [x] `RegisterPage`: username/password/confirm form · validate passwords match · `POST /api/auth/register` · success: `login(token)` + navigate `/events` · 409: "Username already taken" · link to `/login`
+- [x] `NavBar`: Events · My Boats links; if admin also Boat Classes + Admin Events; Logout button
+
 #### [5] React foundation — project structure + routing + auth context
 **React — Foundation**
 - [x] Install `react-router-dom` (added to `package.json`; run `npm install` in `/frontend` to apply)
@@ -99,18 +105,6 @@ _(none yet)_
 ---
 
 ### To Do
-
----
-
----
-
----
-
-#### [6] Login + Register pages + NavBar
-**React — Foundation**
-- [ ] `LoginPage`: username/password form → `POST /api/auth/login` · success: `login(token)` + navigate `/events` · failure: inline "Invalid username or password" · link to `/register`
-- [ ] `RegisterPage`: username/password/confirm form · validate passwords match · `POST /api/auth/register` · success: `login(token)` + navigate `/events` · 409: "Username already taken" · link to `/login`
-- [ ] `NavBar`: Events · My Boats links; if admin also Boat Classes + Admin Events; Logout button
 
 ---
 

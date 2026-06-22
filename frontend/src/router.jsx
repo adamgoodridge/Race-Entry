@@ -1,6 +1,7 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import { useContext } from 'react';
 import { AuthContext } from './context/AuthContext';
+import NavBar from './components/NavBar';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import EventListPage from './pages/EventListPage';
@@ -11,16 +12,27 @@ import EntryDetailPage from './pages/EntryDetailPage';
 import AdminBoatClassesPage from './pages/AdminBoatClassesPage';
 import AdminEventsPage from './pages/AdminEventsPage';
 
-function ProtectedRoute({ children }) {
+function ProtectedLayout() {
   const { token } = useContext(AuthContext);
-  return token ? children : <Navigate to="/login" replace />;
+  if (!token) return <Navigate to="/login" replace />;
+  return (
+    <>
+      <NavBar />
+      <Outlet />
+    </>
+  );
 }
 
-function AdminRoute({ children }) {
+function AdminLayout() {
   const { token, user } = useContext(AuthContext);
   if (!token) return <Navigate to="/login" replace />;
   if (user?.role !== 'ROLE_ADMIN') return <Navigate to="/events" replace />;
-  return children;
+  return (
+    <>
+      <NavBar />
+      <Outlet />
+    </>
+  );
 }
 
 export default function AppRouter() {
@@ -29,13 +41,17 @@ export default function AppRouter() {
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/events" element={<ProtectedRoute><EventListPage /></ProtectedRoute>} />
-        <Route path="/events/:id" element={<ProtectedRoute><EventDetailPage /></ProtectedRoute>} />
-        <Route path="/my-boats" element={<ProtectedRoute><MyBoatsPage /></ProtectedRoute>} />
-        <Route path="/entries/new" element={<ProtectedRoute><NewEntryPage /></ProtectedRoute>} />
-        <Route path="/entries/:id" element={<ProtectedRoute><EntryDetailPage /></ProtectedRoute>} />
-        <Route path="/admin/boat-classes" element={<AdminRoute><AdminBoatClassesPage /></AdminRoute>} />
-        <Route path="/admin/events" element={<AdminRoute><AdminEventsPage /></AdminRoute>} />
+        <Route element={<ProtectedLayout />}>
+          <Route path="/events" element={<EventListPage />} />
+          <Route path="/events/:id" element={<EventDetailPage />} />
+          <Route path="/my-boats" element={<MyBoatsPage />} />
+          <Route path="/entries/new" element={<NewEntryPage />} />
+          <Route path="/entries/:id" element={<EntryDetailPage />} />
+        </Route>
+        <Route element={<AdminLayout />}>
+          <Route path="/admin/boat-classes" element={<AdminBoatClassesPage />} />
+          <Route path="/admin/events" element={<AdminEventsPage />} />
+        </Route>
         <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </BrowserRouter>

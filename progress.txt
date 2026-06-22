@@ -149,3 +149,10 @@ AuthServiceTest: 4 unit tests (Mockito) — register success, duplicate Conflict
 AuthControllerIT: 4 MockMvc @SpringBootTest tests — register 200+token, duplicate 409, login 200+token, bad password 401.
 Package: au.com.voc.raceEntry.auth
 mvn test -Dtest=AuthServiceTest,AuthControllerIT: 8/8 PASSED | mvn test: 127/127 PASSED
+
+2026-06-22 | prd-frontend-auth Task 6 | Login + Register pages + NavBar
+LoginPage: username/password form, raw fetch POST /api/auth/login (raw fetch avoids apiFetch 401 redirect loop on bad credentials), success → login(token) + navigate /events, failure → inline "Invalid username or password", link to /register.
+RegisterPage: username/password/confirm form, client-side password match validation, raw fetch POST /api/auth/register, success → login(token) + navigate /events, 409 → "Username already taken", link to /login.
+NavBar (src/components/NavBar.jsx): Events + My Boats links; ROLE_ADMIN users also see Boat Classes + Admin Events links; Logout button calls logout() + navigate /login.
+Router refactored to use React Router v6 layout routes (ProtectedLayout + AdminLayout with Outlet) so NavBar renders once per layout rather than per-route.
+mvn test: 127/127 PASSED (backend unchanged)
