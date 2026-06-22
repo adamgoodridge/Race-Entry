@@ -169,3 +169,9 @@ BoatController: GET /api/boats now accepts optional ?ownerId= query param, deleg
 AuthContext: user object now exposes personId decoded from JWT claim.
 MyBoatsPage: fetches GET /api/boats?ownerId={personId} and GET /api/boat-classes on mount; table with name, sail number, resolved class name, Edit + Delete; inline add form; inline row edit form with save/cancel; delete with confirm().
 mvn test: 128/128 PASSED
+
+2026-06-22 | prd-frontend-auth Task 9 | New entry + entry detail pages
+NewEntryPage: loads user's boats (GET /api/boats?ownerId) + OPEN events (GET /api/events filtered); form with boat <select> and event <select> (pre-selects ?eventId= from query string); POST /api/entries; success → /entries/:id; 409 → inline "Entry already exists for this boat in this event".
+EntryDetailPage: fetches GET /api/entries/:id + GET /api/entries/:id/drivers + GET /api/persons in parallel; resolves boat name (GET /api/boats/:id) and event name (GET /api/events/:id); renders entry summary (boat, event, status badge); driver table with person name (GET /api/persons/:id) and role with Remove button (DELETE /api/entry-drivers/:id); "Add driver" form with person <select> + role input (POST /api/entries/:id/drivers, 409 → inline error); "Submit Entry" button (POST /api/entries/:id/submit, 422 → inline business rule, hidden once SUBMITTED).
+No backend changes — all endpoints already exist.
+mvn test: 128/128 PASSED

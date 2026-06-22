@@ -116,17 +116,19 @@ _(none yet)_
 
 ---
 
-### To Do
-
----
+### Done (continued)
 
 #### [9] New entry + entry detail pages
 **React — Entries**
-- [ ] `NewEntryPage`: load user's boats + open events · form: boat `<select>` + event `<select>` (pre-select `?eventId=`) · `POST /api/entries` · success → `/entries/:id` · 409: "Entry already exists for this boat in this event"
-- [ ] `EntryDetailPage`: `GET /api/entries/:id` + `GET /api/entries/:id/drivers` · resolve boat + event names · entry summary: boat, event, status badge
-- [ ] Driver table: person name (via `GET /api/persons/:id`), role, Remove (`DELETE /api/entry-drivers/:driverId`)
-- [ ] "Add driver" form: person `<select>` + role input → `POST /api/entries/:id/drivers` · 409: "Person already a driver on this entry"
-- [ ] "Submit entry" → `POST /api/entries/:id/submit` · 422: show business rule · hide button if SUBMITTED
+- [x] `NewEntryPage`: load user's boats + open events · form: boat `<select>` + event `<select>` (pre-select `?eventId=`) · `POST /api/entries` · success → `/entries/:id` · 409: "Entry already exists for this boat in this event"
+- [x] `EntryDetailPage`: `GET /api/entries/:id` + `GET /api/entries/:id/drivers` · resolve boat + event names · entry summary: boat, event, status badge
+- [x] Driver table: person name (via `GET /api/persons/:id`), role, Remove (`DELETE /api/entry-drivers/:driverId`)
+- [x] "Add driver" form: person `<select>` + role input → `POST /api/entries/:id/drivers` · 409: "Person already a driver on this entry"
+- [x] "Submit entry" → `POST /api/entries/:id/submit` · 422: show business rule · hide button if SUBMITTED
+
+---
+
+### To Do
 
 ---
 
