@@ -156,3 +156,9 @@ RegisterPage: username/password/confirm form, client-side password match validat
 NavBar (src/components/NavBar.jsx): Events + My Boats links; ROLE_ADMIN users also see Boat Classes + Admin Events links; Logout button calls logout() + navigate /login.
 Router refactored to use React Router v6 layout routes (ProtectedLayout + AdminLayout with Outlet) so NavBar renders once per layout rather than per-route.
 mvn test: 127/127 PASSED (backend unchanged)
+
+2026-06-22 | prd-frontend-auth Task 7 | Events list + detail pages
+EventListPage: fetches GET /api/events on mount, renders table with name, status badge (OPEN=green, CLOSED=grey), and "View" link to /events/:id.
+EventDetailPage: fetches GET /api/events/:id and GET /api/entries/event/:id in parallel; resolves boat names via GET /api/boats/:id for each entry; renders event name+status badge, entries table (boat name, entry status), and "Enter this event" link to /entries/new?eventId=:id (only when OPEN).
+No backend changes — all data available from existing API endpoints.
+mvn test: 127/127 PASSED

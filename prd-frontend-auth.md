@@ -52,6 +52,11 @@
 
 ### Done
 
+#### [7] Events list + detail pages
+**React — Events**
+- [x] `EventListPage`: `GET /api/events` on mount · table: name, status badge (OPEN=green, CLOSED=grey), "View" → `/events/:id`
+- [x] `EventDetailPage`: `GET /api/events/:id` + `GET /api/entries/event/:id` · render name+status · entries table (boat name via `GET /api/boats/:id`, entry status) · "Enter this event" → `/entries/new?eventId=:id` (visible only when OPEN)
+
 #### [6] Login + Register pages + NavBar
 **React — Foundation**
 - [x] `LoginPage`: username/password form → `POST /api/auth/login` · success: `login(token)` + navigate `/events` · failure: inline "Invalid username or password" · link to `/register`
@@ -107,11 +112,6 @@ _(none yet)_
 ### To Do
 
 ---
-
-#### [7] Events list + detail pages
-**React — Events**
-- [ ] `EventListPage`: `GET /api/events` on mount · table: name, status badge (OPEN=green, CLOSED=grey), "View" → `/events/:id`
-- [ ] `EventDetailPage`: `GET /api/events/:id` + `GET /api/entries/event/:id` · render name+status · entries table (boat name via `GET /api/boats/:id`, entry status) · "Enter this event" → `/entries/new?eventId=:id` (visible only when OPEN)
 
 ---
 
