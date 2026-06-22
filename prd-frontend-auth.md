@@ -134,7 +134,7 @@ _(none yet)_
 
 #### [10] Admin: Boat Classes page
 **React — Admin**
-- [ ] `AdminBoatClassesPage` (wrapped in `<AdminRoute>`): `GET /api/boat-classes` on mount · table with Delete (`DELETE /api/boat-classes/:id`) · inline "Add boat class" form → `POST /api/boat-classes`
+- [x] `AdminBoatClassesPage` (wrapped in `<AdminRoute>`): `GET /api/boat-classes` on mount · table with Delete (`DELETE /api/boat-classes/:id`) · inline "Add boat class" form → `POST /api/boat-classes`
 
 ---
 
