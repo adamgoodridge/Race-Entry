@@ -40,7 +40,7 @@ class AuthServiceTest {
         when(personRepository.save(any(Person.class))).thenAnswer(inv -> inv.getArgument(0));
         when(passwordEncoder.encode("secret")).thenReturn("hashed");
         when(userRepository.save(any(User.class))).thenAnswer(inv -> inv.getArgument(0));
-        when(jwtUtil.generateToken("alice")).thenReturn("jwt-token");
+        when(jwtUtil.generateToken("alice", "ROLE_USER")).thenReturn("jwt-token");
 
         String token = authService.register("alice", "secret");
 
@@ -64,7 +64,9 @@ class AuthServiceTest {
     @Test
     void login_success_returnsToken() {
         when(authenticationManager.authenticate(any())).thenReturn(null);
-        when(jwtUtil.generateToken("alice")).thenReturn("jwt-token");
+        when(userRepository.findByUsername("alice"))
+                .thenReturn(Optional.of(new User("alice", "hashed", "ROLE_USER", null)));
+        when(jwtUtil.generateToken("alice", "ROLE_USER")).thenReturn("jwt-token");
 
         String token = authService.login("alice", "secret");
 

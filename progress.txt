@@ -137,6 +137,12 @@ Updated all existing controller ITs (BoatClassControllerIT, BoatControllerIT, Pe
 Package: au.com.voc.raceEntry.security
 mvn test: 119/119 PASSED
 
+2026-06-22 | prd-frontend-auth Task 5 | React foundation — project structure + routing + auth context
+Created src/api/client.js (fetch wrapper: Bearer token from localStorage, 401 clears token + redirects /login). Created src/context/AuthContext.jsx (AuthProvider: login stores token + decodes JWT claims for username/role; logout clears localStorage; exposes {user, token, login, logout}). Created src/router.jsx (BrowserRouter + all routes from PRD route map + ProtectedRoute → /login + AdminRoute checks ROLE_ADMIN). Updated src/App.jsx to wrap AppRouter in AuthProvider. Added react-router-dom ^6.30.1 to frontend/package.json (run npm install in /frontend).
+Backend: added JwtUtil.generateToken(username, role) overload that embeds a role claim; updated AuthService.register/login to pass role to generateToken; updated AuthServiceTest mocks accordingly.
+Note: All page files (LoginPage, RegisterPage, etc.) are stub placeholders pending Task 6+.
+mvn test: 127/127 PASSED
+
 2026-06-22 | prd-frontend-auth Task 4 | AuthService + AuthController
 Created AuthRequest DTO (username + password). AuthService: register (checks duplicate → ConflictException, BCrypt-encodes password, saves ROLE_USER, auto-creates Person(firstName=username, lastName="", email=username@placeholder.local), returns JWT); login (AuthenticationManager.authenticate → ResponseStatusException 401 on failure, returns JWT on success). AuthController (/api/auth): POST /register → 200 {token}; POST /login → 200 {token} or 401.
 AuthServiceTest: 4 unit tests (Mockito) — register success, duplicate ConflictException, login success, bad password 401.

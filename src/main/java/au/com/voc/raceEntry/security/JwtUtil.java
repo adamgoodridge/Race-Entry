@@ -23,6 +23,16 @@ public class JwtUtil {
         return generateToken(username, DEFAULT_EXPIRY_MS);
     }
 
+    public String generateToken(String username, String role) {
+        return Jwts.builder()
+                .setSubject(username)
+                .claim("role", role)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + DEFAULT_EXPIRY_MS))
+                .signWith(getKey(), SignatureAlgorithm.HS256)
+                .compact();
+    }
+
     String generateToken(String username, long expirationMs) {
         return Jwts.builder()
                 .setSubject(username)
@@ -34,6 +44,10 @@ public class JwtUtil {
 
     public String extractUsername(String token) {
         return parseClaims(token).getSubject();
+    }
+
+    public String extractRole(String token) {
+        return parseClaims(token).get("role", String.class);
     }
 
     public boolean isTokenValid(String token) {

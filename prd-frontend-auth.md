@@ -52,6 +52,16 @@
 
 ### Done
 
+#### [5] React foundation — project structure + routing + auth context
+**React — Foundation**
+- [x] Install `react-router-dom` (added to `package.json`; run `npm install` in `/frontend` to apply)
+- [x] `src/api/client.js` — fetch wrapper: reads token from `localStorage`, sets `Authorization` header, on `401` clear token + redirect `/login`
+- [x] `src/context/AuthContext.jsx` — `{user, token, login, logout}`: `login` stores token + decodes username+role; `logout` clears localStorage
+- [x] `src/router.jsx` — `<BrowserRouter>` + routes + `<ProtectedRoute>` (→ `/login`) + `<AdminRoute>` (checks `ROLE_ADMIN` from token)
+- [x] `src/App.jsx` — wraps router in `<AuthContext.Provider>`
+- [x] `JwtUtil.generateToken(username, role)` — adds `role` claim to JWT so frontend can decode it from token
+- [x] `AuthService` updated to pass role to `generateToken`
+
 #### [4] AuthService + AuthController
 **Auth — Backend**
 - [x] `AuthService.register`: validate username not taken · BCrypt password · save `ROLE_USER` · auto-create `Person` (firstName=username) · return JWT
@@ -93,16 +103,6 @@ _(none yet)_
 ---
 
 ---
-
----
-
-#### [5] React foundation — project structure + routing + auth context
-**React — Foundation**
-- [ ] Install `react-router-dom`
-- [ ] `src/api/client.js` — fetch wrapper: reads token from `localStorage`, sets `Authorization` header, on `401` clear token + redirect `/login`
-- [ ] `src/context/AuthContext.jsx` — `{user, token, login, logout}`: `login` stores token + decodes username; `logout` clears localStorage
-- [ ] `src/router.jsx` — `<BrowserRouter>` + routes + `<ProtectedRoute>` (→ `/login`) + `<AdminRoute>` (checks `ROLE_ADMIN` from token)
-- [ ] `src/App.jsx` — wraps router in `<AuthContext.Provider>`
 
 ---
 

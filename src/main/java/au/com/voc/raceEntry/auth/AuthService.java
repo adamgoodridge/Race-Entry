@@ -40,7 +40,7 @@ public class AuthService {
         Person person = personRepository.save(new Person(username, "", username + "@placeholder.local"));
         String encoded = passwordEncoder.encode(rawPassword);
         userRepository.save(new User(username, encoded, "ROLE_USER", person.getId()));
-        return jwtUtil.generateToken(username);
+        return jwtUtil.generateToken(username, "ROLE_USER");
     }
 
     public String login(String username, String rawPassword) {
@@ -50,6 +50,9 @@ public class AuthService {
         } catch (AuthenticationException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Bad credentials");
         }
-        return jwtUtil.generateToken(username);
+        String role = userRepository.findByUsername(username)
+                .map(User::getRole)
+                .orElse("ROLE_USER");
+        return jwtUtil.generateToken(username, role);
     }
 }
