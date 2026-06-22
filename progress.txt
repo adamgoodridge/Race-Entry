@@ -129,3 +129,10 @@ Added io.jsonwebtoken jjwt-api/impl/jackson 0.11.5 to pom.xml. Created JwtUtil (
 JwtUtilTest: 5 unit tests (ReflectionTestUtils to inject secret) — generate non-blank, extract username, valid token true, expired token false, tampered token false.
 Package: au.com.voc.raceEntry.security
 mvn test -Dtest=JwtUtilTest: 5/5 PASSED | mvn test: 119/119 PASSED
+
+2026-06-22 | prd-frontend-auth Task 3 | UserDetailsServiceImpl + SecurityConfig
+Created UserDetailsServiceImpl (@Service, implements UserDetailsService): loads User from UserRepository by username, maps role string to SimpleGrantedAuthority, throws UsernameNotFoundException if missing.
+Created SecurityConfig (@Configuration @EnableWebSecurity): BCryptPasswordEncoder bean, AuthenticationManager bean, stateless SessionCreationPolicy, CSRF disabled, CORS configured for http://localhost:5173 (GET/POST/PUT/DELETE, Authorization/Content-Type headers), SecurityFilterChain permits POST /api/auth/register + /api/auth/login, requires ROLE_ADMIN for /api/admin/**, requires auth for /api/**, JwtFilter added before UsernamePasswordAuthenticationFilter. Added FilterRegistrationBean to prevent JwtFilter double-invocation. Added @Component to JwtFilter.
+Updated all existing controller ITs (BoatClassControllerIT, BoatControllerIT, PersonControllerIT, EventControllerIT, EntryControllerIT, EntryDriverControllerIT) with @WithMockUser so they continue to pass under the new security config.
+Package: au.com.voc.raceEntry.security
+mvn test: 119/119 PASSED

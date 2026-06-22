@@ -52,6 +52,13 @@
 
 ### Done
 
+#### [3] UserDetailsServiceImpl + SecurityConfig
+**Auth — Backend**
+- [x] `UserDetailsServiceImpl implements UserDetailsService` — loads `User` by username
+- [x] `SecurityConfig`: `BCryptPasswordEncoder` bean · stateless sessions · add `JwtFilter` before `UsernamePasswordAuthenticationFilter`
+- [x] CORS: allow `http://localhost:5173`, GET/POST/PUT/DELETE, Authorization/Content-Type headers
+- [x] Permit: `POST /api/auth/register`, `POST /api/auth/login`; `ROLE_ADMIN` for `/api/admin/**`; auth required for all other `/api/**`; CSRF disabled
+
 #### [1] User entity + UserRepository
 **Auth — Backend**
 - [x] `User`: `id`, `username` (unique), `password` (BCrypt), `role` (`ROLE_USER`/`ROLE_ADMIN`), `personId` (FK → `person.id`, nullable)
@@ -76,15 +83,6 @@ _(none yet)_
 ### To Do
 
 ---
-
----
-
-#### [3] UserDetailsServiceImpl + SecurityConfig
-**Auth — Backend**
-- [ ] `UserDetailsServiceImpl implements UserDetailsService` — loads `User` by username
-- [ ] `SecurityConfig`: `BCryptPasswordEncoder` bean · stateless sessions · add `JwtFilter` before `UsernamePasswordAuthenticationFilter`
-- [ ] CORS: allow `http://localhost:5173`, GET/POST/PUT/DELETE, Authorization/Content-Type headers
-- [ ] Permit: `POST /api/auth/register`, `POST /api/auth/login`; `ROLE_ADMIN` for `/api/admin/**`; auth required for all other `/api/**`; CSRF disabled
 
 ---
 
