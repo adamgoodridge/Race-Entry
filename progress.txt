@@ -180,3 +180,8 @@ mvn test: 128/128 PASSED
 AdminBoatClassesPage: fetches GET /api/boat-classes on mount; table with name and Delete button (DELETE /api/boat-classes/:id with confirm()); inline "Add Boat Class" form (POST /api/boat-classes, inline error on failure). Page is wrapped in AdminLayout (ROLE_ADMIN guard) via the existing router.
 No backend changes — all endpoints already exist.
 mvn test: 128/128 PASSED
+
+2026-06-22 | prd-frontend-auth Task 11 | Admin: Events page
+AdminEventsPage: fetches GET /api/events on mount; table with name, status badge (OPEN=green, CLOSED=grey), "Close" button (PUT /api/events/:id/close, only visible when OPEN, updates row in place), Delete button (DELETE /api/events/:id with confirm()); inline "Create Event" form (POST /api/events, inline error on failure). Page is wrapped in AdminLayout (ROLE_ADMIN guard) via existing router.
+No backend changes — all endpoints already exist.
+mvn test: 128/128 PASSED — all tasks in prd-frontend-auth.md complete.

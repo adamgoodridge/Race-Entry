@@ -140,4 +140,4 @@ _(none yet)_
 
 #### [11] Admin: Events page
 **React — Admin**
-- [ ] `AdminEventsPage` (wrapped in `<AdminRoute>`): `GET /api/events` on mount · table: name, status badge, "Close" (`PUT /api/events/:id/close`, only if OPEN), Delete (`DELETE /api/events/:id`) · inline "Create event" form → `POST /api/events`
+- [x] `AdminEventsPage` (wrapped in `<AdminRoute>`): `GET /api/events` on mount · table: name, status badge, "Close" (`PUT /api/events/:id/close`, only if OPEN), Delete (`DELETE /api/events/:id`) · inline "Create event" form → `POST /api/events`
