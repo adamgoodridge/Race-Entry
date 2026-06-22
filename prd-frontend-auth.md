@@ -52,6 +52,13 @@
 
 ### Done
 
+#### [8] My Boats CRUD page
+**React — My Boats**
+- [x] Decode `personId` claim from JWT; add `personId` claim in `JwtUtil.generateToken`
+- [x] Backend: add `?ownerId=` query param to `GET /api/boats` (`findByOwnerId`)
+- [x] `MyBoatsPage`: load own boats · table: name, sail number, boat class; Edit + Delete buttons · inline "Add boat" form: name, sail number, boat class `<select>` (from `GET /api/boat-classes`)
+- [x] Add: `POST /api/boats` with `ownerId` from token · Edit: `PUT /api/boats/:id` · Delete: `DELETE /api/boats/:id` with confirmation
+
 #### [7] Events list + detail pages
 **React — Events**
 - [x] `EventListPage`: `GET /api/events` on mount · table: name, status badge (OPEN=green, CLOSED=grey), "View" → `/events/:id`
@@ -110,17 +117,6 @@ _(none yet)_
 ---
 
 ### To Do
-
----
-
----
-
-#### [8] My Boats CRUD page
-**React — My Boats**
-- [ ] Decode `personId` claim from JWT; add `personId` claim in `JwtUtil.generateToken`
-- [ ] Backend: add `?ownerId=` query param to `GET /api/boats` (`findByOwnerId`)
-- [ ] `MyBoatsPage`: load own boats · table: name, sail number, boat class; Edit + Delete buttons · inline "Add boat" form: name, sail number, boat class `<select>` (from `GET /api/boat-classes`)
-- [ ] Add: `POST /api/boats` with `ownerId` from token · Edit: `PUT /api/boats/:id` · Delete: `DELETE /api/boats/:id` with confirmation
 
 ---
 

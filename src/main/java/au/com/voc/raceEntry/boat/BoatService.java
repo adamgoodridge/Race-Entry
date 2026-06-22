@@ -22,6 +22,10 @@ public class BoatService {
         return repository.findAll();
     }
 
+    public List<Boat> findByOwnerId(Long ownerId) {
+        return repository.findByOwnerId(ownerId);
+    }
+
     public Boat findById(Long id) {
         return repository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Boat not found: " + id));

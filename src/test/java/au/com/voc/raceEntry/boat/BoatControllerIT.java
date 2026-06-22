@@ -73,6 +73,20 @@ class BoatControllerIT {
     }
 
     @Test
+    void GET_list_by_owner_filters_results() throws Exception {
+        Person owner = personRepository.save(new Person("Alice", "Smith", "alice@example.com"));
+        boatRepository.saveAll(List.of(
+                new Boat("Wind Dancer", "AUS123", boatClassId, owner.getId()),
+                new Boat("Sea Sprite", "AUS456", boatClassId, null)
+        ));
+
+        mvc.perform(get("/api/boats").param("ownerId", owner.getId().toString()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(1))
+                .andExpect(jsonPath("$[0].name").value("Wind Dancer"));
+    }
+
+    @Test
     void GET_by_id_returns_200() throws Exception {
         Boat saved = boatRepository.save(new Boat("Wind Dancer", "AUS123", boatClassId, null));
 

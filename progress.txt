@@ -162,3 +162,10 @@ EventListPage: fetches GET /api/events on mount, renders table with name, status
 EventDetailPage: fetches GET /api/events/:id and GET /api/entries/event/:id in parallel; resolves boat names via GET /api/boats/:id for each entry; renders event name+status badge, entries table (boat name, entry status), and "Enter this event" link to /entries/new?eventId=:id (only when OPEN).
 No backend changes — all data available from existing API endpoints.
 mvn test: 127/127 PASSED
+
+2026-06-22 | prd-frontend-auth Task 8 | My Boats CRUD page
+JwtUtil: added generateToken(username, role, personId) overload that embeds a personId claim; existing 2-arg version delegates with null. AuthService.register now passes person.getId() as personId; login now passes user.getPersonId(). AuthServiceTest mocks updated to 3-arg signature.
+BoatController: GET /api/boats now accepts optional ?ownerId= query param, delegating to BoatService.findByOwnerId. BoatControllerIT: added GET_list_by_owner_filters_results test.
+AuthContext: user object now exposes personId decoded from JWT claim.
+MyBoatsPage: fetches GET /api/boats?ownerId={personId} and GET /api/boat-classes on mount; table with name, sail number, resolved class name, Edit + Delete; inline add form; inline row edit form with save/cancel; delete with confirm().
+mvn test: 128/128 PASSED

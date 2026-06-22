@@ -30,7 +30,7 @@ export function AuthProvider({ children }) {
     setClaims(null);
   }, []);
 
-  const user = claims ? { username: claims.sub, role: claims.role } : null;
+  const user = claims ? { username: claims.sub, role: claims.role, personId: claims.personId } : null;
 
   return (
     <AuthContext.Provider value={{ token, user, login, logout }}>

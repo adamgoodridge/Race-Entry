@@ -24,9 +24,14 @@ public class JwtUtil {
     }
 
     public String generateToken(String username, String role) {
+        return generateToken(username, role, null);
+    }
+
+    public String generateToken(String username, String role, Long personId) {
         return Jwts.builder()
                 .setSubject(username)
                 .claim("role", role)
+                .claim("personId", personId)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + DEFAULT_EXPIRY_MS))
                 .signWith(getKey(), SignatureAlgorithm.HS256)

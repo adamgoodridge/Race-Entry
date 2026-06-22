@@ -22,8 +22,8 @@ public class BoatController {
     }
 
     @GetMapping
-    public List<Boat> list() {
-        return service.findAll();
+    public List<Boat> list(@RequestParam(required = false) Long ownerId) {
+        return ownerId != null ? service.findByOwnerId(ownerId) : service.findAll();
     }
 
     @GetMapping("/{id}")
