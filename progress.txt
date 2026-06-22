@@ -136,3 +136,10 @@ Created SecurityConfig (@Configuration @EnableWebSecurity): BCryptPasswordEncode
 Updated all existing controller ITs (BoatClassControllerIT, BoatControllerIT, PersonControllerIT, EventControllerIT, EntryControllerIT, EntryDriverControllerIT) with @WithMockUser so they continue to pass under the new security config.
 Package: au.com.voc.raceEntry.security
 mvn test: 119/119 PASSED
+
+2026-06-22 | prd-frontend-auth Task 4 | AuthService + AuthController
+Created AuthRequest DTO (username + password). AuthService: register (checks duplicate → ConflictException, BCrypt-encodes password, saves ROLE_USER, auto-creates Person(firstName=username, lastName="", email=username@placeholder.local), returns JWT); login (AuthenticationManager.authenticate → ResponseStatusException 401 on failure, returns JWT on success). AuthController (/api/auth): POST /register → 200 {token}; POST /login → 200 {token} or 401.
+AuthServiceTest: 4 unit tests (Mockito) — register success, duplicate ConflictException, login success, bad password 401.
+AuthControllerIT: 4 MockMvc @SpringBootTest tests — register 200+token, duplicate 409, login 200+token, bad password 401.
+Package: au.com.voc.raceEntry.auth
+mvn test -Dtest=AuthServiceTest,AuthControllerIT: 8/8 PASSED | mvn test: 127/127 PASSED

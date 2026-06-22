@@ -52,6 +52,14 @@
 
 ### Done
 
+#### [4] AuthService + AuthController
+**Auth — Backend**
+- [x] `AuthService.register`: validate username not taken · BCrypt password · save `ROLE_USER` · auto-create `Person` (firstName=username) · return JWT
+- [x] `AuthService.login`: authenticate → JWT; throw `401` on bad credentials
+- [x] `AuthController` (`/api/auth`): `POST /register` → `200 {token}` · `POST /login` → `200 {token}` or `401`
+- [x] Test: `AuthServiceTest` — register success · duplicate → `ConflictException` · login success · bad password → exception
+- [x] Test: `AuthControllerIT` — register 200+token · duplicate 409 · login 200+token · bad password 401
+
 #### [3] UserDetailsServiceImpl + SecurityConfig
 **Auth — Backend**
 - [x] `UserDetailsServiceImpl implements UserDetailsService` — loads `User` by username
@@ -85,14 +93,6 @@ _(none yet)_
 ---
 
 ---
-
-#### [4] AuthService + AuthController
-**Auth — Backend**
-- [ ] `AuthService.register`: validate username not taken · BCrypt password · save `ROLE_USER` · auto-create `Person` (firstName=username) · return JWT
-- [ ] `AuthService.login`: authenticate → JWT; throw `401` on bad credentials
-- [ ] `AuthController` (`/api/auth`): `POST /register` → `200 {token}` · `POST /login` → `200 {token}` or `401`
-- [ ] Test: `AuthServiceTest` — register success · duplicate → `ConflictException` · login success · bad password → exception
-- [ ] Test: `AuthControllerIT` — register 200+token · duplicate 409 · login 200+token · bad password 401
 
 ---
 
