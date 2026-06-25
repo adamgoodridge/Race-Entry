@@ -22,7 +22,7 @@ public class EntryDriverService {
         EntryDriver driver = new EntryDriver(entryId, request.getPersonId());
         driver.setRole(request.getRole());
         return driverRepository.save(driver);
-    }
+    }   
 
     public List<EntryDriver> findByEntryId(Long entryId) {
         return driverRepository.findByEntryId(entryId);
