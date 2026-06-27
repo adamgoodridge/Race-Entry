@@ -195,3 +195,13 @@ AuthControllerIT: 4 MockMvc @SpringBootTest tests — register 201+token, duplic
 Note: @TestPropertySource required on IT class to override legacy connection pool + datasource properties from main application.properties that conflict with H2.
 Package: au.com.voc.raceEntry.{user,security,auth,exception}
 mvn test -Dtest=AuthControllerIT: 4/4 PASSED
+
+2026-06-27 | prd-backend-rebuild Slice #4 | Person
+Person JPA entity (person table: id, firstName, lastName, email nullable, phone, streetAddress, suburb, state, postcode, sbaLicenceNumber, sbaExpiryDate, userId nullable FK to User) + PersonRepository (findByUserId).
+PersonService: create, findAll, findById (404), update (null-safe field merging), reassignUser (404).
+PersonController: POST /api/persons (201), GET /api/persons (200 admin-only), GET /api/persons/{id} (200/404), PUT /api/persons/{id} (200/404), PUT /api/persons/{id}/user/{userId} (200/404 admin-only).
+SecurityConfig: added GET /api/persons and PUT /api/persons/*/user/* as ADMIN-only antMatchers.
+PersonControllerIT: 9 MockMvc @SpringBootTest tests against H2 — create 201, admin list 200, member list 403, get by id 200, get not found 404, update 200, update not found 404, reassign user as admin 200, reassign user as member 403.
+Tokens generated in tests directly via JwtUtil (no DB user required for auth — JwtFilter validates signature only).
+Package: au.com.voc.raceEntry.person
+mvn test -Dtest=PersonControllerIT: 9/9 PASSED | mvn test: 13/13 PASSED

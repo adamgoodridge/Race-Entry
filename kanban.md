@@ -9,7 +9,7 @@ Parent PRD: [#2](https://github.com/adamgoodridge/Race-Entry/issues/2)
 | # | Slice | Blocked by |
 |---|-------|------------|
 | ~~[#3](https://github.com/adamgoodridge/Race-Entry/issues/3)~~ | ~~Authentication~~ | ~~—~~ |
-| [#4](https://github.com/adamgoodridge/Race-Entry/issues/4) | Person | #3 |
+| ~~[#4](https://github.com/adamgoodridge/Race-Entry/issues/4)~~ | ~~Person~~ | ~~#3~~ |
 | [#5](https://github.com/adamgoodridge/Race-Entry/issues/5) | BoatClass | #3 |
 | [#6](https://github.com/adamgoodridge/Race-Entry/issues/6) | Boat | #4 |
 | [#7](https://github.com/adamgoodridge/Race-Entry/issues/7) | Event + EventBoatClass + Auto-close | #5 |
@@ -27,3 +27,4 @@ _(none)_
 | # | Slice |
 |---|-------|
 | [#3](https://github.com/adamgoodridge/Race-Entry/issues/3) | Authentication |
+| [#4](https://github.com/adamgoodridge/Race-Entry/issues/4) | Person |
