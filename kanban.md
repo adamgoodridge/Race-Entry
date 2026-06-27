@@ -10,7 +10,7 @@ Parent PRD: [#2](https://github.com/adamgoodridge/Race-Entry/issues/2)
 |---|-------|------------|
 | ~~[#3](https://github.com/adamgoodridge/Race-Entry/issues/3)~~ | ~~Authentication~~ | ~~—~~ |
 | ~~[#4](https://github.com/adamgoodridge/Race-Entry/issues/4)~~ | ~~Person~~ | ~~#3~~ |
-| [#5](https://github.com/adamgoodridge/Race-Entry/issues/5) | BoatClass | #3 |
+| ~~[#5](https://github.com/adamgoodridge/Race-Entry/issues/5)~~ | ~~BoatClass~~ | ~~#3~~ |
 | [#6](https://github.com/adamgoodridge/Race-Entry/issues/6) | Boat | #4 |
 | [#7](https://github.com/adamgoodridge/Race-Entry/issues/7) | Event + EventBoatClass + Auto-close | #5 |
 | [#8](https://github.com/adamgoodridge/Race-Entry/issues/8) | Entry + Drivers + Submit | #4 #6 #7 |
@@ -28,3 +28,4 @@ _(none)_
 |---|-------|
 | [#3](https://github.com/adamgoodridge/Race-Entry/issues/3) | Authentication |
 | [#4](https://github.com/adamgoodridge/Race-Entry/issues/4) | Person |
+| [#5](https://github.com/adamgoodridge/Race-Entry/issues/5) | BoatClass |

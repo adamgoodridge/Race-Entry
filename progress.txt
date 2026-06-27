@@ -205,3 +205,11 @@ PersonControllerIT: 9 MockMvc @SpringBootTest tests against H2 — create 201, a
 Tokens generated in tests directly via JwtUtil (no DB user required for auth — JwtFilter validates signature only).
 Package: au.com.voc.raceEntry.person
 mvn test -Dtest=PersonControllerIT: 9/9 PASSED | mvn test: 13/13 PASSED
+
+2026-06-27 | prd-backend-rebuild Slice #5 | BoatClass
+BoatClassStatus enum (ACTIVE, INACTIVE). BoatClass JPA entity (boat_class table: id, name unique, status defaulting to ACTIVE). BoatClassRepository (findByStatus). BoatClassService: create, findAll, findAllActive, findById (404), deactivate (404).
+BoatClassController: POST /api/boat-classes (201, admin-only), GET /api/boat-classes (200; admin sees all, member sees ACTIVE only), GET /api/boat-classes/{id} (200/404), PATCH /api/boat-classes/{id}/deactivate (200, admin-only).
+SecurityConfig: added POST /api/boat-classes and PATCH /api/boat-classes/*/deactivate as ADMIN-only antMatchers.
+BoatClassControllerIT: 8 MockMvc @SpringBootTest tests against H2 — create as admin 201, create as member 403, list as admin returns all (including inactive), list as member returns active only, get by id 200, get not found 404, deactivate as admin 200+INACTIVE, deactivate as member 403.
+Package: au.com.voc.raceEntry.boatclass
+mvn test -Dtest=BoatClassControllerIT: 8/8 PASSED | mvn test: 21/21 PASSED
