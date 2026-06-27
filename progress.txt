@@ -222,3 +222,14 @@ SecurityConfig: added PUT /api/boats/*/owner/* and DELETE /api/boats/*/owner as 
 BoatControllerIT: 13 MockMvc @SpringBootTest tests — create 201+owner, duplicate raceNumber 409, list as admin returns all, list as member returns own boats only, get by id 200/404, update as owner 200, update as non-owner 403, deactivate as owner 200+INACTIVE, assign owner as admin 200, assign owner as member 403, remove owner as admin 200, remove owner as member 403.
 Package: au.com.voc.raceEntry.boat
 mvn test -Dtest=BoatControllerIT: 13/13 PASSED | mvn test: 34/34 PASSED
+
+2026-06-27 | prd-backend-rebuild Slice #7 | Event + EventBoatClass + Auto-close
+EventStatus enum (OPEN, CLOSED, CANCELLED). Event JPA entity (race_event table — avoids MySQL reserved word; id, name, description nullable, startDate, endDate nullable, closingDeadline, maxDrivers nullable, status defaulting to OPEN). EventRepository (findByStatusAndClosingDeadlineBefore). EventBoatClass JPA entity (event_boat_class table: id, eventId, boatClassId; unique constraint on event_id+boat_class_id). EventBoatClassRepository (findByEventId, existsByEventIdAndBoatClassId, findByEventIdAndBoatClassId).
+EventService: create, findAll, findById (404), update (null-safe), close (CLOSED), cancel (CANCELLED), addBoatClass (409 on duplicate), removeBoatClass (404 if not present), findBoatClasses, closeExpiredEvents.
+EventController: POST /api/events (201, admin), GET /api/events (200), GET /api/events/{id} (200/404), PUT /api/events/{id} (200, admin), POST /api/events/{id}/close (200, admin), POST /api/events/{id}/cancel (200, admin), POST /api/events/{id}/boat-classes/{classId} (200, admin), DELETE /api/events/{id}/boat-classes/{classId} (200, admin), GET /api/events/{id}/boat-classes (200).
+AutoCloseScheduler: @Scheduled(fixedDelay=60000) calls EventService.closeExpiredEvents() — closes OPEN events whose closingDeadline < today. @EnableScheduling added to RaceEntryApplication.
+SecurityConfig: added ADMIN-only antMatchers for POST/PUT/PATCH/DELETE event mutation endpoints.
+Note: cascade entry cancellation (EventCancellationMediator, EventBoatClassRemovalMediator) deferred to Mediators slice — entry package not yet implemented.
+EventControllerIT: 13 MockMvc @SpringBootTest tests — create as admin 201, create as member 403, list 200, get 200, get not found 404, update as admin 200, update as member 403, close 200+CLOSED, cancel 200+CANCELLED, add boat class 200, duplicate boat class 409, remove boat class + re-add 200, auto-close scheduler closes expired events.
+Package: au.com.voc.raceEntry.event
+mvn test -Dtest=EventControllerIT: 13/13 PASSED | mvn test: 47/47 PASSED

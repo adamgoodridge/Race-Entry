@@ -220,7 +220,7 @@ By dependency: Auth/User → Person → BoatClass → Boat → Event → EventBo
 - `PersonControllerIT` — CRUD, admin-only list, reassign-user
 - `BoatClassControllerIT` — CRUD, deactivate, visibility rules
 - `BoatControllerIT` — CRUD, deactivate, owner assign/remove, race number uniqueness
-- `EventControllerIT` — CRUD, close, cancel (cascade), add/remove BoatClass (cascade cancel)
+- `EventControllerIT` — CRUD, close, cancel (cascade), add/remove BoatClass (cascade cancel) ✅ **DONE** (13 tests; cascade entry cancellation deferred to Mediators slice)
 - `EntryControllerIT` — create, submit (all validation paths), cancel, approve, request-changes, mark-paid, late-approve, duplicate entry conflict
 - `EntryDriverControllerIT` — add driver, remove driver, duplicate driver conflict, SBA validation at submission
 - `DeclarationControllerIT` — PDF returned, correct Content-Type
@@ -240,4 +240,4 @@ By dependency: Auth/User → Person → BoatClass → Boat → Event → EventBo
 - The `prd-api-tdd.md` at the repo root documents the previous implementation's TDD kanban. It reflects the old domain model (sailNumber on Boat, boatClassId on Boat, no APPROVED/PAID/CHANGES_REQUESTED statuses, no EventBoatClass). It should be replaced by this PRD as the authoritative specification.
 - The domain glossary is in `CONTEXT.md` at the repo root. All code — field names, variable names, endpoint paths — should use the vocabulary defined there (e.g. `raceNumber` not `sailNumber`, `Driver` not `crew`).
 - Four ADRs in `docs/adr/` record the key architectural decisions: class-per-entry, User/Person separation, mediator pattern, and ID-based entity references. Read them before implementing cross-entity logic.
-- Auto-close on `closingDeadline` requires a scheduled job (Spring `@Scheduled`) that polls for events whose `closingDeadline` has passed and transitions them from OPEN to CLOSED.
+- Auto-close on `closingDeadline` requires a scheduled job (Spring `@Scheduled`) that polls for events whose `closingDeadline` has passed and transitions them from OPEN to CLOSED. ✅ **DONE** — `AutoCloseScheduler` runs every 60s via `@EnableScheduling` on `RaceEntryApplication`.
