@@ -7,7 +7,7 @@ if [ -z "$1" ]; then
 fi
 
 for ((i=1; i<=$1; i++)); do
-  result=$(claude --permission-mode acceptEdits -p "@refactor-plan-PRRD.md @progress.txt \
+  result=$(claude --permission-mode acceptEdits -p "@kanban.md @progress.txt \
   1. Find the highest-priority task and implement it. \
   2. Run your tests and type checks. \
   3. Update the PRD with what was done. \
