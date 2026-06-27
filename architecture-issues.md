@@ -14,6 +14,7 @@ Business logic
 - Each entry must have one or more drivers, and each driver can have multiple entries.
 - Each entry must have exactly one boat, and each boat can have one entry to each event.
 
+
 Gemini recommends 
 To achieve the level of decoupling and maintainability you are looking for, you should avoid "relationship objects" (which can often lead to spaghetti code) and instead rely on Architectural Patterns that delegate the management of relationships to specialized layers.
 
