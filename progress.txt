@@ -213,3 +213,12 @@ SecurityConfig: added POST /api/boat-classes and PATCH /api/boat-classes/*/deact
 BoatClassControllerIT: 8 MockMvc @SpringBootTest tests against H2 — create as admin 201, create as member 403, list as admin returns all (including inactive), list as member returns active only, get by id 200, get not found 404, deactivate as admin 200+INACTIVE, deactivate as member 403.
 Package: au.com.voc.raceEntry.boatclass
 mvn test -Dtest=BoatClassControllerIT: 8/8 PASSED | mvn test: 21/21 PASSED
+
+2026-06-27 | prd-backend-rebuild Slice #6 | Boat
+BoatStatus enum (ACTIVE, INACTIVE). Boat JPA entity (boat table: id, name, raceNumber unique, ownerId nullable FK to Person, status defaulting to ACTIVE). BoatRepository (findByOwnerId, existsByRaceNumber, existsByRaceNumberAndIdNot).
+BoatService: create (409 on duplicate raceNumber; ownerId set from caller), findAll, findByOwnerId, findById (404), update (null-safe field merging; 409 on raceNumber conflict), deactivate (INACTIVE), assignOwner, removeOwner.
+BoatController: POST /api/boats (201; ownerId resolved from caller's User→Person), GET /api/boats (admin: all; member: own boats by personId), GET /api/boats/{id} (200/404), PUT /api/boats/{id} (200/404; owner-or-admin check), PATCH /api/boats/{id}/deactivate (200; owner-or-admin), PUT /api/boats/{id}/owner/{personId} (200, admin-only), DELETE /api/boats/{id}/owner (200, admin-only).
+SecurityConfig: added PUT /api/boats/*/owner/* and DELETE /api/boats/*/owner as ADMIN-only antMatchers.
+BoatControllerIT: 13 MockMvc @SpringBootTest tests — create 201+owner, duplicate raceNumber 409, list as admin returns all, list as member returns own boats only, get by id 200/404, update as owner 200, update as non-owner 403, deactivate as owner 200+INACTIVE, assign owner as admin 200, assign owner as member 403, remove owner as admin 200, remove owner as member 403.
+Package: au.com.voc.raceEntry.boat
+mvn test -Dtest=BoatControllerIT: 13/13 PASSED | mvn test: 34/34 PASSED
