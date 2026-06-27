@@ -185,3 +185,13 @@ mvn test: 128/128 PASSED
 AdminEventsPage: fetches GET /api/events on mount; table with name, status badge (OPEN=green, CLOSED=grey), "Close" button (PUT /api/events/:id/close, only visible when OPEN, updates row in place), Delete button (DELETE /api/events/:id with confirm()); inline "Create Event" form (POST /api/events, inline error on failure). Page is wrapped in AdminLayout (ROLE_ADMIN guard) via existing router.
 No backend changes — all endpoints already exist.
 mvn test: 128/128 PASSED — all tasks in prd-frontend-auth.md complete.
+
+2026-06-27 | prd-backend-rebuild Slice #3 | Authentication
+User JPA entity (app_user table: id, firstName, lastName, email unique, passwordHash, role enum MEMBER/ADMIN) + UserRepository (findByEmail, existsByEmail).
+Exception hierarchy: ResourceNotFoundException (404), ConflictException (409), BusinessRuleViolationException (422) + GlobalExceptionHandler.
+Security layer: JwtUtil (HS256, 24h expiry, email as subject + role claim), JwtFilter (OncePerRequestFilter), UserDetailsServiceImpl (email-based lookup), SecurityConfig (stateless, CSRF off, CORS for localhost:5173, POST /api/auth/** public, /api/admin/** admin-only, JwtFilter before UsernamePasswordAuthenticationFilter, FilterRegistrationBean to prevent double-invocation).
+Auth layer: POST /api/auth/register → 201 + {token} (BCrypt password, role=MEMBER); POST /api/auth/login → 200 + {token} or 401.
+AuthControllerIT: 4 MockMvc @SpringBootTest tests — register 201+token, duplicate 409, login 200+token, wrong password 401.
+Note: @TestPropertySource required on IT class to override legacy connection pool + datasource properties from main application.properties that conflict with H2.
+Package: au.com.voc.raceEntry.{user,security,auth,exception}
+mvn test -Dtest=AuthControllerIT: 4/4 PASSED
