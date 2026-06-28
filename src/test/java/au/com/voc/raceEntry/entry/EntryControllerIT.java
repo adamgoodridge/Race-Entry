@@ -444,4 +444,121 @@ class EntryControllerIT {
                 .header("Authorization", "Bearer " + otherToken))
                 .andExpect(status().isForbidden());
     }
+
+    @Test
+    void approve_submitted_entry_as_admin_returns200_with_approved_status() throws Exception {
+        Long entryId = createSubmittedEntry("ECT_Approve");
+
+        mockMvc.perform(post("/api/entries/" + entryId + "/approve")
+                .header("Authorization", "Bearer " + adminToken))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("APPROVED"));
+    }
+
+    @Test
+    void approve_entry_as_member_returns403() throws Exception {
+        Long eventId = createOpenEventWithBoatClass("ECT_ApproveNonAdmin");
+        MvcResult created = mockMvc.perform(post("/api/entries")
+                .header("Authorization", "Bearer " + memberToken)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(entryJson(boatId, eventId, boatClassId)))
+                .andExpect(status().isCreated())
+                .andReturn();
+        Long entryId = objectMapper.readTree(created.getResponse().getContentAsString()).get("id").asLong();
+
+        mockMvc.perform(post("/api/entries/" + entryId + "/approve")
+                .header("Authorization", "Bearer " + memberToken))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void request_changes_on_submitted_entry_returns200_with_changes_requested() throws Exception {
+        Long entryId = createSubmittedEntry("ECT_RequestChanges");
+
+        mockMvc.perform(post("/api/entries/" + entryId + "/request-changes")
+                .header("Authorization", "Bearer " + adminToken)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"comment\":\"Fix your SBA number\"}"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("CHANGES_REQUESTED"))
+                .andExpect(jsonPath("$.secretaryComment").value("Fix your SBA number"));
+    }
+
+    @Test
+    void request_changes_as_member_returns403() throws Exception {
+        Long entryId = createSubmittedEntry("ECT_RequestChangesNonAdmin");
+
+        mockMvc.perform(post("/api/entries/" + entryId + "/request-changes")
+                .header("Authorization", "Bearer " + memberToken)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"comment\":\"test\"}"))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    void mark_paid_approved_entry_as_admin_returns200_with_paid_status() throws Exception {
+        Long entryId = createSubmittedEntry("ECT_MarkPaid");
+
+        mockMvc.perform(post("/api/entries/" + entryId + "/approve")
+                .header("Authorization", "Bearer " + adminToken))
+                .andExpect(status().isOk());
+
+        mockMvc.perform(post("/api/entries/" + entryId + "/mark-paid")
+                .header("Authorization", "Bearer " + adminToken))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("PAID"));
+    }
+
+    @Test
+    void late_approve_draft_entry_in_closed_event_returns200_with_approved_status() throws Exception {
+        Long eventId = createOpenEventWithBoatClass("ECT_LateApprove");
+        MvcResult created = mockMvc.perform(post("/api/entries")
+                .header("Authorization", "Bearer " + memberToken)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(entryJson(boatId, eventId, boatClassId)))
+                .andExpect(status().isCreated())
+                .andReturn();
+        Long entryId = objectMapper.readTree(created.getResponse().getContentAsString()).get("id").asLong();
+
+        mockMvc.perform(post("/api/events/" + eventId + "/close")
+                .header("Authorization", "Bearer " + adminToken))
+                .andExpect(status().isOk());
+
+        mockMvc.perform(post("/api/entries/" + entryId + "/late-approve")
+                .header("Authorization", "Bearer " + adminToken))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("APPROVED"));
+    }
+
+    private Long createSubmittedEntry(String eventName) throws Exception {
+        Long eventId = createOpenEventWithBoatClass(eventName);
+        MvcResult created = mockMvc.perform(post("/api/entries")
+                .header("Authorization", "Bearer " + memberToken)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(entryJson(boatId, eventId, boatClassId)))
+                .andExpect(status().isCreated())
+                .andReturn();
+        Long entryId = objectMapper.readTree(created.getResponse().getContentAsString()).get("id").asLong();
+
+        Person driver = new Person();
+        driver.setFirstName("Submit");
+        driver.setLastName("Driver_" + eventName);
+        driver.setPhone("0400000099");
+        driver.setSbaExpiryDate(LocalDate.of(2028, 1, 1));
+        driver = personRepository.save(driver);
+
+        AddDriverRequest addReq = new AddDriverRequest();
+        addReq.setPersonId(driver.getId());
+        mockMvc.perform(post("/api/entries/" + entryId + "/drivers")
+                .header("Authorization", "Bearer " + memberToken)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(addReq)))
+                .andExpect(status().isCreated());
+
+        mockMvc.perform(post("/api/entries/" + entryId + "/submit")
+                .header("Authorization", "Bearer " + memberToken))
+                .andExpect(status().isOk());
+
+        return entryId;
+    }
 }

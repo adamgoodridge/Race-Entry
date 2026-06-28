@@ -66,4 +66,32 @@ public class EntryService {
         entry.setStatus(EntryStatus.CANCELLED);
         return entryRepository.save(entry);
     }
+
+    public Entry approve(Long id) {
+        Entry entry = findById(id);
+        if (entry.getStatus() != EntryStatus.SUBMITTED) {
+            throw new BusinessRuleViolationException("Can only approve a SUBMITTED entry");
+        }
+        entry.setStatus(EntryStatus.APPROVED);
+        return entryRepository.save(entry);
+    }
+
+    public Entry requestChanges(Long id, String comment) {
+        Entry entry = findById(id);
+        if (entry.getStatus() != EntryStatus.SUBMITTED) {
+            throw new BusinessRuleViolationException("Can only request changes on a SUBMITTED entry");
+        }
+        entry.setStatus(EntryStatus.CHANGES_REQUESTED);
+        entry.setSecretaryComment(comment);
+        return entryRepository.save(entry);
+    }
+
+    public Entry markPaid(Long id) {
+        Entry entry = findById(id);
+        if (entry.getStatus() != EntryStatus.APPROVED) {
+            throw new BusinessRuleViolationException("Can only mark an APPROVED entry as paid");
+        }
+        entry.setStatus(EntryStatus.PAID);
+        return entryRepository.save(entry);
+    }
 }

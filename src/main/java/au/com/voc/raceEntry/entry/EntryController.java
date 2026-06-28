@@ -19,17 +19,20 @@ public class EntryController {
 
     private final EntryService entryService;
     private final EntrySubmissionMediator submissionMediator;
+    private final LateEntryApprovalMediator lateApprovalMediator;
     private final BoatService boatService;
     private final UserRepository userRepository;
     private final PersonRepository personRepository;
 
     public EntryController(EntryService entryService,
                            EntrySubmissionMediator submissionMediator,
+                           LateEntryApprovalMediator lateApprovalMediator,
                            BoatService boatService,
                            UserRepository userRepository,
                            PersonRepository personRepository) {
         this.entryService = entryService;
         this.submissionMediator = submissionMediator;
+        this.lateApprovalMediator = lateApprovalMediator;
         this.boatService = boatService;
         this.userRepository = userRepository;
         this.personRepository = personRepository;
@@ -76,6 +79,27 @@ public class EntryController {
     public Entry cancel(@PathVariable Long id, Authentication authentication) {
         requireOwnerOrAdmin(id, authentication);
         return entryService.cancel(id);
+    }
+
+    @PostMapping("/{id}/approve")
+    public Entry approve(@PathVariable Long id) {
+        return entryService.approve(id);
+    }
+
+    @PostMapping("/{id}/request-changes")
+    public Entry requestChanges(@PathVariable Long id,
+                                @RequestBody RequestChangesRequest request) {
+        return entryService.requestChanges(id, request.getComment());
+    }
+
+    @PostMapping("/{id}/mark-paid")
+    public Entry markPaid(@PathVariable Long id) {
+        return entryService.markPaid(id);
+    }
+
+    @PostMapping("/{id}/late-approve")
+    public Entry lateApprove(@PathVariable Long id) {
+        return lateApprovalMediator.lateApprove(id);
     }
 
     private boolean isAdmin(Authentication authentication) {

@@ -11,9 +11,15 @@ import java.util.List;
 public class EventController {
 
     private final EventService eventService;
+    private final EventCancellationMediator cancellationMediator;
+    private final EventBoatClassRemovalMediator boatClassRemovalMediator;
 
-    public EventController(EventService eventService) {
+    public EventController(EventService eventService,
+                           EventCancellationMediator cancellationMediator,
+                           EventBoatClassRemovalMediator boatClassRemovalMediator) {
         this.eventService = eventService;
+        this.cancellationMediator = cancellationMediator;
+        this.boatClassRemovalMediator = boatClassRemovalMediator;
     }
 
     @PostMapping
@@ -43,7 +49,7 @@ public class EventController {
 
     @PostMapping("/{id}/cancel")
     public Event cancel(@PathVariable Long id) {
-        return eventService.cancel(id);
+        return cancellationMediator.cancel(id);
     }
 
     @PostMapping("/{id}/boat-classes/{classId}")
@@ -53,7 +59,7 @@ public class EventController {
 
     @DeleteMapping("/{id}/boat-classes/{classId}")
     public ResponseEntity<Void> removeBoatClass(@PathVariable Long id, @PathVariable Long classId) {
-        eventService.removeBoatClass(id, classId);
+        boatClassRemovalMediator.removeBoatClass(id, classId);
         return ResponseEntity.ok().build();
     }
 

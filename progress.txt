@@ -244,3 +244,15 @@ EntryControllerIT: 16 MockMvc tests — create as owner 201, non-owner 403, dupl
 EntryDriverControllerIT: 6 MockMvc tests — add driver 201, duplicate 409, non-owner 403, list 200, remove 204, remove not found 404.
 Package: au.com.voc.raceEntry.entry
 mvn test -Dtest="EntryControllerIT,EntryDriverControllerIT": 22/22 PASSED | mvn test: 69/69 PASSED
+
+2026-06-28 | prd-backend-rebuild Slice #9 | Entry Admin Workflow + Cascade Cancellations
+EntryService: added approve (SUBMITTED→APPROVED; 422 if not SUBMITTED), requestChanges (SUBMITTED→CHANGES_REQUESTED + secretaryComment; 422 if not SUBMITTED), markPaid (APPROVED→PAID; 422 if not APPROVED).
+LateEntryApprovalMediator: validates entry is DRAFT, sets APPROVED, bypasses event status check.
+EventCancellationMediator: calls EventService.cancel(eventId) then cancels all non-CANCELLED entries for that event via EntryRepository.
+EventBoatClassRemovalMediator: calls EventService.removeBoatClass then cancels all DRAFT/SUBMITTED/CHANGES_REQUESTED/APPROVED entries in that boatClass for that event.
+EntryController: added POST /api/entries/{id}/approve (admin), /request-changes (admin; body {comment}), /mark-paid (admin), /late-approve (admin); all wired through LateEntryApprovalMediator/EntryService.
+EventController: cancel now delegates to EventCancellationMediator; removeBoatClass now delegates to EventBoatClassRemovalMediator.
+EntryControllerIT: 6 new tests — approve 200+APPROVED, approve as member 403, request-changes 200+CHANGES_REQUESTED+comment, request-changes as member 403, mark-paid 200+PAID, late-approve DRAFT in closed event 200+APPROVED.
+EventControllerIT: 2 new cascade tests — cancel event cascades to cancel all entries, remove boat class cascades to cancel entries in that class only.
+Package: au.com.voc.raceEntry.{entry,event}
+mvn test: 77/77 PASSED
