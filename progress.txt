@@ -233,3 +233,14 @@ Note: cascade entry cancellation (EventCancellationMediator, EventBoatClassRemov
 EventControllerIT: 13 MockMvc @SpringBootTest tests — create as admin 201, create as member 403, list 200, get 200, get not found 404, update as admin 200, update as member 403, close 200+CLOSED, cancel 200+CANCELLED, add boat class 200, duplicate boat class 409, remove boat class + re-add 200, auto-close scheduler closes expired events.
 Package: au.com.voc.raceEntry.event
 mvn test -Dtest=EventControllerIT: 13/13 PASSED | mvn test: 47/47 PASSED
+
+2026-06-28 | prd-backend-rebuild Slice #8 | Entry + Drivers + Submit
+EntryStatus enum (DRAFT, SUBMITTED, CHANGES_REQUESTED, APPROVED, PAID, CANCELLED). Entry JPA entity (entry table: id, boatId, eventId, boatClassId, status, secretaryComment nullable; unique constraint boat_id+event_id). EntryRepository (existsByBoatIdAndEventId, findByEventId, findByBoatIdIn). EntryDriver JPA entity (entry_driver table: id, entryId, personId; unique constraint entry_id+person_id). EntryDriverRepository (findByEntryId, countByEntryId, existsByEntryIdAndPersonId, findByEntryIdAndPersonId, deleteByEntryId).
+EntryService: create (422 on closed event, 422 on boatClass not in event, 409 on duplicate boat+event), findAll, findById (404), findByBoatIds, cancel. EntryDriverService: addDriver (409 on duplicate), findByEntryId, removeDriver (404). EntrySubmissionMediator: validates event OPEN, boat has owner, at least 1 driver, drivers ≤ maxDrivers, all drivers SBA expiry ≥ event startDate; sets status SUBMITTED.
+EntryController: POST /api/entries (201; owner or admin), GET /api/entries (admin: all; member: own via boat IDs), GET /api/entries/{id} (200/404), POST /api/entries/{id}/submit (owner/admin; delegates to EntrySubmissionMediator), POST /api/entries/{id}/cancel (owner/admin; 200+CANCELLED).
+EntryDriverController: POST /api/entries/{entryId}/drivers (201; owner/admin; validates person exists), GET /api/entries/{entryId}/drivers (200), DELETE /api/entries/{entryId}/drivers/{personId} (204; owner/admin).
+SecurityConfig: added ADMIN-only antMatchers for approve, request-changes, mark-paid, late-approve entry endpoints (pre-wired for Slice #9).
+EntryControllerIT: 16 MockMvc tests — create as owner 201, non-owner 403, duplicate 409, closed event 422, boatClass not in event 422, list as admin/member, get by id 200/404, submit happy path 200+SUBMITTED, submit closed event 422, submit no owner 422, submit no drivers 422, submit expired SBA 422, cancel as owner 200+CANCELLED, cancel non-owner 403.
+EntryDriverControllerIT: 6 MockMvc tests — add driver 201, duplicate 409, non-owner 403, list 200, remove 204, remove not found 404.
+Package: au.com.voc.raceEntry.entry
+mvn test -Dtest="EntryControllerIT,EntryDriverControllerIT": 22/22 PASSED | mvn test: 69/69 PASSED

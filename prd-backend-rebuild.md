@@ -221,8 +221,8 @@ By dependency: Auth/User → Person → BoatClass → Boat → Event → EventBo
 - `BoatClassControllerIT` — CRUD, deactivate, visibility rules
 - `BoatControllerIT` — CRUD, deactivate, owner assign/remove, race number uniqueness
 - `EventControllerIT` — CRUD, close, cancel (cascade), add/remove BoatClass (cascade cancel) ✅ **DONE** (13 tests; cascade entry cancellation deferred to Mediators slice)
-- `EntryControllerIT` — create, submit (all validation paths), cancel, approve, request-changes, mark-paid, late-approve, duplicate entry conflict
-- `EntryDriverControllerIT` — add driver, remove driver, duplicate driver conflict, SBA validation at submission
+- `EntryControllerIT` — create (owner check, 403/409/422), submit (happy path + 4x 422: closed event/no owner/no drivers/expired SBA), cancel (owner check), list (admin all vs member own), get by id — ✅ **DONE** (16 tests)
+- `EntryDriverControllerIT` — add driver (owner check, 403/409), list drivers, remove driver (204/404) — ✅ **DONE** (6 tests)
 - `DeclarationControllerIT` — PDF returned, correct Content-Type
 
 **Prior art:** the previous implementation used `@TestPropertySource` to override connection pool properties for H2, and `@SpringBootTest` + `MockMvc` with `@AutoConfigureMockMvc`. Follow the same setup.
@@ -241,3 +241,4 @@ By dependency: Auth/User → Person → BoatClass → Boat → Event → EventBo
 - The domain glossary is in `CONTEXT.md` at the repo root. All code — field names, variable names, endpoint paths — should use the vocabulary defined there (e.g. `raceNumber` not `sailNumber`, `Driver` not `crew`).
 - Four ADRs in `docs/adr/` record the key architectural decisions: class-per-entry, User/Person separation, mediator pattern, and ID-based entity references. Read them before implementing cross-entity logic.
 - Auto-close on `closingDeadline` requires a scheduled job (Spring `@Scheduled`) that polls for events whose `closingDeadline` has passed and transitions them from OPEN to CLOSED. ✅ **DONE** — `AutoCloseScheduler` runs every 60s via `@EnableScheduling` on `RaceEntryApplication`.
+- Slice #8 Entry + Drivers + Submit ✅ **DONE** — `Entry`, `EntryDriver`, `EntryRepository`, `EntryDriverRepository`, `EntryService`, `EntryDriverService`, `EntrySubmissionMediator`, `EntryController`, `EntryDriverController` implemented. 22 new tests (16 Entry IT + 6 EntryDriver IT). Admin-only SecurityConfig matchers for approve/request-changes/mark-paid/late-approve endpoints pre-wired for Slice #9.

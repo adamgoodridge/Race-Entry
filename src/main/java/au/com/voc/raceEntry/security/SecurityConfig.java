@@ -73,6 +73,10 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.POST, "/api/events/*/cancel").hasRole("ADMIN")
                 .antMatchers(HttpMethod.POST, "/api/events/*/boat-classes/*").hasRole("ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/api/events/*/boat-classes/*").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/api/entries/*/approve").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/api/entries/*/request-changes").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/api/entries/*/mark-paid").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/api/entries/*/late-approve").hasRole("ADMIN")
                 .anyRequest().authenticated()
             .and()
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

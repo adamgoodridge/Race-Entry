@@ -1,0 +1,11 @@
+package au.com.voc.raceEntry.entry;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+
+public interface EntryRepository extends JpaRepository<Entry, Long> {
+    boolean existsByBoatIdAndEventId(Long boatId, Long eventId);
+    List<Entry> findByEventId(Long eventId);
+    List<Entry> findByBoatIdIn(List<Long> boatIds);
+}
