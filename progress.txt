@@ -266,3 +266,10 @@ EventBoatClassRemovalMediator.removeBoatClass calls notifyCancelled inside the c
 All 7 IT test classes (@MockBean JavaMailSender) so no real SMTP connection attempted; existing test count unchanged.
 Package: au.com.voc.raceEntry.notification
 mvn test: 77/77 PASSED
+
+2026-06-28 | prd-backend-rebuild Slice #11 | Declaration Form PDF
+DeclarationFormService (au.com.voc.raceEntry.declaration): resolves entry → boat, event, boatClass, and drivers; generates iText 5 PDF with event name/start date, boat name/race number/class, a drivers table (name, SBA licence, SBA expiry), and a signature line.
+DeclarationController: GET /api/entries/{id}/declaration returns application/pdf with owner-or-admin guard (same pattern as EntryController).
+DeclarationControllerIT: 3 MockMvc @SpringBootTest tests — PDF returned for owner (200+Content-Type: application/pdf), PDF returned for admin (200), non-owner member 403.
+Package: au.com.voc.raceEntry.declaration
+mvn test: 80/80 PASSED
