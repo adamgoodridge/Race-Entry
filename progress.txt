@@ -256,3 +256,13 @@ EntryControllerIT: 6 new tests — approve 200+APPROVED, approve as member 403, 
 EventControllerIT: 2 new cascade tests — cancel event cascades to cancel all entries, remove boat class cascades to cancel entries in that class only.
 Package: au.com.voc.raceEntry.{entry,event}
 mvn test: 77/77 PASSED
+
+2026-06-28 | prd-backend-rebuild Slice #10 | Email Notifications
+EntryNotificationService (au.com.voc.raceEntry.notification): resolves boat owner email via Boat→Person→User chain (falls back to Person.email if present, else User.email via userId FK); sends plain-text SimpleMailMessage for: notifyApproved (entry approved), notifyChangesRequested (entry changes requested, includes secretary comment), notifyCancelled (entry cancelled). MailException caught and logged so notification failure never rolls back the main transaction. from-address defaults to ${spring.mail.username:noreply@raceentry.voc.com.au}.
+spring-boot-starter-mail added to pom.xml.
+EntryService.approve, requestChanges, cancel each call notificationService after entryRepository.save.
+EventCancellationMediator.cancel calls notifyCancelled inside the cascade loop for each newly-cancelled entry.
+EventBoatClassRemovalMediator.removeBoatClass calls notifyCancelled inside the cascade loop for each newly-cancelled entry.
+All 7 IT test classes (@MockBean JavaMailSender) so no real SMTP connection attempted; existing test count unchanged.
+Package: au.com.voc.raceEntry.notification
+mvn test: 77/77 PASSED

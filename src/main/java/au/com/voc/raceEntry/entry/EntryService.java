@@ -6,6 +6,7 @@ import au.com.voc.raceEntry.event.EventStatus;
 import au.com.voc.raceEntry.exception.BusinessRuleViolationException;
 import au.com.voc.raceEntry.exception.ConflictException;
 import au.com.voc.raceEntry.exception.ResourceNotFoundException;
+import au.com.voc.raceEntry.notification.EntryNotificationService;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -17,13 +18,16 @@ public class EntryService {
     private final EntryRepository entryRepository;
     private final EventRepository eventRepository;
     private final EventBoatClassRepository eventBoatClassRepository;
+    private final EntryNotificationService notificationService;
 
     public EntryService(EntryRepository entryRepository,
                         EventRepository eventRepository,
-                        EventBoatClassRepository eventBoatClassRepository) {
+                        EventBoatClassRepository eventBoatClassRepository,
+                        EntryNotificationService notificationService) {
         this.entryRepository = entryRepository;
         this.eventRepository = eventRepository;
         this.eventBoatClassRepository = eventBoatClassRepository;
+        this.notificationService = notificationService;
     }
 
     public Entry create(Long boatId, Long eventId, Long boatClassId) {
@@ -64,7 +68,9 @@ public class EntryService {
     public Entry cancel(Long id) {
         Entry entry = findById(id);
         entry.setStatus(EntryStatus.CANCELLED);
-        return entryRepository.save(entry);
+        Entry saved = entryRepository.save(entry);
+        notificationService.notifyCancelled(saved);
+        return saved;
     }
 
     public Entry approve(Long id) {
@@ -73,7 +79,9 @@ public class EntryService {
             throw new BusinessRuleViolationException("Can only approve a SUBMITTED entry");
         }
         entry.setStatus(EntryStatus.APPROVED);
-        return entryRepository.save(entry);
+        Entry saved = entryRepository.save(entry);
+        notificationService.notifyApproved(saved);
+        return saved;
     }
 
     public Entry requestChanges(Long id, String comment) {
@@ -83,7 +91,9 @@ public class EntryService {
         }
         entry.setStatus(EntryStatus.CHANGES_REQUESTED);
         entry.setSecretaryComment(comment);
-        return entryRepository.save(entry);
+        Entry saved = entryRepository.save(entry);
+        notificationService.notifyChangesRequested(saved, comment);
+        return saved;
     }
 
     public Entry markPaid(Long id) {
